@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimUDuck", "SimUDuck.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimUDuckTests", "SimUDuckTests\SimUDuckTests.vcxproj", "{CD153008-1BA5-4A54-AED5-E32A76EE5160}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Shapes", "..\Shapes\Shapes.vcxproj", "{5BF96463-5B2D-4A11-908D-356E29831A1C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{CD153008-1BA5-4A54-AED5-E32A76EE5160}.Release|x64.Build.0 = Release|x64
 		{CD153008-1BA5-4A54-AED5-E32A76EE5160}.Release|x86.ActiveCfg = Release|Win32
 		{CD153008-1BA5-4A54-AED5-E32A76EE5160}.Release|x86.Build.0 = Release|Win32
+		{5BF96463-5B2D-4A11-908D-356E29831A1C}.Debug|x64.ActiveCfg = Debug|x64
+		{5BF96463-5B2D-4A11-908D-356E29831A1C}.Debug|x64.Build.0 = Debug|x64
+		{5BF96463-5B2D-4A11-908D-356E29831A1C}.Debug|x86.ActiveCfg = Debug|Win32
+		{5BF96463-5B2D-4A11-908D-356E29831A1C}.Debug|x86.Build.0 = Debug|Win32
+		{5BF96463-5B2D-4A11-908D-356E29831A1C}.Release|x64.ActiveCfg = Release|x64
+		{5BF96463-5B2D-4A11-908D-356E29831A1C}.Release|x64.Build.0 = Release|x64
+		{5BF96463-5B2D-4A11-908D-356E29831A1C}.Release|x86.ActiveCfg = Release|Win32
+		{5BF96463-5B2D-4A11-908D-356E29831A1C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

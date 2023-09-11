@@ -7,10 +7,7 @@
 class DanceStayStill : public IDanceBehavior
 {
 public:
-	void Dance() const override
-	{
-		std::cout << "Can't dance :(" << std::endl;
-	}
+	void Dance() const override {}
 };
 
 #endif
