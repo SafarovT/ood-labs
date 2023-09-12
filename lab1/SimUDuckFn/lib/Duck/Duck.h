@@ -39,7 +39,7 @@ public:
 		m_flyBehavior->Fly();
 	}
 
-	void Dance()
+	virtual void Dance()
 	{
 		m_danceBehavior->Dance();
 	}
@@ -54,9 +54,9 @@ public:
 	virtual ~Duck() = default;
 
 private:
-	std::unique_ptr<IFlyBehavior> m_flyBehavior;
 	std::unique_ptr<IQuackBehavior> m_quackBehavior;
-	std::unique_ptr<IDanceBehavior> m_danceBehavior;
+	/*std::unique_ptr<IFlyBehavior> m_flyBehavior;
+	std::unique_ptr<IDanceBehavior> m_danceBehavior;*/
 };
 
 #endif

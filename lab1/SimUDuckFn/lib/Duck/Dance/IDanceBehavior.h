@@ -5,7 +5,7 @@ class IDanceBehavior
 {
 public:
 	virtual void Dance() const = 0;
-	virtual ~IDanceBehavior() {}
+	virtual ~IDanceBehavior() {};
 };
 
 #endif

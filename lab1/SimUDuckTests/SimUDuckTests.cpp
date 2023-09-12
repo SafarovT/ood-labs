@@ -24,21 +24,32 @@ SCENARIO_METHOD(CoutBufferFixture, "Mallard duck test")
 
 		THEN("Mallard duck крякнула, полетела и станцевала вальс")
 		{
-			CHECK(buffer.str() == "I'm mallard duck\nQuack Quack!!!\nFlight number: 1\nI'm flying with wings!!\n*Dancing waltz*\n");
+			CHECK(buffer.str() == "I'm mallard duck\nQuack Quack!!!\nFligth number: 1\nI'm flying with wings!!\n*Dancing waltz*\n\n");
+		}
+
+		AND_WHEN("Duck flies one more time")
+		{
+			buffer.str("");
+			duck.Fly();
+
+			THEN("Flies count = 2")
+			{
+				CHECK(buffer.str() == "Fligth number: 2\nI'm flying with wings!!\n");
+			}
 		}
 	}
 }
 
-SCENARIO_METHOD(CoutBufferFixture, "Read head test")
+SCENARIO_METHOD(CoutBufferFixture, "Red head test")
 {
-	WHEN("Play with readhead duck")
+	WHEN("Play with redhead duck")
 	{
 		RedheadDuck duck;
 		PlayWithDuck(duck);
 
-		THEN("Readhead duck крякнула, полетела и станцевала вальс")
+		THEN("Redhead duck крякнула, полетела и станцевала вальс")
 		{
-			CHECK(buffer.str() == "I'm readhead duck\nQuack Quack!!!\nFlight number: 1\nI'm flying with wings!!\n*Dancing minuette*\n");
+			CHECK(buffer.str() == "I'm redhead duck\nQuack Quack!!!\nFligth number: 1\nI'm flying with wings!!\n*Dancing minuette*\n\n");
 		}
 	}
 }
@@ -52,7 +63,7 @@ SCENARIO_METHOD(CoutBufferFixture, "Decoy duck test")
 
 		THEN("Decoy duck не крякнула, не полетела и не станцевала")
 		{
-			CHECK(buffer.str() == "I'm decoy duck\n");
+			CHECK(buffer.str() == "I'm decoy duck\n\n");
 		}
 	}
 }
@@ -66,7 +77,7 @@ SCENARIO_METHOD(CoutBufferFixture, "Model duck test")
 
 		THEN("Model duck не крякнула, не полетела и не станцевала")
 		{
-			CHECK(buffer.str() == "I'm model duck\nQuack Quack!!!\n");
+			CHECK(buffer.str() == "I'm model duck\nQuack Quack!!!\n\n");
 		}
 	}
 }
@@ -80,7 +91,7 @@ SCENARIO_METHOD(CoutBufferFixture, "Rubber duck test")
 
 		THEN("Rubber duck не крякнула, не полетела и не станцевала")
 		{
-			CHECK(buffer.str() == "I'm rubber duck\nQuack Quack!!!\n");
+			CHECK(buffer.str() == "I'm rubber duck\nSqueek!!!\n\n");
 		}
 	}
 }

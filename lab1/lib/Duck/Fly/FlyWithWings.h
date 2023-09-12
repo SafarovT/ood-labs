@@ -1,17 +1,20 @@
 #ifndef FLYWITHWINGS_H
 #define FLYWITHWINGS_H
 
-#include "FlyDefault.h"
+#include "IFlyBehavior.h"
 #include <iostream>
 
-class FlyWithWings : public FlyDefault
+class FlyWithWings : public IFlyBehavior
 {
 public:
 	void Fly() override
 	{
-		FlyDefault::Fly();
-		std::cout << "I'm flying with wings!!" << std::endl;
+		m_flightsCount++;
+		std::cout << "Fligth number: " << m_flightsCount << std::endl
+			<< "I'm flying with wings!!" << std::endl;
 	}
+private:
+	unsigned int m_flightsCount = 0;
 };
 
 #endif

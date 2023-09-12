@@ -17,6 +17,21 @@
     <ClCompile Include="lib\Duck\Dance\DanceStayStill.h">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="lib\Duck\Strategy\Dance\DanceWaltz.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Duck\Strategy\Dance\DanceMinuette.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Duck\Strategy\Dance\DanceStayStill.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Duck\Strategy\Fly\FlyNoWay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Duck\Strategy\Fly\FlyWithWings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lib\DuckFunctions.h">
@@ -68,6 +83,12 @@
       <Filter>Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="lib\Duck\Quack\SqueakBehavior.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Duck\Fly\FlyDefault.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Duck\Strategy\StrategyFn.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
   </ItemGroup>

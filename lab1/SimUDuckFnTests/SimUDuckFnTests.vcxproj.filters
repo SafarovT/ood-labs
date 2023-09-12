@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Shapes.cpp">
+    <ClCompile Include="SimUDuckFnTests.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
