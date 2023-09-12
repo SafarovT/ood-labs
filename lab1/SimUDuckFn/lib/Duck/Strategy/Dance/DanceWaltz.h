@@ -1,7 +1,7 @@
 #include "../StrategyFn.h"
 #include <iostream>
 
-void DanceWaltz()
+Strategy DanceWaltz()
 {
 	std::cout << "*Dancing waltz*" << std::endl;
 }

@@ -14,22 +14,19 @@
     <ClCompile Include="SimUDuck.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="lib\Duck\Dance\DanceStayStill.h">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\Duck\Strategy\Dance\DanceWaltz.cpp">
+    <ClCompile Include="lib\Duck\Strategy\Dance\DanceWaltz.h">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="lib\Duck\Strategy\Dance\DanceMinuette.cpp">
+    <ClCompile Include="lib\Duck\Strategy\Dance\DanceMinuette.h">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="lib\Duck\Strategy\Dance\DanceStayStill.cpp">
+    <ClCompile Include="lib\Duck\Strategy\Dance\DanceStayStill.h">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="lib\Duck\Strategy\Fly\FlyNoWay.cpp">
+    <ClCompile Include="lib\Duck\Strategy\Fly\FlyNoWay.h">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="lib\Duck\Strategy\Fly\FlyWithWings.cpp">
+    <ClCompile Include="lib\Duck\Strategy\Fly\FlyWithWings.h">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -55,24 +52,6 @@
     <ClInclude Include="lib\Duck\RubberDuck.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="lib\Duck\Dance\DanceMinuette.h">
-      <Filter>Resource Files</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\Duck\Dance\DanceWaltz.h">
-      <Filter>Resource Files</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\Duck\Dance\IDanceBehavior.h">
-      <Filter>Resource Files</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\Duck\Fly\FlyNoWay.h">
-      <Filter>Resource Files</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\Duck\Fly\FlyWithWings.h">
-      <Filter>Resource Files</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\Duck\Fly\IFlyBehavior.h">
-      <Filter>Resource Files</Filter>
-    </ClInclude>
     <ClInclude Include="lib\Duck\Quack\IQuakBehavior.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
@@ -83,9 +62,6 @@
       <Filter>Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="lib\Duck\Quack\SqueakBehavior.h">
-      <Filter>Resource Files</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\Duck\Fly\FlyDefault.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="lib\Duck\Strategy\StrategyFn.h">

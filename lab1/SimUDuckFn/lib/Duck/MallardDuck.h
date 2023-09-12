@@ -2,18 +2,18 @@
 #define MALLARDDUCK_H
 
 #include "Duck.h"
-#include "Fly/FlyWithWings.h"
+#include "Strategy/Fly/FlyWithWings.h"
 #include "Quack/QuackBehavior.h"
-#include "Dance/DanceWaltz.h"
+#include "Strategy/Dance/DanceWaltz.h"
 
 class MallardDuck : public Duck
 {
 public:
 	MallardDuck()
 		: Duck(
-			std::make_unique<FlyWithWings>(),
+			FlyWithWings,
 			std::make_unique<QuackBehavior>(),
-			std::make_unique<DanceWaltz>()
+			DanceWaltz
 		)
 	{
 	}

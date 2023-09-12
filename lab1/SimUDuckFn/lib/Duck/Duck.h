@@ -1,9 +1,8 @@
 #ifndef DUCK_H
 #define DUCK_H
 
-#include "Fly/IFlyBehavior.h"
 #include "Quack/IQuakBehavior.h"
-#include "Dance/IDanceBehavior.h"
+#include "Strategy/StrategyFn.h"
 
 #include <cassert>
 #include <iostream>
@@ -13,15 +12,15 @@
 class Duck
 {
 public:
-	Duck(std::unique_ptr<IFlyBehavior>&& flyBehavior,
+	Duck(const Strategy& flyBehavior,
 		std::unique_ptr<IQuackBehavior>&& quackBehavior,
-		std::unique_ptr<IDanceBehavior>&& danceBehavior)
+		Strategy danceBehavior)
 		: m_quackBehavior(std::move(quackBehavior))
-		, m_danceBehavior(std::move(danceBehavior))
+		, m_danceBehavior(danceBehavior)
 	{
 		assert(m_quackBehavior);
 		assert(m_danceBehavior);
-		SetFlyBehavior(std::move(flyBehavior));
+		SetFlyBehavior(flyBehavior);
 	}
 
 	void Quack() const
@@ -36,18 +35,18 @@ public:
 
 	void Fly()
 	{
-		m_flyBehavior->Fly();
+		m_flyBehavior();
 	}
 
 	virtual void Dance()
 	{
-		m_danceBehavior->Dance();
+		m_danceBehavior();
 	}
 
-	void SetFlyBehavior(std::unique_ptr<IFlyBehavior>&& flyBehavior)
+	void SetFlyBehavior(Strategy flyBehavior)
 	{
 		assert(flyBehavior);
-		m_flyBehavior = std::move(flyBehavior);
+		m_flyBehavior = flyBehavior;
 	}
 
 	virtual void Display() const = 0;
@@ -55,8 +54,8 @@ public:
 
 private:
 	std::unique_ptr<IQuackBehavior> m_quackBehavior;
-	/*std::unique_ptr<IFlyBehavior> m_flyBehavior;
-	std::unique_ptr<IDanceBehavior> m_danceBehavior;*/
+	Strategy m_flyBehavior;
+	Strategy m_danceBehavior;
 };
 
 #endif

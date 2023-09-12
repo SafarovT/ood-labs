@@ -146,25 +146,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="lib\Duck\Dance\DanceStayStill.h" />
-    <ClCompile Include="lib\Duck\Strategy\Dance\DanceMinuette.cpp" />
-    <ClCompile Include="lib\Duck\Strategy\Dance\DanceStayStill.cpp" />
-    <ClCompile Include="lib\Duck\Strategy\Dance\DanceWaltz.cpp" />
-    <ClCompile Include="lib\Duck\Strategy\Fly\FlyNoWay.cpp" />
-    <ClCompile Include="lib\Duck\Strategy\Fly\FlyWithWings.cpp" />
+    <ClCompile Include="lib\Duck\Strategy\Dance\DanceMinuette.h" />
+    <ClCompile Include="lib\Duck\Strategy\Dance\DanceStayStill.h" />
+    <ClCompile Include="lib\Duck\Strategy\Dance\DanceWaltz.h" />
+    <ClCompile Include="lib\Duck\Strategy\Fly\FlyNoWay.h" />
+    <ClCompile Include="lib\Duck\Strategy\Fly\FlyWithWings.h" />
     <ClCompile Include="SimUDuck.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lib\DuckFunctions.h" />
-    <ClInclude Include="lib\Duck\Dance\DanceMinuette.h" />
-    <ClInclude Include="lib\Duck\Dance\DanceWaltz.h" />
-    <ClInclude Include="lib\Duck\Dance\IDanceBehavior.h" />
     <ClInclude Include="lib\Duck\DecoyDuck.h" />
     <ClInclude Include="lib\Duck\Duck.h" />
-    <ClInclude Include="lib\Duck\Fly\FlyNoWay.h" />
-    <ClInclude Include="lib\Duck\Fly\FlyWithWings.h" />
-    <ClInclude Include="lib\Duck\Fly\IFlyBehavior.h" />
-    <ClInclude Include="lib\Duck\Fly\FlyDefault.h" />
     <ClInclude Include="lib\Duck\MallardDuck.h" />
     <ClInclude Include="lib\Duck\ModelDuck.h" />
     <ClInclude Include="lib\Duck\Quack\IQuakBehavior.h" />

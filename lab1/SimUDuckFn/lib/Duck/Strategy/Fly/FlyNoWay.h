@@ -1,3 +1,3 @@
 #include "../StrategyFn.h"
 
-void FlyNoWay() {}
+Strategy FlyNoWay() {}
