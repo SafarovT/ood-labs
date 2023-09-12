@@ -67,5 +67,14 @@
     <ClInclude Include="lib\Duck\Strategy\StrategyFn.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
+    <ClInclude Include="lib\Duck\Strategy\Quack\Squeak.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Duck\Strategy\Quack\QuackBehavior.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Duck\Strategy\Quack\MuteQuack.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

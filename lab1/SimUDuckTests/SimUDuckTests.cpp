@@ -9,10 +9,16 @@
 #include "../lib/Duck/ModelDuck.h"
 #include "../lib/Duck/RubberDuck.h"
 
-struct CoutBufferFixture
+class CoutBufferFixture
 {
+public:
+	~CoutBufferFixture()
+	{
+		std::cout.rdbuf(backupBuffer);
+	}
+
 	std::stringstream buffer;
-	std::streambuf* old = std::cout.rdbuf(buffer.rdbuf());
+	std::streambuf* backupBuffer = std::cout.rdbuf(buffer.rdbuf());
 };
 
 SCENARIO_METHOD(CoutBufferFixture, "Mallard duck test")

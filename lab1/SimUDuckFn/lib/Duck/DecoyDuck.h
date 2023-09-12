@@ -3,7 +3,7 @@
 
 #include "Duck.h"
 #include "Strategy/Fly/FlyNoWay.h"
-#include "Quack/MuteQuackBehavior.h"
+#include "Strategy/Quack/MuteQuack.h"
 #include "Strategy/Dance/DanceStayStill.h"
 #include <iostream>
 #include <memory>
@@ -14,7 +14,7 @@ public:
 	DecoyDuck()
 		: Duck(
 			FlyNoWay,
-			std::make_unique<MuteQuackBehavior>(),
+			MuteQuack,
 			DanceStayStill
 		)
 	{

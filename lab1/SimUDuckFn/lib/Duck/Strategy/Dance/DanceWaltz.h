@@ -1,7 +1,7 @@
-#include "../StrategyFn.h"
+#pragma once
 #include <iostream>
 
-Strategy DanceWaltz()
+void DanceWaltz()
 {
 	std::cout << "*Dancing waltz*" << std::endl;
 }

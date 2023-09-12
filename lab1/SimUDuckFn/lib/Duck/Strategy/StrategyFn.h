@@ -1,3 +1,5 @@
 #include <functional>
 
-using Strategy = std::function<void()>;
+using DanceStrategy = std::function<void()>;
+using QuackStrategy = std::function<void()>;
+using FlyStrategy = std::function<void()>;

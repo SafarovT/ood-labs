@@ -165,6 +165,9 @@
     <ClInclude Include="lib\Duck\Quack\SqueakBehavior.h" />
     <ClInclude Include="lib\Duck\RedheadDuck.h" />
     <ClInclude Include="lib\Duck\RubberDuck.h" />
+    <ClInclude Include="lib\Duck\Strategy\Quack\MuteQuack.h" />
+    <ClInclude Include="lib\Duck\Strategy\Quack\QuackBehavior.h" />
+    <ClInclude Include="lib\Duck\Strategy\Quack\Squeak.h" />
     <ClInclude Include="lib\Duck\Strategy\StrategyFn.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

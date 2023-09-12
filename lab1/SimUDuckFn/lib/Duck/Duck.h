@@ -12,20 +12,20 @@
 class Duck
 {
 public:
-	Duck(const Strategy& flyBehavior,
-		std::unique_ptr<IQuackBehavior>&& quackBehavior,
-		Strategy danceBehavior)
+	Duck(FlyStrategy&& flyBehavior,
+		QuackStrategy&& quackBehavior,
+		DanceStrategy&& danceBehavior)
 		: m_quackBehavior(std::move(quackBehavior))
-		, m_danceBehavior(danceBehavior)
+		, m_danceBehavior(std::move(danceBehavior))
 	{
 		assert(m_quackBehavior);
 		assert(m_danceBehavior);
-		SetFlyBehavior(flyBehavior);
+		SetFlyBehavior(std::move(flyBehavior));
 	}
 
 	void Quack() const
 	{
-		m_quackBehavior->Quack();
+		m_quackBehavior();
 	}
 
 	void Swim()
@@ -43,19 +43,19 @@ public:
 		m_danceBehavior();
 	}
 
-	void SetFlyBehavior(Strategy flyBehavior)
+	void SetFlyBehavior(FlyStrategy&& flyBehavior)
 	{
 		assert(flyBehavior);
-		m_flyBehavior = flyBehavior;
+		m_flyBehavior = std::move(flyBehavior);
 	}
 
 	virtual void Display() const = 0;
 	virtual ~Duck() = default;
 
 private:
-	std::unique_ptr<IQuackBehavior> m_quackBehavior;
-	Strategy m_flyBehavior;
-	Strategy m_danceBehavior;
+	QuackStrategy m_quackBehavior;
+	FlyStrategy m_flyBehavior;
+	DanceStrategy m_danceBehavior;
 };
 
 #endif

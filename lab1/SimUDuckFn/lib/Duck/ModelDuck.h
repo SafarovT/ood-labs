@@ -3,7 +3,7 @@
 
 #include "Duck.h"
 #include "Strategy/Fly/FlyNoWay.h"
-#include "Quack/QuackBehavior.h"
+#include "Strategy/Quack/QuackBehavior.h"
 #include "Strategy/Dance/DanceStayStill.h"
 
 class ModelDuck : public Duck
@@ -12,7 +12,7 @@ public:
 	ModelDuck()
 		: Duck(
 			FlyNoWay,
-			std::make_unique<QuackBehavior>(),
+			QuackBehavior,
 			DanceStayStill
 		)
 	{

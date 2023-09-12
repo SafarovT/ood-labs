@@ -1,3 +1,3 @@
-#include "../StrategyFn.h"
+#pragma once
 
-Strategy FlyNoWay() {}
+void FlyNoWay() {}

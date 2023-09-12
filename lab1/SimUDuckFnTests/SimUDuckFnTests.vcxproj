@@ -127,8 +127,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CoutBufferFixture.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SimUDuckFnTests.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CoutBufferFixture.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

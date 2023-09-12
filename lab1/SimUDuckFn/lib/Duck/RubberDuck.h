@@ -3,7 +3,7 @@
 
 #include "Duck.h"
 #include "Strategy/Fly/FlyNoWay.h"
-#include "Quack/SqueakBehavior.h"
+#include "Strategy/Quack/Squeak.h"
 #include "Strategy/Dance/DanceStayStill.h"
 #include <iostream>
 
@@ -13,7 +13,7 @@ public:
 	RubberDuck()
 		: Duck(
 			FlyNoWay,
-			std::make_unique<SqueakBehavior>(),
+			Squeak,
 			DanceStayStill
 		)
 	{

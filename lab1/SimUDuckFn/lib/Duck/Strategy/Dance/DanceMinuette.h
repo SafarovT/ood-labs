@@ -1,7 +1,7 @@
-#include "../StrategyFn.h"
+#pragma once
 #include <iostream>
 
-Strategy DanceMinuette()
+void DanceMinuette()
 {
 	std::cout << "*Dancing minuette*" << std::endl;
 }

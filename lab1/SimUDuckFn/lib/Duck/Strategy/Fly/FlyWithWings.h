@@ -1,12 +1,12 @@
+#pragma once
 #include "../StrategyFn.h"
 #include <iostream>
 
-Strategy FlyWithWings()
+FlyStrategy MakeFlyWithWings()
 {
 	unsigned flightsCount = 0;
-	std::cout << "I'm flying with wings!!" << std::endl;
 
-	return [&]() mutable
+	return [flightsCount]() mutable -> void
 	{
 		flightsCount++;
 		std::cout << "Flight number: " << flightsCount << std::endl

@@ -1,6 +1,5 @@
 ﻿#include "../../external/catch2/catch.hpp"
-#include <sstream>
-#include <iostream>
+#include "CoutBufferFixture.h"
 
 #include "../SimUDuckFn/lib/DuckFunctions.h"
 #include "../SimUDuckFn/lib/Duck/MallardDuck.h"
@@ -8,12 +7,6 @@
 #include "../SimUDuckFn/lib/Duck/DecoyDuck.h"
 #include "../SimUDuckFn/lib/Duck/ModelDuck.h"
 #include "../SimUDuckFn/lib/Duck/RubberDuck.h"
-
-struct CoutBufferFixture
-{
-	std::stringstream buffer;
-	std::streambuf* old = std::cout.rdbuf(buffer.rdbuf());
-};
 
 SCENARIO_METHOD(CoutBufferFixture, "Mallard duck test")
 {
@@ -24,17 +17,29 @@ SCENARIO_METHOD(CoutBufferFixture, "Mallard duck test")
 
 		THEN("Mallard duck крякнула, полетела и станцевала вальс")
 		{
-			CHECK(buffer.str() == "I'm mallard duck\nQuack Quack!!!\nFligth number: 1\nI'm flying with wings!!\n*Dancing waltz*\n\n");
+			CHECK(GetBufferValue() == "I'm mallard duck\nQuack Quack!!!\nFlight number: 1\nI'm flying with wings!!\n*Dancing waltz*\n\n");
 		}
 
-		AND_WHEN("Duck flies one more time")
+		AND_WHEN("Утка летит во второй раз")
 		{
-			buffer.str("");
+			ClearBuffer();
 			duck.Fly();
 
 			THEN("Flies count = 2")
 			{
-				CHECK(buffer.str() == "Fligth number: 2\nI'm flying with wings!!\n");
+				CHECK(GetBufferValue() == "Flight number: 2\nI'm flying with wings!!\n");
+			}
+
+			AND_WHEN("Меняется стратегия полета")
+			{
+				ClearBuffer();
+				duck.SetFlyBehavior(MakeFlyWithWings());
+
+				THEN("Утка полетит в свой первый полет")
+				{
+					duck.Fly();
+					CHECK(GetBufferValue() == "Flight number: 1\nI'm flying with wings!!\n");
+				}
 			}
 		}
 	}
@@ -49,7 +54,7 @@ SCENARIO_METHOD(CoutBufferFixture, "Red head test")
 
 		THEN("Redhead duck крякнула, полетела и станцевала вальс")
 		{
-			CHECK(buffer.str() == "I'm redhead duck\nQuack Quack!!!\nFligth number: 1\nI'm flying with wings!!\n*Dancing minuette*\n\n");
+			CHECK(GetBufferValue() == "I'm redhead duck\nQuack Quack!!!\nFlight number: 1\nI'm flying with wings!!\n*Dancing minuette*\n\n");
 		}
 	}
 }
@@ -63,7 +68,7 @@ SCENARIO_METHOD(CoutBufferFixture, "Decoy duck test")
 
 		THEN("Decoy duck не крякнула, не полетела и не станцевала")
 		{
-			CHECK(buffer.str() == "I'm decoy duck\n\n");
+			CHECK(GetBufferValue() == "I'm decoy duck\n\n");
 		}
 	}
 }
@@ -77,7 +82,7 @@ SCENARIO_METHOD(CoutBufferFixture, "Model duck test")
 
 		THEN("Model duck не крякнула, не полетела и не станцевала")
 		{
-			CHECK(buffer.str() == "I'm model duck\nQuack Quack!!!\n\n");
+			CHECK(GetBufferValue() == "I'm model duck\nQuack Quack!!!\n\n");
 		}
 	}
 }
@@ -91,7 +96,7 @@ SCENARIO_METHOD(CoutBufferFixture, "Rubber duck test")
 
 		THEN("Rubber duck не крякнула, не полетела и не станцевала")
 		{
-			CHECK(buffer.str() == "I'm rubber duck\nSqueek!!!\n\n");
+			CHECK(GetBufferValue() == "I'm rubber duck\nSqueek!!!\n\n");
 		}
 	}
 }
