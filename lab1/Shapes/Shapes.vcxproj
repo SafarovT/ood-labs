@@ -104,6 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -127,7 +128,35 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Shapes.cpp" />
+    <ClCompile Include="CCanvas.cpp" />
+    <ClCompile Include="CCircleStrategy.cpp" />
+    <ClCompile Include="CCommandHandler.cpp" />
+    <ClCompile Include="CLineStrategy.cpp" />
+    <ClCompile Include="common.cpp" />
+    <ClCompile Include="CPicture.cpp" />
+    <ClCompile Include="CRectangleStrategy.cpp" />
+    <ClCompile Include="CShape.cpp" />
+    <ClCompile Include="CTextStrategy.cpp" />
+    <ClCompile Include="CTriangleStrategy.cpp" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CCanvas.h" />
+    <ClInclude Include="CCircleStrategy.h" />
+    <ClInclude Include="CColor.h" />
+    <ClInclude Include="CCommandHandler.h" />
+    <ClInclude Include="CLineStrategy.h" />
+    <ClInclude Include="common.h" />
+    <ClInclude Include="CPicture.h" />
+    <ClInclude Include="CRectangleStrategy.h" />
+    <ClInclude Include="CShape.h" />
+    <ClInclude Include="CShapeParams.h" />
+    <ClInclude Include="CShapeStrategyFactory.h" />
+    <ClInclude Include="CTextStrategy.h" />
+    <ClInclude Include="CTriangleStrategy.h" />
+    <ClInclude Include="ICanvas.h" />
+    <ClInclude Include="IShapeStrategy.h" />
+    <ClInclude Include="Point.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
