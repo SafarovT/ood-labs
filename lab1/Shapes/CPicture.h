@@ -19,7 +19,7 @@ public:
 	void DrawPicture(gfx::ICanvas& canvas);
 
 private:
-	std::shared_ptr<CShape> GetShapeById(std::string const& id);
+	CShape* GetShapeById(std::string const& id);
 
 	std::map<std::string, CShape> m_shapes;
 };

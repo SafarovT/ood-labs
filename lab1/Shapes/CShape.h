@@ -8,7 +8,7 @@
 class CShape
 {
 public:
-	CShape(CColor color, std::unique_ptr<IShapeStrategy> shapeStrategy)
+	CShape(CColor color, std::unique_ptr<IShapeStrategy>&& shapeStrategy)
 		: m_shapeStrategy(std::move(shapeStrategy))
 		, m_color(color)
 	{

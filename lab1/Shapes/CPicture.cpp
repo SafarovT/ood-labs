@@ -10,10 +10,6 @@ void CPicture::AddShape(std::string const& id, CColor color, std::string const& 
 		throw std::logic_error("Figure with this id already exists");
 	}
 	std::unique_ptr<IShapeStrategy> shapeStrategy = CShapeStrategyFactory::CreateShapeStrategy(shapeType, params);
-	if (shapeStrategy != nullptr)
-	{
-		m_shapes.insert({ id, CShape(color, std::move(shapeStrategy)) });
-	}
 }
 
 void CPicture::MoveShape(std::string const& id, Point vector)
@@ -86,13 +82,13 @@ void CPicture::DrawPicture(gfx::ICanvas& canvas)
 	}
 }
 
-std::shared_ptr<CShape> CPicture::GetShapeById(std::string const& id)
+CShape* CPicture::GetShapeById(std::string const& id)
 {
-	auto foundShape = m_shapes.find(id);
-	if (foundShape == m_shapes.end())
+	auto idShapePair = m_shapes.find(id);
+	if (idShapePair == m_shapes.end())
 	{
 		return nullptr;
 	}
 
-	return std::make_shared<CShape>(*foundShape);
+	return &(idShapePair->second);
 }
