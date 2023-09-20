@@ -22,14 +22,19 @@ void CTriangleStrategy::Draw(gfx::ICanvas& canvas, CColor const& color)
 	canvas.LineTo(m_vertex1);
 }
 
-void CTriangleStrategy::Move(Point vector)
+void CTriangleStrategy::Move(double dx, double dy)
 {
-	m_vertex1 = { m_vertex1.x + vector.x, m_vertex1.y + vector.y };
-	m_vertex2 = { m_vertex2.x + vector.x, m_vertex2.y + vector.y };
-	m_vertex3 = { m_vertex3.x + vector.x, m_vertex3.y + vector.y };
+	m_vertex1 = { m_vertex1.x + dx, m_vertex1.y + dy };
+	m_vertex2 = { m_vertex2.x + dx, m_vertex2.y + dy };
+	m_vertex3 = { m_vertex3.x + dx, m_vertex3.y + dy };
 }
 
 CShapeParams CTriangleStrategy::GetParams() const
 {
 	return CShapeParams({ m_vertex1.x, m_vertex1.y, m_vertex2.x, m_vertex2.y, m_vertex3.x, m_vertex3.y });
+}
+
+std::string CTriangleStrategy::GetName() const
+{
+	return "triangle";
 }

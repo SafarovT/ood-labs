@@ -10,22 +10,23 @@ void CPicture::AddShape(std::string const& id, CColor color, std::string const& 
 		throw std::logic_error("Figure with this id already exists");
 	}
 	std::unique_ptr<IShapeStrategy> shapeStrategy = CShapeStrategyFactory::CreateShapeStrategy(shapeType, params);
+	m_shapes.insert({ id, CShape(color, std::move(shapeStrategy)) });
 }
 
-void CPicture::MoveShape(std::string const& id, Point vector)
+void CPicture::MoveShape(std::string const& id, double dx, double dy)
 {
 	auto shape = GetShapeById(id);
 	if (shape != nullptr)
 	{
-		shape->Move(vector);
+		shape->Move(dx, dy);
 	}
 }
 
-void CPicture::MovePicture(Point vector)
+void CPicture::MovePicture(double dx, double dy)
 {
 	for (auto& idShapePair : m_shapes)
 	{
-		idShapePair.second.Move(vector);
+		idShapePair.second.Move(dx, dy);
 	}
 }
 
@@ -39,8 +40,9 @@ void CPicture::ListShapes(std::ostream& stream)
 	size_t number = 1;
 	for (auto& idShapePair : m_shapes)
 	{
-		stream << std::to_string(number) << "TYPE" << " "
-			<< idShapePair.first << " " << idShapePair.second.GetColor().GetColorStr() << " "
+		stream << std::to_string(number) << " "
+			<< idShapePair.second.GetShapeType() << " "
+			<< idShapePair.first << " " << idShapePair.second.GetColor().GetColor() << " "
 			<< idShapePair.second.GetShapeParams().GetParamsStr() << std::endl;
 		number++;
 	}

@@ -19,15 +19,20 @@ void CLineStrategy::Draw(gfx::ICanvas& canvas, CColor const& color)
 	canvas.LineTo(m_end);
 }
 
-void CLineStrategy::Move(Point vector)
+void CLineStrategy::Move(double dx, double dy)
 {
-	m_start.x += vector.x;
-	m_start.y += vector.y;
-	m_end.x += vector.x;
-	m_end.y += vector.y;
+	m_start.x += dx;
+	m_start.y += dy;
+	m_end.x += dx;
+	m_end.y += dy;
 }
 
 CShapeParams CLineStrategy::GetParams() const
 {
 	return CShapeParams({ m_start.x, m_start.y, m_end.x, m_end.y });
+}
+
+std::string CLineStrategy::GetName() const
+{
+	return "line";
 }

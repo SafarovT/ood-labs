@@ -19,13 +19,18 @@ void CTextStrategy::Draw(gfx::ICanvas& canvas, CColor const& color)
 	canvas.DrawText(m_leftTop, m_fontSize, m_text);
 }
 
-void CTextStrategy::Move(Point vector)
+void CTextStrategy::Move(double dx, double dy)
 {
-	m_leftTop.x += vector.x;
-	m_leftTop.y += vector.y;
+	m_leftTop.x += dx;
+	m_leftTop.y += dy;
 }
 
 CShapeParams CTextStrategy::GetParams() const
 {
 	return CShapeParams({ m_leftTop.x, m_leftTop.y, m_fontSize }, std::string(m_text));
+}
+
+std::string CTextStrategy::GetName() const
+{
+	return "text";
 }

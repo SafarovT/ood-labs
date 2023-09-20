@@ -17,10 +17,11 @@ public:
 
 	CColor GetColor() const;
 	void Draw(gfx::ICanvas& canvas);
-	void Move(Point vector);
+	void Move(double dx, double dy);
 	void SetColor(CColor color);
 	CShapeParams GetShapeParams();
 	void SetShapeStrategy(std::unique_ptr<IShapeStrategy> shapeStrategy);
+	std::string GetShapeType() const;
 
 private:
 	CColor m_color;

@@ -47,26 +47,21 @@ void CCommandHandler::AddShape()
 		return;
 	}
 	string id = m_command.params[0];
-	auto color = ParseHex(m_command.params[1]);
-	if (color == nullopt)
-	{
-		m_output << ERROR_SYNTAX_MESSAGE << endl;
-		return;
-	}
+	string color = m_command.params[1];
 	string shapeType = m_command.params[2];
 	vector<double> params;
 	string text;
 	for (size_t i = 3; i < paramsCount; i++)
 	{
 		auto number = StringToDouble(m_command.params[i]);
-		if (!number)
+		if (number == nullopt)
 		{
 			text = m_command.params[i];
 		}
 		params.push_back(*number);
 	}
 
-	m_picture.AddShape(id, CColor(*color), shapeType, CShapeParams(std::move(params), std::move(text)));
+	m_picture.AddShape(id, CColor(color), shapeType, CShapeParams(std::move(params), std::move(text)));
 }
 
 void CCommandHandler::MoveShape()
@@ -84,7 +79,7 @@ void CCommandHandler::MoveShape()
 		m_output << ERROR_SYNTAX_MESSAGE << endl;
 		return;
 	}
-	m_picture.MoveShape(id, { *dx, *dy });
+	m_picture.MoveShape(id, *dx, *dy);
 }
 
 void CCommandHandler::MovePicture()
@@ -101,7 +96,7 @@ void CCommandHandler::MovePicture()
 		m_output << ERROR_SYNTAX_MESSAGE << endl;
 		return;
 	}
-	m_picture.MovePicture({ *dx, *dy });
+	m_picture.MovePicture(*dx, *dy);
 }
 
 void CCommandHandler::DeleteShape()
@@ -128,13 +123,9 @@ void CCommandHandler::ChangeColor()
 		return;
 	}
 	string id = m_command.params[0];
-	auto color = ParseHex(m_command.params[1]);
-	if (color == nullopt)
-	{
-		m_output << ERROR_SYNTAX_MESSAGE << endl;
-		return;
-	}
-	m_picture.ChangeColor(id, CColor(*color));
+	string color = m_command.params[1];
+
+	m_picture.ChangeColor(id, CColor(color));
 }
 
 void CCommandHandler::ChangeShape()

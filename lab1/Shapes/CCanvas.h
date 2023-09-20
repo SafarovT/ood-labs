@@ -7,7 +7,6 @@ class CCanvas : public gfx::ICanvas
 public:
 	CCanvas(std::string&& outputFilePath)
 		: m_outputFilePath(std::move(outputFilePath))
-		, m_color(CColor(0))
 		, m_position({ 0, 0 })
 	{
 		m_svgCode = std::stringstream("");

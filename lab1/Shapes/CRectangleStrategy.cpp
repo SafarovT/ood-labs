@@ -28,13 +28,18 @@ void CRectangleStrategy::Draw(gfx::ICanvas& canvas, CColor const& color)
 	canvas.LineTo(currentPoint);
 }
 
-void CRectangleStrategy::Move(Point vector)
+void CRectangleStrategy::Move(double dx, double dy)
 {
-	m_leftTop.x += vector.x;
-	m_leftTop.y += vector.y;
+	m_leftTop.x += dx;
+	m_leftTop.y += dy;
 }
 
 CShapeParams CRectangleStrategy::GetParams() const
 {
 	return CShapeParams({ m_leftTop.x, m_leftTop.y, m_width, m_height });
+}
+
+std::string CRectangleStrategy::GetName() const
+{
+	return "rectangle";
 }

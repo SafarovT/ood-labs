@@ -20,13 +20,18 @@ void CCircleStrategy::Draw(gfx::ICanvas& canvas, CColor const& color)
 	canvas.DrawEllipse(leftTopPoint, rightBottomPoint);
 }
 
-void CCircleStrategy::Move(Point vector)
+void CCircleStrategy::Move(double dx, double dy)
 {
-	m_center.x += vector.x;
-	m_center.y += vector.y;
+	m_center.x += dx;
+	m_center.y += dy;
 }
 
 CShapeParams CCircleStrategy::GetParams() const
 {
 	return CShapeParams({ m_center.x, m_center.y, m_radius });
+}
+
+std::string CCircleStrategy::GetName() const
+{
+	return "circle";
 }

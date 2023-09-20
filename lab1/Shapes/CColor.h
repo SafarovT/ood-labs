@@ -6,20 +6,19 @@
 class CColor
 {
 public:
-	CColor(uint32_t color)
+	CColor()
+		: m_color("000000")
+	{}
+
+	CColor(std::string const& color)
 		: m_color(color)
 	{}
 
-	uint32_t GetColor() const
+	std::string GetColor() const
 	{
 		return m_color;
 	}
 
-	std::string GetColorStr() const
-	{
-		return IntToHexNumber(m_color);
-	}
-
 private:
-	uint32_t m_color;
+	std::string m_color;
 };

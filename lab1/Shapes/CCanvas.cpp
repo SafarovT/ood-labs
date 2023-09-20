@@ -34,7 +34,7 @@ void CCanvas::LineTo(Point point)
 		+ "y1=\"" + std::to_string(m_position.y) + "\" "
 		+ "x2=\"" + std::to_string(point.x) + "\" "
 		+ "y2=\"" + std::to_string(point.y) + "\" "
-		+ "style=\"stroke:" + m_color.GetColorStr()
+		+ "style=\"stroke:#" + m_color.GetColor()
 		+ ";stroke-width:1" + "\" />";
 
 	m_svgCode << line << std::endl;
@@ -43,11 +43,11 @@ void CCanvas::LineTo(Point point)
 void CCanvas::DrawEllipse(Point leftTopPoint, Point rightBottomPoint)
 {
 	std::string ellipse =
-		"<ellipse cx=\"" + std::to_string(leftTopPoint.x) + "\" "
-		+ "cy=\"" + std::to_string(leftTopPoint.y) + "\" "
-		+ "rx=\"" + std::to_string(leftTopPoint.x) + "\" "
-		+ "ry=\"" + std::to_string(leftTopPoint.y) + "\" "
-		+ "style=\"stroke:" + m_color.GetColorStr()
+		"<ellipse cx=\"" + std::to_string((leftTopPoint.x + rightBottomPoint.x) / 2) + "\" "
+		+ "cy=\"" + std::to_string((leftTopPoint.y + rightBottomPoint.y) / 2) + "\" "
+		+ "rx=\"" + std::to_string((rightBottomPoint.x - leftTopPoint.x) / 2) + "\" "
+		+ "ry=\"" + std::to_string((rightBottomPoint.y - leftTopPoint.y) / 2) + "\" "
+		+ "style=\"stroke:#" + m_color.GetColor()
 		+ ";stroke-width:1" +  + "; fill:none;\" />";
 
 	m_svgCode << ellipse << std::endl;
@@ -59,7 +59,7 @@ void CCanvas::DrawText(Point leftTopPoint, double fontSize, std::string const& t
 		"<text x=\"" + std::to_string(leftTopPoint.x) + "\" "
 		+ "y=\"" + std::to_string(leftTopPoint.y) + "\" "
 		+ "font-size=\"" + std::to_string(fontSize) + "\" "
-		+ "fill=\"" + m_color.GetColorStr() + "\">"
+		+ "fill=\"#" + m_color.GetColor() + "\">"
 		+ text + "</text>";
 
 	m_svgCode << svgText << std::endl;

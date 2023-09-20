@@ -10,9 +10,9 @@ void CShape::Draw(gfx::ICanvas& canvas)
 	m_shapeStrategy->Draw(canvas, this->GetColor());
 }
 
-void CShape::Move(Point vector)
+void CShape::Move(double dx, double dy)
 {
-	m_shapeStrategy->Move(vector);
+	m_shapeStrategy->Move(dx, dy);
 }
 
 CShapeParams CShape::GetShapeParams()
@@ -28,4 +28,9 @@ void CShape::SetColor(CColor color)
 void CShape::SetShapeStrategy(std::unique_ptr<IShapeStrategy> shapeStrategy)
 {
 	m_shapeStrategy = std::move(shapeStrategy);
+}
+
+std::string CShape::GetShapeType() const
+{
+	return m_shapeStrategy->GetName();
 }
