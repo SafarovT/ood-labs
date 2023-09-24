@@ -1,15 +1,15 @@
 #include <stdexcept>
+#include "common.h"
 #include "CCircleStrategy.h"
 
-CCircleStrategy::CCircleStrategy(CShapeParams const& params)
+CCircleStrategy::CCircleStrategy(std::vector<std::string> const& params)
 {
-	std::vector<double> circleParams = params.GetParams();
-	if (circleParams.size() < 3)
+	if (params.size() < 3)
 	{
 		throw new std::invalid_argument("Invalid circle arguments, use: <centerX> <centerY> <radius>");
 	}
-	m_center = { circleParams[0], circleParams[1] };
-	m_radius = circleParams[2];
+	m_center = { StringToDouble(params[0]), StringToDouble(params[1])};
+	m_radius = StringToDouble(params[3]);
 }
 
 void CCircleStrategy::Draw(gfx::ICanvas& canvas, CColor const& color)
@@ -26,12 +26,10 @@ void CCircleStrategy::Move(double dx, double dy)
 	m_center.y += dy;
 }
 
-CShapeParams CCircleStrategy::GetParams() const
+std::string CCircleStrategy::ToStr() const
 {
-	return CShapeParams({ m_center.x, m_center.y, m_radius });
-}
-
-std::string CCircleStrategy::GetName() const
-{
-	return "circle";
+	return "circle "
+		+ std::to_string(m_center.x) + " "
+		+ std::to_string(m_center.y) + " "
+		+ std::to_string(m_radius);
 }

@@ -1,15 +1,14 @@
 #pragma once
 #include "IShapeStrategy.h"
-#include "CShapeParams.h"
+#include <vector>
 
 class CCircleStrategy : public IShapeStrategy
 {
 public:
-	CCircleStrategy(CShapeParams const& params);
+	CCircleStrategy(std::vector<std::string> const& params);
 	void Draw(gfx::ICanvas& canvas, CColor const& color) override;
 	void Move(double dx, double dy) override;
-	CShapeParams GetParams() const override;
-	std::string GetName() const override;
+	std::string ToStr() const override;
 
 private:
 	Point m_center;

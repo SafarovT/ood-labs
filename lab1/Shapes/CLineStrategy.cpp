@@ -1,15 +1,15 @@
 #include <stdexcept>
+#include "common.h"
 #include "CLineStrategy.h"
 
-CLineStrategy::CLineStrategy(CShapeParams const& params)
+CLineStrategy::CLineStrategy(std::vector<std::string> const& params)
 {
-	std::vector<double> lineParams = params.GetParams();
-	if (lineParams.size() < 4)
+	if (params.size() < 4)
 	{
 		throw new std::invalid_argument("Invalid line arguments, use: <x1> <y1> <x2> <y2>");
 	}
-	m_start = { lineParams[0], lineParams[1] };
-	m_end = { lineParams[2], lineParams[3] };
+	m_start = { StringToDouble(params[0]), StringToDouble(params[1])};
+	m_end = { StringToDouble(params[2]), StringToDouble(params[3]) };
 }
 
 void CLineStrategy::Draw(gfx::ICanvas& canvas, CColor const& color)
@@ -27,12 +27,11 @@ void CLineStrategy::Move(double dx, double dy)
 	m_end.y += dy;
 }
 
-CShapeParams CLineStrategy::GetParams() const
+std::string CLineStrategy::ToStr() const
 {
-	return CShapeParams({ m_start.x, m_start.y, m_end.x, m_end.y });
-}
-
-std::string CLineStrategy::GetName() const
-{
-	return "line";
+	return "line "
+		+ std::to_string(m_start.x) + " "
+		+ std::to_string(m_start.y) + " "
+		+ std::to_string(m_end.x) + " "
+		+ std::to_string(m_end.y);
 }

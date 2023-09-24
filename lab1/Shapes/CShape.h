@@ -2,7 +2,6 @@
 #include <memory>
 #include "ICanvas.h"
 #include "IShapeStrategy.h"
-#include "CShapeParams.h"
 #include <cassert>
 
 class CShape
@@ -15,13 +14,11 @@ public:
 		assert(m_shapeStrategy);
 	}
 
-	CColor GetColor() const;
 	void Draw(gfx::ICanvas& canvas);
 	void Move(double dx, double dy);
 	void SetColor(CColor color);
-	CShapeParams GetShapeParams();
+	std::string ToStr() const;
 	void SetShapeStrategy(std::unique_ptr<IShapeStrategy> shapeStrategy);
-	std::string GetShapeType() const;
 
 private:
 	CColor m_color;

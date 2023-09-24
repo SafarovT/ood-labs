@@ -1,16 +1,16 @@
 #include <stdexcept>
+#include "common.h"
 #include "CTriangleStrategy.h"
 
-CTriangleStrategy::CTriangleStrategy(CShapeParams const& params)
+CTriangleStrategy::CTriangleStrategy(std::vector<std::string> const& params)
 {
-	std::vector<double> triangleParams = params.GetParams();
-	if (triangleParams.size() < 6)
+	if (params.size() < 6)
 	{
 		throw new std::invalid_argument("Invalid triangle arguments, use: <x1> <y1> <x2> <y2> <x3> <y3>");
 	}
-	m_vertex1 = { triangleParams[0], triangleParams[1] };
-	m_vertex2 = { triangleParams[2], triangleParams[3] };
-	m_vertex3 = { triangleParams[4], triangleParams[5] };
+	m_vertex1 = {StringToDouble(params[0]), StringToDouble(params[1])};
+	m_vertex2 = {StringToDouble(params[2]), StringToDouble(params[3])};
+	m_vertex3 = {StringToDouble(params[4]), StringToDouble(params[5])};
 }
 
 void CTriangleStrategy::Draw(gfx::ICanvas& canvas, CColor const& color)
@@ -29,12 +29,13 @@ void CTriangleStrategy::Move(double dx, double dy)
 	m_vertex3 = { m_vertex3.x + dx, m_vertex3.y + dy };
 }
 
-CShapeParams CTriangleStrategy::GetParams() const
+std::string CTriangleStrategy::ToStr() const
 {
-	return CShapeParams({ m_vertex1.x, m_vertex1.y, m_vertex2.x, m_vertex2.y, m_vertex3.x, m_vertex3.y });
-}
-
-std::string CTriangleStrategy::GetName() const
-{
-	return "triangle";
+	return "triangle "
+		+ std::to_string(m_vertex1.x) + " "
+		+ std::to_string(m_vertex1.y) + " "
+		+ std::to_string(m_vertex2.x) + " "
+		+ std::to_string(m_vertex2.y) + " "
+		+ std::to_string(m_vertex3.x) + " "
+		+ std::to_string(m_vertex3.y) + " ";
 }

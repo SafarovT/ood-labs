@@ -151,7 +151,6 @@
     <ClInclude Include="CPicture.h" />
     <ClInclude Include="CRectangleStrategy.h" />
     <ClInclude Include="CShape.h" />
-    <ClInclude Include="CShapeParams.h" />
     <ClInclude Include="CShapeStrategyFactory.h" />
     <ClInclude Include="CTextStrategy.h" />
     <ClInclude Include="CTriangleStrategy.h" />

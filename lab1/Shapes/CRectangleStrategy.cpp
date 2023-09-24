@@ -1,16 +1,16 @@
 #include <stdexcept>
+#include "common.h"
 #include "CRectangleStrategy.h"
 
-CRectangleStrategy::CRectangleStrategy(CShapeParams const& params)
+CRectangleStrategy::CRectangleStrategy(std::vector<std::string> const& params)
 {
-	std::vector<double> rectangleParams = params.GetParams();
-	if (rectangleParams.size() < 4)
+	if (params.size() < 4)
 	{
 		throw new std::invalid_argument("Invalid rectangle arguments, use: <leftTopX> <leftTopY> <width> <height>");
 	}
-	m_leftTop = { rectangleParams[0], rectangleParams[1] };
-	m_width = rectangleParams[2];
-	m_height = rectangleParams[3];
+	m_leftTop = { StringToDouble(params[0]), StringToDouble(params[1]) };
+	m_width = StringToDouble(params[2]);
+	m_height = StringToDouble(params[3]);
 }
 
 void CRectangleStrategy::Draw(gfx::ICanvas& canvas, CColor const& color)
@@ -34,12 +34,11 @@ void CRectangleStrategy::Move(double dx, double dy)
 	m_leftTop.y += dy;
 }
 
-CShapeParams CRectangleStrategy::GetParams() const
+std::string CRectangleStrategy::ToStr() const
 {
-	return CShapeParams({ m_leftTop.x, m_leftTop.y, m_width, m_height });
-}
-
-std::string CRectangleStrategy::GetName() const
-{
-	return "rectangle";
+	return "rectangle "
+		+ std::to_string(m_leftTop.x) + " "
+		+ std::to_string(m_leftTop.y) + " "
+		+ std::to_string(m_width) + " "
+		+ std::to_string(m_height);
 }

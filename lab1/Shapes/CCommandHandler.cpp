@@ -1,5 +1,6 @@
 #include "CCommandHandler.h"
 #include "common.h"
+#include "CShapeStrategyFactory.h"
 
 using namespace std;
 
@@ -15,14 +16,7 @@ CCommandHandler::Command CCommandHandler::ParseUserInput(string const& input)
 	}
 
 	string paramsString = Trim(input.substr(separatorPos));
-	separatorPos = paramsString.find(' ');
-	while (separatorPos != string::npos)
-	{
-		params.push_back(Trim(paramsString.substr(0, separatorPos)));
-		paramsString = Trim(paramsString.substr(separatorPos + 1));
-		separatorPos = paramsString.find(' ');
-	}
-	params.push_back(paramsString);
+	CCommandHandler::Params params = Explode(paramsString, ' ');
 
 	return { keyWord, params };
 }
@@ -40,71 +34,49 @@ void CCommandHandler::ReadUserCommand()
 
 void CCommandHandler::AddShape()
 {
-	size_t paramsCount = m_command.params.size();
-	if (paramsCount < 4)
+	if (m_command.params.size() < 3)
 	{
-		m_output << ERROR_PARAMS_COUNT_MESSAGE << endl;
-		return;
+		throw new std::exception("Invalid argument count");
 	}
 	string id = m_command.params[0];
 	string color = m_command.params[1];
 	string shapeType = m_command.params[2];
-	vector<double> params;
-	string text;
-	for (size_t i = 3; i < paramsCount; i++)
-	{
-		auto number = StringToDouble(m_command.params[i]);
-		if (number == nullopt)
-		{
-			text = m_command.params[i];
-		}
-		params.push_back(*number);
-	}
-
-	m_picture.AddShape(id, CColor(color), shapeType, CShapeParams(std::move(params), std::move(text)));
+	
+	m_picture.AddShape(id, CColor(color), shapeType, Params(m_command.params.begin() + 3, m_command.params.end()));
 }
 
 void CCommandHandler::MoveShape()
 {
 	if (m_command.params.size() < 3)
 	{
-		m_output << ERROR_PARAMS_COUNT_MESSAGE << endl;
-		return;
+		throw new std::exception("Invalid argument count");
 	}
 	string id = m_command.params[0];
-	auto dx = StringToDouble(m_command.params[1]);
-	auto dy = StringToDouble(m_command.params[2]);
-	if (!dx || !dy)
+	double dx = StringToDouble(m_command.params[1]);
+	double dy = StringToDouble(m_command.params[2]);
+	auto shape = m_picture.GetShapeById(id);
+	if (shape)
 	{
-		m_output << ERROR_SYNTAX_MESSAGE << endl;
-		return;
+		shape->Move(dx, dy);
 	}
-	m_picture.MoveShape(id, *dx, *dy);
 }
 
 void CCommandHandler::MovePicture()
 {
 	if (m_command.params.size() < 2)
 	{
-		m_output << ERROR_PARAMS_COUNT_MESSAGE << endl;
-		return;
+		throw new std::exception("Invalid argument count");
 	}
-	auto dx = StringToDouble(m_command.params[1]);
-	auto dy = StringToDouble(m_command.params[2]);
-	if (!dx || !dy)
-	{
-		m_output << ERROR_SYNTAX_MESSAGE << endl;
-		return;
-	}
-	m_picture.MovePicture(*dx, *dy);
+	double dx = StringToDouble(m_command.params[1]);
+	double dy = StringToDouble(m_command.params[2]);
+	m_picture.MovePicture(dx, dy);
 }
 
 void CCommandHandler::DeleteShape()
 {
 	if (m_command.params.size() < 1)
 	{
-		m_output << ERROR_PARAMS_COUNT_MESSAGE << endl;
-		return;
+		throw new std::exception("Invalid argument count");
 	}
 	string id = m_command.params[0];
 	m_picture.DeleteShape(id);
@@ -119,49 +91,49 @@ void CCommandHandler::ChangeColor()
 {
 	if (m_command.params.size() < 2)
 	{
-		m_output << ERROR_PARAMS_COUNT_MESSAGE << endl;
-		return;
+		throw new std::exception("Invalid argument count");
 	}
 	string id = m_command.params[0];
 	string color = m_command.params[1];
-
-	m_picture.ChangeColor(id, CColor(color));
+	auto shape = m_picture.GetShapeById(id);
+	if (shape)
+	{
+		shape->SetColor(CColor(color));
+	}
 }
 
 void CCommandHandler::ChangeShape()
 {
-	size_t paramsCount = m_command.params.size();
-	if (paramsCount < 3)
+	if (m_command.params.size() < 3)
 	{
-		m_output << ERROR_PARAMS_COUNT_MESSAGE << endl;
-		return;
+		throw new std::exception("Invalid argument count");
 	}
 	string id = m_command.params[0];
 	string shapeType = m_command.params[1];
-	vector<double> params;
-	string text;
-	for (size_t i = 2; i < paramsCount; i++)
-	{
-		auto number = StringToDouble(m_command.params[i]);
-		if (!number)
-		{
-			text = m_command.params[i];
-		}
-		params.push_back(*number);
-	}
 
-	m_picture.ChangeShape(id, shapeType, CShapeParams(std::move(params), std::move(text)));
+	auto shape = m_picture.GetShapeById(id);
+	if (shape)
+	{
+		std::unique_ptr<IShapeStrategy> shapeStrategy = CShapeStrategyFactory::CreateShapeStrategy(
+			shapeType,
+			CCommandHandler::Params(m_command.params.begin() + 2, m_command.params.end())
+		);
+		shape->SetShapeStrategy(std::move(shapeStrategy));
+	}
 }
 
 void CCommandHandler::DrawShape()
 {
 	if (m_command.params.size() < 1)
 	{
-		m_output << ERROR_PARAMS_COUNT_MESSAGE << endl;
-		return;
+		throw new std::exception("Invalid argument count");
 	}
 	string id = m_command.params[0];
-	m_picture.DrawShape(m_canvas, id);
+	auto shape = m_picture.GetShapeById(id);
+	if (shape)
+	{
+		shape->Draw(m_canvas);
+	}
 	m_canvas.Save();
 }
 
@@ -211,7 +183,7 @@ void CCommandHandler::ProcessUserCommand()
 	}
 	else
 	{
-		m_output << UNKNOWN_COMMAND_MESSAGE << endl;
+		throw new std::invalid_argument("Unknown command");
 	}
 }
 
@@ -221,7 +193,14 @@ void CCommandHandler::StartListening()
 	ReadUserCommand();
 	while (m_command.keyWord != EXIT_COMMAND)
 	{
-		ProcessUserCommand();
+		try
+		{
+			ProcessUserCommand();
+		}
+		catch (std::exception& e)
+		{
+			m_output << e.what() << endl;
+		}
 		ReadUserCommand();
 	}
 }

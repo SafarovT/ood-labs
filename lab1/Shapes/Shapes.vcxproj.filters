@@ -86,9 +86,6 @@
     <ClInclude Include="CShapeStrategyFactory.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="CShapeParams.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="common.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>

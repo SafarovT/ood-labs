@@ -39,7 +39,7 @@ std::string IntToHexNumber(uint32_t const number)
 	return std::format("{:#06x}", number);
 }
 
-std::optional<double> StringToDouble(std::string numberString)
+double StringToDouble(std::string numberString)
 {
 	try
 	{
@@ -50,7 +50,7 @@ std::optional<double> StringToDouble(std::string numberString)
 	}
 	catch (std::exception const& ex)
 	{
-		return std::nullopt;
+		throw new std::invalid_argument("Parameter cant be converted to number");
 	}
 }
 
@@ -75,4 +75,24 @@ std::optional<uint32_t> ParseHex(std::string hexString)
 double RadToDegree(double radValue)
 {
 	return radValue * 180 / M_PI;
+}
+
+std::vector<std::string> Explode(std::string strToExplode, char separator)
+{
+	auto isElementFound = [](size_t foundIndex)
+	{
+		return foundIndex != std::string::npos;
+	};
+
+	size_t separatorPos = strToExplode.find(separator);
+	std::vector<std::string> result;
+	while (isElementFound(separatorPos))
+	{
+		result.push_back(Trim(strToExplode.substr(0, separatorPos)));
+		strToExplode = strToExplode.substr(separatorPos + 1);
+		separatorPos = strToExplode.find(separator);
+	}
+	result.push_back(Trim(strToExplode));
+
+	return result;
 }

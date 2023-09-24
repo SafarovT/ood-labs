@@ -1,16 +1,16 @@
 #include <stdexcept>
+#include "common.h"
 #include "CTextStrategy.h"
 
-CTextStrategy::CTextStrategy(CShapeParams const& params)
+CTextStrategy::CTextStrategy(std::vector<std::string> const& params)
 {
-	std::vector<double> textRectangleParams = params.GetParams();
-	if (textRectangleParams.size() < 3)
+	if (params.size() < 4)
 	{
 		throw new std::invalid_argument("Invalid rectangle arguments, use: <leftTopX> <leftTopY> <width> <height>");
 	}
-	m_leftTop = { textRectangleParams[0], textRectangleParams[1] };
-	m_fontSize = textRectangleParams[2];
-	m_text = params.GetText();
+	m_leftTop = {StringToDouble(params[0]), StringToDouble(params[1])};
+	m_fontSize = StringToDouble(params[2]);
+	m_text = params[3];
 }
 
 void CTextStrategy::Draw(gfx::ICanvas& canvas, CColor const& color)
@@ -25,12 +25,11 @@ void CTextStrategy::Move(double dx, double dy)
 	m_leftTop.y += dy;
 }
 
-CShapeParams CTextStrategy::GetParams() const
+std::string CTextStrategy::ToStr() const
 {
-	return CShapeParams({ m_leftTop.x, m_leftTop.y, m_fontSize }, std::string(m_text));
-}
-
-std::string CTextStrategy::GetName() const
-{
-	return "text";
+	return "text "
+		+ std::to_string(m_leftTop.x) + " "
+		+ std::to_string(m_leftTop.y) + " "
+		+ std::to_string(m_fontSize) + " "
+		+ m_text;
 }

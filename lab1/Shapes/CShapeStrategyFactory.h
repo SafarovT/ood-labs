@@ -10,7 +10,7 @@
 class CShapeStrategyFactory
 {
 public:
-	static std::unique_ptr<IShapeStrategy> CreateShapeStrategy(const std::string& type, const CShapeParams& params)
+	static std::unique_ptr<IShapeStrategy> CreateShapeStrategy(const std::string& type, const std::vector<std::string> params)
 	{
 		std::unique_ptr<IShapeStrategy>	shape = nullptr;
 
