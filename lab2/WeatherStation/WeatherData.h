@@ -1,4 +1,7 @@
 ﻿#pragma once
+#include <unordered_map>
+#include <memory>
+#include <string>
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -31,34 +34,70 @@ private:
 class CStatsDisplay : public IObserver<SWeatherInfo>
 {
 private:
+	struct StatsData
+	{
+		double minValue = std::numeric_limits<double>::infinity();
+		double maxValue = -std::numeric_limits<double>::infinity();
+		double accValue = 0;
+		unsigned countAcc = 0;
+	};
+
+	std::unordered_map<std::string, std::shared_ptr<StatsData>> m_stats;
+
+	std::shared_ptr<StatsData> GetStatsData(std::string const& name)
+	{
+		auto foundPair = m_stats.find(name);
+		if (foundPair != m_stats.end())
+		{
+			return foundPair->second;
+		}
+		std::shared_ptr<StatsData> statsDataPtr = std::make_shared<StatsData>();
+		m_stats.emplace(name, statsDataPtr);
+
+		return statsDataPtr;
+	}
+
+	void CalcStats(std::shared_ptr<StatsData> stats, double value)
+	{
+		if (stats->minValue > value)
+		{
+			stats->minValue = value;
+		}
+		if (stats->maxValue < value)
+		{
+			stats->maxValue = value;
+		}
+		stats->accValue += value;
+		++stats->countAcc;
+	}
+
+	void PrintStats(std::shared_ptr<StatsData> stats, std::string const& name)
+	{
+		std::cout << "Max " << name << " " << stats->maxValue << std::endl;
+		std::cout << "Min " << name << " " << stats->minValue << std::endl;
+		std::cout << "Average " << name << " " << (stats->accValue / stats->countAcc) << std::endl;
+		std::cout << "----------------" << std::endl;
+	}
+
+	void HandleStats(std::string const& name, double value)
+	{
+		std::shared_ptr<StatsData> statsData = GetStatsData(name);
+		
+		CalcStats(statsData, value);
+
+		PrintStats(statsData, name);
+	}
+
 	/* Метод Update сделан приватным, чтобы ограничить возможность его вызова напрямую
 	Классу CObservable он будет доступен все равно, т.к. в интерфейсе IObserver он
 	остается публичным
 	*/
 	void Update(SWeatherInfo const& data) override
 	{
-		if (m_minTemperature > data.temperature)
-		{
-			m_minTemperature = data.temperature;
-		}
-		if (m_maxTemperature < data.temperature)
-		{
-			m_maxTemperature = data.temperature;
-		}
-		m_accTemperature += data.temperature;
-		++m_countAcc;
-
-		std::cout << "Max Temp " << m_maxTemperature << std::endl;
-		std::cout << "Min Temp " << m_minTemperature << std::endl;
-		std::cout << "Average Temp " << (m_accTemperature / m_countAcc) << std::endl;
-		std::cout << "----------------" << std::endl;
+		HandleStats("temperature", data.temperature);
+		HandleStats("humidity", data.humidity);
+		HandleStats("pressure", data.pressure);
 	}
-
-	double m_minTemperature = std::numeric_limits<double>::infinity();
-	double m_maxTemperature = -std::numeric_limits<double>::infinity();
-	double m_accTemperature = 0;
-	unsigned m_countAcc = 0;
-
 };
 
 class CWeatherData : public CObservable<SWeatherInfo>
