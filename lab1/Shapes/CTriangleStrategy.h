@@ -7,7 +7,7 @@ class CTriangleStrategy : public IShapeStrategy
 public:
 	CTriangleStrategy(std::vector<std::string> const& params);
 
-	void Draw(gfx::ICanvas& canvas, CColor const& color) override;
+	void Draw(gfx::ICanvas& canvas, gfx::CColor const& color) override;
 	void Move(double dx, double dy) override;
 	std::string ToStr() const override;
 

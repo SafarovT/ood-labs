@@ -12,7 +12,7 @@ CCircleStrategy::CCircleStrategy(std::vector<std::string> const& params)
 	m_radius = StringToDouble(params[3]);
 }
 
-void CCircleStrategy::Draw(gfx::ICanvas& canvas, CColor const& color)
+void CCircleStrategy::Draw(gfx::ICanvas& canvas, gfx::CColor const& color)
 {
 	canvas.SetColor(color);
 	Point leftTopPoint = { m_center.x - m_radius, m_center.y - m_radius };

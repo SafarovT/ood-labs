@@ -12,7 +12,7 @@ CLineStrategy::CLineStrategy(std::vector<std::string> const& params)
 	m_end = { StringToDouble(params[2]), StringToDouble(params[3]) };
 }
 
-void CLineStrategy::Draw(gfx::ICanvas& canvas, CColor const& color)
+void CLineStrategy::Draw(gfx::ICanvas& canvas, gfx::CColor const& color)
 {
 	canvas.SetColor(color);
 	canvas.MoveTo(m_start);

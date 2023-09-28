@@ -2,7 +2,9 @@
 #include "CShapeStrategyFactory.h"
 #include <algorithm>
 
-void CPicture::AddShape(std::string const& id, CColor color, std::string const& shapeType, std::vector<std::string> const& params)
+using namespace shapes;
+
+void CPicture::AddShape(std::string const& id, gfx::CColor color, std::string const& shapeType, std::vector<std::string> const& params)
 {
 	auto foundPicture = GetShapeById(id);
 	if (foundPicture != nullptr)
@@ -32,7 +34,7 @@ void CPicture::ListShapes(std::ostream& stream)
 	size_t number = 1;
 	for (auto& shape : m_shapes)
 	{
-		stream << shape->ToStr();
+		stream << shape->ToStr() << std::endl;
 		number++;
 	}
 }

@@ -13,7 +13,7 @@ CTriangleStrategy::CTriangleStrategy(std::vector<std::string> const& params)
 	m_vertex3 = {StringToDouble(params[4]), StringToDouble(params[5])};
 }
 
-void CTriangleStrategy::Draw(gfx::ICanvas& canvas, CColor const& color)
+void CTriangleStrategy::Draw(gfx::ICanvas& canvas, gfx::CColor const& color)
 {
 	canvas.SetColor(color);
 	canvas.MoveTo(m_vertex1);

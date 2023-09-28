@@ -13,7 +13,7 @@ CTextStrategy::CTextStrategy(std::vector<std::string> const& params)
 	m_text = params[3];
 }
 
-void CTextStrategy::Draw(gfx::ICanvas& canvas, CColor const& color)
+void CTextStrategy::Draw(gfx::ICanvas& canvas, gfx::CColor const& color)
 {
 	canvas.SetColor(color);
 	canvas.DrawText(m_leftTop, m_fontSize, m_text);

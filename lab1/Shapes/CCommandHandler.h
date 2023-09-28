@@ -25,7 +25,7 @@ private:
 	};
 
 	Command m_command;
-	CPicture m_picture;
+	shapes::CPicture m_picture;
 	CCanvas m_canvas;
 	std::istream& m_input;
 	std::ostream& m_output;

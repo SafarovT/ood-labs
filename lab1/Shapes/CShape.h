@@ -4,23 +4,26 @@
 #include "IShapeStrategy.h"
 #include <cassert>
 
-class CShape
+namespace shapes
 {
-public:
-	CShape(CColor color, std::unique_ptr<IShapeStrategy>&& shapeStrategy)
-		: m_shapeStrategy(std::move(shapeStrategy))
-		, m_color(color)
+	class CShape
 	{
-		assert(m_shapeStrategy);
-	}
+	public:
+		CShape(gfx::CColor color, std::unique_ptr<IShapeStrategy>&& shapeStrategy)
+			: m_shapeStrategy(std::move(shapeStrategy))
+			, m_color(color)
+		{
+			assert(m_shapeStrategy);
+		}
 
-	void Draw(gfx::ICanvas& canvas);
-	void Move(double dx, double dy);
-	void SetColor(CColor color);
-	std::string ToStr() const;
-	void SetShapeStrategy(std::unique_ptr<IShapeStrategy> shapeStrategy);
+		void Draw(gfx::ICanvas& canvas);
+		void Move(double dx, double dy);
+		void SetColor(gfx::CColor color);
+		std::string ToStr() const;
+		void SetShapeStrategy(std::unique_ptr<IShapeStrategy> shapeStrategy);
 
-private:
-	CColor m_color;
-	std::unique_ptr<IShapeStrategy> m_shapeStrategy;
-};
+	private:
+		gfx::CColor m_color;
+		std::unique_ptr<IShapeStrategy> m_shapeStrategy;
+	};
+}

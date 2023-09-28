@@ -8,11 +8,10 @@ CCommandHandler::Command CCommandHandler::ParseUserInput(string const& input)
 {
 	size_t separatorPos = input.find(' ');
 	string keyWord = Trim(input.substr(0, separatorPos));
-	Params params;
 
 	if (separatorPos == string::npos)
 	{
-		return { keyWord, params };
+		return { keyWord, CCommandHandler::Params()};
 	}
 
 	string paramsString = Trim(input.substr(separatorPos));
@@ -42,7 +41,7 @@ void CCommandHandler::AddShape()
 	string color = m_command.params[1];
 	string shapeType = m_command.params[2];
 	
-	m_picture.AddShape(id, CColor(color), shapeType, Params(m_command.params.begin() + 3, m_command.params.end()));
+	m_picture.AddShape(id, gfx::CColor(color), shapeType, Params(m_command.params.begin() + 3, m_command.params.end()));
 }
 
 void CCommandHandler::MoveShape()
@@ -98,7 +97,7 @@ void CCommandHandler::ChangeColor()
 	auto shape = m_picture.GetShapeById(id);
 	if (shape)
 	{
-		shape->SetColor(CColor(color));
+		shape->SetColor(gfx::CColor(color));
 	}
 }
 

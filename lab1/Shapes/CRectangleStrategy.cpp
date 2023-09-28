@@ -13,7 +13,7 @@ CRectangleStrategy::CRectangleStrategy(std::vector<std::string> const& params)
 	m_height = StringToDouble(params[3]);
 }
 
-void CRectangleStrategy::Draw(gfx::ICanvas& canvas, CColor const& color)
+void CRectangleStrategy::Draw(gfx::ICanvas& canvas, gfx::CColor const& color)
 {
 	canvas.SetColor(color);
 	Point currentPoint = m_leftTop;

@@ -13,14 +13,14 @@ public:
 	}
 
 	void MoveTo(Point point) override;
-	void SetColor(CColor color) override;
+	void SetColor(gfx::CColor color) override;
 	void LineTo(Point point) override;
 	void DrawEllipse(Point leftTopPoint, Point rightBottomPoint) override;
 	void DrawText(Point leftTopPoint, double fontSize, std::string const& text) override;
 	void Save();
 
 private:
-	CColor m_color;
+	gfx::CColor m_color;
 	Point m_position;
 	std::string m_outputFilePath;
 	std::stringstream m_svgCode;

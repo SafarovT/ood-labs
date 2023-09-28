@@ -34,5 +34,3 @@ int main(int argc, char* argv[])
 
     return EXIT_SUCCESS;
 }
-
-// TODO: CShapeParams убрать хранение text
