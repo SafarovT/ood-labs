@@ -6,12 +6,16 @@
 #include <vector>
 #include <algorithm>
 #include "Observer.h"
+#include "NumericStatistic.h"
+#include "VectorStatistic.h"
 
 struct SWeatherInfo
 {
 	double temperature = 0;
 	double humidity = 0;
 	double pressure = 0;
+	double windSpeed = 0;
+	double windAngle = 0;
 };
 
 class CWeatherData : public CObservable<SWeatherInfo>
@@ -33,16 +37,28 @@ public:
 		return m_pressure;
 	}
 
+	double GetWindSpeed() const
+	{
+		return m_windSpeed;
+	}
+
+	double GetWindAngle() const
+	{
+		return m_windAngle;
+	}
+
 	void MeasurementsChanged()
 	{
 		NotifyObservers();
 	}
 
-	void SetMeasurements(double temp, double humidity, double pressure)
+	void SetMeasurements(double temp, double humidity, double pressure, double windSpeed, double windAngle)
 	{
 		m_humidity = humidity;
 		m_temperature = temp;
 		m_pressure = pressure;
+		m_windSpeed = windSpeed;
+		m_windAngle = windAngle;
 
 		MeasurementsChanged();
 	}
@@ -53,12 +69,16 @@ protected:
 		info.temperature = GetTemperature();
 		info.humidity = GetHumidity();
 		info.pressure = GetPressure();
+		info.windAngle = GetWindAngle();
+		info.windSpeed = GetWindSpeed();
 		return info;
 	}
 private:
 	double m_temperature = 0.0;
 	double m_humidity = 0.0;
 	double m_pressure = 760.0;
+	double m_windSpeed = 0;
+	double m_windAngle = 0;
 };
 
 class CDisplay : public IObserver<SWeatherInfo>
@@ -101,66 +121,19 @@ private:
 class CStatsDisplay : public IObserver<SWeatherInfo>
 {
 private:
-	struct StatsData
-	{
-		double minValue = std::numeric_limits<double>::infinity();
-		double maxValue = -std::numeric_limits<double>::infinity();
-		double accValue = 0;
-		unsigned countAcc = 0;
-	};
-
-	std::unordered_map<std::string, std::shared_ptr<StatsData>> m_stats;
-
-	std::shared_ptr<StatsData> GetStatsData(std::string const& name)
-	{
-		auto foundPair = m_stats.find(name);
-		if (foundPair != m_stats.end())
-		{
-			return foundPair->second;
-		}
-		std::shared_ptr<StatsData> statsDataPtr = std::make_shared<StatsData>();
-		m_stats.emplace(name, statsDataPtr);
-
-		return statsDataPtr;
-	}
-
-	void CalcStats(std::shared_ptr<StatsData> stats, double value)
-	{
-		if (stats->minValue > value)
-		{
-			stats->minValue = value;
-		}
-		if (stats->maxValue < value)
-		{
-			stats->maxValue = value;
-		}
-		stats->accValue += value;
-		++stats->countAcc;
-	}
-
-	void PrintStats(std::shared_ptr<StatsData> stats, std::string const& name)
-	{
-		std::cout << "Max " << name << " " << stats->maxValue << std::endl;
-		std::cout << "Min " << name << " " << stats->minValue << std::endl;
-		std::cout << "Average " << name << " " << (stats->accValue / stats->countAcc) << std::endl;
-		std::cout << "----------------" << std::endl;
-	}
-
-	void HandleStats(std::string const& name, double value)
-	{
-		std::shared_ptr<StatsData> statsData = GetStatsData(name);
-		
-		CalcStats(statsData, value);
-
-		PrintStats(statsData, name);
-	}
-
 	/* Метод Update сделан приватным, чтобы ограничить возможность его вызова напрямую
 	Классу CObservable он будет доступен все равно, т.к. в интерфейсе IObserver он
 	остается публичным
 	*/
 	void Update(SWeatherInfo const& data, IObservable<SWeatherInfo>* sender) override
 	{
-		HandleStats("temperature", data.temperature);
+		m_temperatureStats.UpdateData(data.temperature);
+		m_windStatistic.UpdateData(VectorPolarCoord({ data.windAngle, data.windSpeed }));
+
+		m_temperatureStats.Print();
+		m_windStatistic.Print();
 	}
+
+	NumericStatistic m_temperatureStats{ "temperatrue" };
+	VectorStatistic m_windStatistic{ "wind angle", "wind speed" };
 };

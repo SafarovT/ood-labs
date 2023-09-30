@@ -1,33 +1,23 @@
 #pragma once
 #include "IStatistic.h"
-#include <concepts>
 #include <algorithm>
 
-template <typename T>
-concept arithmetic = std::integral<T> or std::floating_point<T>;
-
-template <arithmetic T>
-class NumericStatistic : public IStatistic<T>
+class NumericStatistic : public IStatistic<double>
 {
 public:
-	Statistic() {};
+	NumericStatistic(std::string const& name)
+		: m_name(name)
+	{};
 
-	std::string GetMinValue() const override
+	void Print() const override
 	{
-		return std::to_string(m_minValue);
+		std::cout << "Max " << m_name << " " << m_maxValue << std::endl;
+		std::cout << "Min " << m_name << " " << m_minValue << std::endl;
+		std::cout << "Average " << m_name << " " << (m_accValue / m_countAcc) << std::endl;
+		std::cout << "----------------" << std::endl;
 	}
 
-	std::string GetMaxValue() const override
-	{
-		return std::to_string(m_maxValue);
-	}
-
-	std::string GetAverageValue() const
-	{
-		return std::to_string(m_accValue / m_countAcc);
-	}
-
-	void UpdateData(T value) override
+	void UpdateData(double value) override
 	{
 		if (m_minValue > value)
 		{
@@ -42,8 +32,10 @@ public:
 	}
 
 private:
-	T m_minValue = std::numeric_limits<T>::infinity();
-	T m_maxValue = -std::numeric_limits<T>::infinity();
-	T m_accValue = 0;
+	double m_minValue = std::numeric_limits<double>::infinity();
+	double m_maxValue = -std::numeric_limits<double>::infinity();
+	double m_accValue = 0;
 	unsigned m_countAcc = 0;
+
+	std::string m_name;
 };

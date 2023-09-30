@@ -154,7 +154,8 @@
     <ClInclude Include="IStatistic.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="NumericStatistic.h" />
-    <ClInclude Include="VectorStats.h" />
+    <ClInclude Include="Vectors.h" />
+    <ClInclude Include="VectorStatistic.h" />
     <ClInclude Include="WeatherData.h" />
   </ItemGroup>
   <ItemGroup>

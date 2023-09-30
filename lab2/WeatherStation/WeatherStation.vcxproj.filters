@@ -26,10 +26,13 @@
     <ClInclude Include="Observer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VectorStats.h">
+    <ClInclude Include="VectorStatistic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NumericStatistic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vectors.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="IStatistic.h">

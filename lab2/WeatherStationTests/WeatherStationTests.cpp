@@ -18,7 +18,7 @@ SCENARIO_METHOD(CoutBufferFixture, "Tests")
 
 		WHEN("Changing data")
 		{
-			wd.SetMeasurements(1, 2, 3);
+			wd.SetMeasurements(1, 2, 3, 4, 5);
 
 			THEN("All three displayes displayed")
 			{
@@ -28,7 +28,7 @@ SCENARIO_METHOD(CoutBufferFixture, "Tests")
 			AND_THEN("Changing data again")
 			{
 				ClearBuffer();
-				wd.SetMeasurements(3, 2, 1);
+				wd.SetMeasurements(3, 2, 1, 1, 1);
 
 				THEN("No self delete output")
 				{
@@ -48,7 +48,7 @@ SCENARIO_METHOD(CoutBufferFixture, "Tests")
 
 		WHEN("Changing data")
 		{
-			wd.SetMeasurements(100, 200, 300);
+			wd.SetMeasurements(100, 200, 300, 400, 500);
 
 			THEN("Observers updated in correct order")
 			{
@@ -69,7 +69,7 @@ SCENARIO_METHOD(CoutBufferFixture, "Tests")
 
 		WHEN("Changing input data")
 		{
-			iwd.SetMeasurements(1, 2, 3);
+			iwd.SetMeasurements(1, 2, 3, 4, 5);
 
 			THEN("Data changed inside")
 			{
@@ -79,7 +79,7 @@ SCENARIO_METHOD(CoutBufferFixture, "Tests")
 
 		WHEN("Changing output data")
 		{
-			owd.SetMeasurements(1, 2, 3);
+			owd.SetMeasurements(1, 2, 3, 4, 5);
 			
 			THEN("Data changed outside")
 			{

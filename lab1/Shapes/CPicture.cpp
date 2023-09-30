@@ -14,6 +14,7 @@ void CPicture::AddShape(std::string const& id, gfx::CColor color, std::string co
 	std::unique_ptr<IShapeStrategy> shapeStrategy = CShapeStrategyFactory::CreateShapeStrategy(shapeType, params);
 	auto newShape = std::make_shared<CShape>(color, std::move(shapeStrategy));
 	m_shapes.push_back(newShape);
+	// добавлять в shapes
 }
 
 void CPicture::MovePicture(double dx, double dy)
@@ -26,7 +27,8 @@ void CPicture::MovePicture(double dx, double dy)
 
 void CPicture::DeleteShape(std::string const& id)
 {
-	m_shapesIds.erase(id);
+	m_shapesIds.erase(id); 
+	// удалять из вектора быстрее чем за O(n)
 }
 
 void CPicture::ListShapes(std::ostream& stream)
