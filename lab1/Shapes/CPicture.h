@@ -12,7 +12,7 @@ namespace shapes
 	public:
 		std::shared_ptr<CShape> GetShapeById(std::string const& id);
 
-		void AddShape(std::string const& id, gfx::CColor color, std::string const& shapeType, std::vector<std::string> const& params);
+		void AddShape(std::string const& id, gfx::CColor color, std::unique_ptr<IShapeStrategy> shapeStrategy);
 		void MovePicture(double dx, double dy);
 		void DeleteShape(std::string const& id);
 		void ListShapes(std::ostream& stream);
