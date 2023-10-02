@@ -24,5 +24,5 @@ void CShape::SetShapeStrategy(std::unique_ptr<IShapeStrategy> shapeStrategy)
 
 std::string CShape::ToStr() const
 {
-	return m_color.GetColor() + " " + m_shapeStrategy->ToStr();
+	return m_id + " " + m_color.GetColor() + " " + m_shapeStrategy->ToStr();
 }
