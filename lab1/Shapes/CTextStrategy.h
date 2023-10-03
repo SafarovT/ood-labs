@@ -5,7 +5,11 @@
 class CTextStrategy : public IShapeStrategy
 {
 public:
-	CTextStrategy(std::vector<std::string> const& params);
+	CTextStrategy(Point leftTop, double fontSize, std::string const& text)
+		: m_leftTop(leftTop)
+		, m_fontSize(fontSize)
+		, m_text(text)
+	{}
 
 	void Draw(gfx::ICanvas& canvas, gfx::CColor const& color) override;
 	void Move(double dx, double dy) override;

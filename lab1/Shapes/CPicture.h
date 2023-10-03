@@ -19,7 +19,6 @@ namespace shapes
 		void DrawPicture(gfx::ICanvas& canvas);
 
 	private:
-		std::map<std::string, std::shared_ptr<CShape>> m_shapesIds;
 		std::vector<std::shared_ptr<CShape>> m_shapes;
 	};
 }

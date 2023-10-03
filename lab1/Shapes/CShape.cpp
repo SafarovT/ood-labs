@@ -2,7 +2,12 @@
 
 using namespace shapes;
 
-void CShape::Draw(gfx::ICanvas& canvas)
+std::string CShape::GetId() const
+{
+	return m_id;
+}
+
+void CShape::Draw(gfx::ICanvas& canvas) const
 {
 	m_shapeStrategy->Draw(canvas, m_color);
 }

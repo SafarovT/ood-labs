@@ -52,6 +52,8 @@ void CCanvas::DrawEllipse(Point leftTopPoint, Point rightBottomPoint)
 		+ "style=\"stroke:" + m_color.GetColor()
 		+ ";stroke-width:3" +  + "; fill:none;\" />";
 
+	m_position = { (leftTopPoint.x + rightBottomPoint.x) / 2, (leftTopPoint.y + rightBottomPoint.y) / 2 };
+
 	m_svgCode << ellipse << std::endl;
 }
 
@@ -63,6 +65,8 @@ void CCanvas::DrawText(Point leftTopPoint, double fontSize, std::string const& t
 		+ "font-size=\"" + std::to_string(fontSize) + "\" "
 		+ "fill=\"" + m_color.GetColor() + "\">"
 		+ text + "</text>";
+
+	m_position = leftTopPoint;
 
 	m_svgCode << svgText << std::endl;
 }

@@ -9,8 +9,14 @@ public:
 		: m_color(color)
 	{}
 
-	void Draw(ICanvas& canvas);
-	Color GetColor() const;
+	void Draw(ICanvas& canvas)
+	{
+	}
+
+	Color GetColor() const
+	{
+		return m_color;
+	}
 
 private:
 	Color m_color;

@@ -40,8 +40,10 @@ void CCommandHandler::AddShape()
 	string id = m_command.params[0];
 	string color = m_command.params[1];
 	string shapeType = m_command.params[2];
+
+	std::unique_ptr<IShapeStrategy> shapeStrategyPtr = CShapeStrategyFactory::CreateShapeStrategy(shapeType, Params(m_command.params.begin() + 3, m_command.params.end()));
 	
-	m_picture.AddShape(id, gfx::CColor(color), shapeType, Params(m_command.params.begin() + 3, m_command.params.end()));
+	m_picture.AddShape(id, gfx::CColor(color), std::move(shapeStrategyPtr));
 }
 
 void CCommandHandler::MoveShape()

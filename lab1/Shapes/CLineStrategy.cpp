@@ -2,16 +2,6 @@
 #include "common.h"
 #include "CLineStrategy.h"
 
-CLineStrategy::CLineStrategy(std::vector<std::string> const& params)
-{
-	if (params.size() < 4)
-	{
-		throw new std::invalid_argument("Invalid line arguments, use: <x1> <y1> <x2> <y2>");
-	}
-	m_start = { StringToDouble(params[0]), StringToDouble(params[1])};
-	m_end = { StringToDouble(params[2]), StringToDouble(params[3]) };
-}
-
 void CLineStrategy::Draw(gfx::ICanvas& canvas, gfx::CColor const& color)
 {
 	canvas.SetColor(color);

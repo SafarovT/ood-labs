@@ -5,7 +5,10 @@
 class CLineStrategy : public IShapeStrategy
 {
 public:
-	CLineStrategy(std::vector<std::string> const& params);
+	CLineStrategy(Point start, Point end)
+		: m_start(start)
+		, m_end(end)
+	{}
 
 	void Draw(gfx::ICanvas& canvas, gfx::CColor const& color) override;
 	void Move(double dx, double dy) override;

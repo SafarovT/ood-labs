@@ -17,7 +17,8 @@ namespace shapes
 			assert(m_shapeStrategy);
 		}
 
-		void Draw(gfx::ICanvas& canvas);
+		std::string GetId() const;
+		void Draw(gfx::ICanvas& canvas) const;
 		void Move(double dx, double dy);
 		void SetColor(gfx::CColor color);
 		std::string ToStr() const;

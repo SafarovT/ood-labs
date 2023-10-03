@@ -2,17 +2,6 @@
 #include "common.h"
 #include "CRectangleStrategy.h"
 
-CRectangleStrategy::CRectangleStrategy(std::vector<std::string> const& params)
-{
-	if (params.size() < 4)
-	{
-		throw new std::invalid_argument("Invalid rectangle arguments, use: <leftTopX> <leftTopY> <width> <height>");
-	}
-	m_leftTop = { StringToDouble(params[0]), StringToDouble(params[1]) };
-	m_width = StringToDouble(params[2]);
-	m_height = StringToDouble(params[3]);
-}
-
 void CRectangleStrategy::Draw(gfx::ICanvas& canvas, gfx::CColor const& color)
 {
 	canvas.SetColor(color);

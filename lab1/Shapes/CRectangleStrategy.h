@@ -5,7 +5,11 @@
 class CRectangleStrategy : public IShapeStrategy
 {
 public:
-	CRectangleStrategy(std::vector<std::string> const& params);
+	CRectangleStrategy(Point leftTop, double width, double height)
+		: m_leftTop(leftTop)
+		, m_width(width)
+		, m_height(height)
+	{}
 
 	void Draw(gfx::ICanvas& canvas, gfx::CColor const& color) override;
 	void Move(double dx, double dy) override;

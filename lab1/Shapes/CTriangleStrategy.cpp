@@ -2,17 +2,6 @@
 #include "common.h"
 #include "CTriangleStrategy.h"
 
-CTriangleStrategy::CTriangleStrategy(std::vector<std::string> const& params)
-{
-	if (params.size() < 6)
-	{
-		throw new std::invalid_argument("Invalid triangle arguments, use: <x1> <y1> <x2> <y2> <x3> <y3>");
-	}
-	m_vertex1 = {StringToDouble(params[0]), StringToDouble(params[1])};
-	m_vertex2 = {StringToDouble(params[2]), StringToDouble(params[3])};
-	m_vertex3 = {StringToDouble(params[4]), StringToDouble(params[5])};
-}
-
 void CTriangleStrategy::Draw(gfx::ICanvas& canvas, gfx::CColor const& color)
 {
 	canvas.SetColor(color);

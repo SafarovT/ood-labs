@@ -12,14 +12,13 @@ void CPicture::AddShape(std::string const& id, gfx::CColor color, std::unique_pt
 	}
 	auto newShapePtr = std::make_shared<CShape>(CShape(id, color, std::move(shapeStrategy)));
 	m_shapes.push_back(newShapePtr);
-	m_shapesIds.emplace(id, newShapePtr);
 }
 
 void CPicture::MovePicture(double dx, double dy)
 {
-	for (auto& idShapePair : m_shapesIds)
+	for (auto& idShapePair : m_shapes)
 	{
-		idShapePair.second->Move(dx, dy);
+		idShapePair->Move(dx, dy);
 	}
 }
 
@@ -27,7 +26,6 @@ void CPicture::DeleteShape(std::string const& id)
 {
 	auto shapePtr = GetShapeById(id);
 	std::erase(m_shapes, shapePtr);
-	m_shapesIds.erase(id); 
 }
 
 void CPicture::ListShapes(std::ostream& stream)
@@ -50,11 +48,13 @@ void CPicture::DrawPicture(gfx::ICanvas& canvas)
 
 std::shared_ptr<CShape> CPicture::GetShapeById(std::string const& id)
 {
-	auto idShapePair = m_shapesIds.find(id);
-	if (idShapePair == m_shapesIds.end())
+	for (auto& shape : m_shapes)
 	{
-		return nullptr;
+		if (shape->GetId() == id)
+		{
+			return shape;
+		}
 	}
 
-	return idShapePair->second;
+	return nullptr;
 }

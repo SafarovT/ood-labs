@@ -2,16 +2,6 @@
 #include "common.h"
 #include "CCircleStrategy.h"
 
-CCircleStrategy::CCircleStrategy(std::vector<std::string> const& params)
-{
-	if (params.size() < 3)
-	{
-		throw new std::invalid_argument("Invalid circle arguments, use: <centerX> <centerY> <radius>");
-	}
-	m_center = { StringToDouble(params[0]), StringToDouble(params[1])};
-	m_radius = StringToDouble(params[3]);
-}
-
 void CCircleStrategy::Draw(gfx::ICanvas& canvas, gfx::CColor const& color)
 {
 	canvas.SetColor(color);

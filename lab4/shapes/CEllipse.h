@@ -7,14 +7,33 @@ public:
 	CEllipse(Color color, Point center, double verticalRadius, double horizontalRadius)
 		: CShape(color)
 		, m_center(center)
-		, m_verticalRadius(verticalRadius),
+		, m_verticalRadius(verticalRadius)
 		, m_horizontalRadius(horizontalRadius)
 	{}
 
-	void Draw(ICanvas& canvas) const;
-	Point GetCenter() const;
-	double GetVerticalRadius() const;
-	double GetHorizontalRadius() const;
+	void Draw(ICanvas& canvas) const
+	{
+		canvas.SetColor(GetColor());
+		Point leftTop;
+		leftTop.x = m_center.x - m_horizontalRadius;
+		leftTop.y = m_center.y - m_verticalRadius;
+		canvas.DrawEllipse(leftTop, m_horizontalRadius * 2, m_verticalRadius * 2);
+	}
+
+	Point GetCenter() const
+	{
+		return m_center;
+	}
+
+	double GetVerticalRadius() const
+	{
+		return m_verticalRadius;
+	}
+
+	double GetHorizontalRadius() const
+	{
+		return m_horizontalRadius;
+	}
 
 private:
 	Point m_center;

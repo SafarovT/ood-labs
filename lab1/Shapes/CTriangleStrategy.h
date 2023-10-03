@@ -5,7 +5,11 @@
 class CTriangleStrategy : public IShapeStrategy
 {
 public:
-	CTriangleStrategy(std::vector<std::string> const& params);
+	CTriangleStrategy(Point vertex1, Point vertex2, Point vertex3)
+		: m_vertex1(vertex1)
+		, m_vertex2(vertex2)
+		, m_vertex3(vertex3)
+	{}
 
 	void Draw(gfx::ICanvas& canvas, gfx::CColor const& color) override;
 	void Move(double dx, double dy) override;
