@@ -1,16 +1,16 @@
 #pragma once
-#include "CShape.h"
+#include "IShape.h"
 
-class CRectangle : public CShape
+class CRectangle : public IShape
 {
 public:
 	CRectangle(Color color, Point m_leftTop, Point m_rightBottom)
-		: CShape(color)
+		: m_color(color)
 		, m_leftTop(m_leftTop)
 		, m_rightBottom(m_rightBottom)
 	{}
 
-	void Draw(ICanvas& canvas)
+	void Draw(ICanvas& canvas) const override
 	{
 		canvas.SetColor(GetColor());
 		Point vertex1 = m_leftTop;
@@ -34,7 +34,13 @@ public:
 		return m_rightBottom;
 	}
 
+	Color GetColor() const override
+	{
+		return m_color;
+	}
+
 private:
+	Color m_color;
 	Point m_leftTop;
 	Point m_rightBottom;
 };

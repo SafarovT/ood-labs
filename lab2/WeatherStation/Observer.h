@@ -7,6 +7,8 @@
 template <typename T>
 class IObservable;
 
+// нарисовать схему
+
 /*
 Шаблонный интерфейс IObserver. Его должен реализовывать класс, 
 желающий получать уведомления от соответствующего IObservable
@@ -50,6 +52,7 @@ public:
 
 	void RegisterObserver(ObserverType& observer, int priority) override
 	{
+		// читать внимательно задание
 		auto comparePairs = [](PriorityObserverPair const& pair1, PriorityObserverPair const& pair2)
 		{
 			return pair1.first > pair2.first;
@@ -73,7 +76,6 @@ public:
 	{
 		auto observersCopy = GetObservers();
 		T data = GetChangedData();
-		bool del = true;
 		for (auto & observer : observersCopy)
 		{
 			observer->Update(data, this);

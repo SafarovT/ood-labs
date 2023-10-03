@@ -132,7 +132,7 @@ private:
 
 		m_temperatureStats.Print();
 		m_windStatistic.Print();
-	}
+	} // добавить остальные измерения
 
 	NumericStatistic m_temperatureStats{ "temperatrue" };
 	VectorStatistic m_windStatistic{ "wind angle", "wind speed" };

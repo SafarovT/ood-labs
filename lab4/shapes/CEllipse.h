@@ -1,17 +1,17 @@
 #pragma once
-#include "CShape.h"
+#include "IShape.h"
 
-class CEllipse : public CShape
+class CEllipse : public IShape
 {
 public:
 	CEllipse(Color color, Point center, double verticalRadius, double horizontalRadius)
-		: CShape(color)
+		: m_color(color)
 		, m_center(center)
 		, m_verticalRadius(verticalRadius)
 		, m_horizontalRadius(horizontalRadius)
 	{}
 
-	void Draw(ICanvas& canvas) const
+	void Draw(ICanvas& canvas) const override
 	{
 		canvas.SetColor(GetColor());
 		Point leftTop;
@@ -35,7 +35,13 @@ public:
 		return m_horizontalRadius;
 	}
 
+	Color GetColor() const override
+	{
+		return m_color;
+	}
+
 private:
+	Color m_color;
 	Point m_center;
 	double m_horizontalRadius = 0;
 	double m_verticalRadius = 0;

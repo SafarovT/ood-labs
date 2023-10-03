@@ -13,6 +13,7 @@ int main()
 	CPainter painter;
 
 	painter.DrawPicture(draft, canvas);
+	canvas.Save();
 
 	return EXIT_SUCCESS;
 }

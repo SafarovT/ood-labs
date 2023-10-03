@@ -29,7 +29,7 @@
     <ClInclude Include="CPictureDraft.h" />
     <ClInclude Include="CRectangle.h" />
     <ClInclude Include="CRegularPolygon.h" />
-    <ClInclude Include="CShape.h" />
+    <ClInclude Include="IShape.h" />
     <ClInclude Include="CShapeFactory.h" />
     <ClInclude Include="CCanvas.h" />
     <ClInclude Include="CTriangle.h" />

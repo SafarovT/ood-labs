@@ -68,8 +68,8 @@ void CCommandHandler::MovePicture()
 	{
 		throw new std::exception("Invalid argument count");
 	}
-	double dx = StringToDouble(m_command.params[1]);
-	double dy = StringToDouble(m_command.params[2]);
+	double dx = StringToDouble(m_command.params[0]);
+	double dy = StringToDouble(m_command.params[1]);
 	m_picture.MovePicture(dx, dy);
 }
 
@@ -200,7 +200,7 @@ void CCommandHandler::StartListening()
 		}
 		catch (std::exception& e)
 		{
-			m_output << e.what() << endl;
+			m_output << "Error" << endl;
 		}
 		ReadUserCommand();
 	}

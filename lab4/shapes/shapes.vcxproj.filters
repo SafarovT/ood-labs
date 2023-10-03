@@ -18,7 +18,7 @@
     <ClInclude Include="CShapeFactory.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="CShape.h">
+    <ClInclude Include="IShape.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Color.h">

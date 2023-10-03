@@ -1,19 +1,19 @@
 #pragma once
 #define _USE_MATH_DEFINES
 #include <math.h>
-#include "CShape.h"
+#include "IShape.h"
 
-class CRegularPolygon : public CShape
+class CRegularPolygon : public IShape
 {
 public:
 	CRegularPolygon(Color color, Point center, size_t vertexCount, double radius)
-		: CShape(color)
+		: m_color(color)
 		, m_center(center)
 		, m_vertexCount(vertexCount)
 		, m_radius(radius)
 	{}
 
-	void Draw(ICanvas& canvas) const
+	void Draw(ICanvas& canvas) const override
 	{
 		canvas.SetColor(GetColor());
 
@@ -45,7 +45,13 @@ public:
 		return m_center;
 	}
 
+	Color GetColor() const override
+	{
+		return m_color;
+	}
+
 private:
+	Color m_color;
 	Point m_center;
 	size_t m_vertexCount = 0;
 	double m_radius = 0;

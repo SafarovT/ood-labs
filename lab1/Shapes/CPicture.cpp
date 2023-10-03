@@ -33,7 +33,7 @@ void CPicture::ListShapes(std::ostream& stream)
 	size_t number = 1;
 	for (auto& shape : m_shapes)
 	{
-		stream << number << shape->ToStr() << std::endl;
+		stream << number << " " << shape->ToStr() << std::endl;
 		number++;
 	}
 }

@@ -52,7 +52,7 @@ public:
 				throw new std::invalid_argument("Invalid circle arguments, use: <centerX> <centerY> <radius>");
 			}
 			Point center = { StringToDouble(params[0]), StringToDouble(params[1]) };
-			double radius = StringToDouble(params[3]);
+			double radius = StringToDouble(params[2]);
 			shape = std::make_unique<CCircleStrategy>(center, radius);
 		}
 		else if (type == "triangle")

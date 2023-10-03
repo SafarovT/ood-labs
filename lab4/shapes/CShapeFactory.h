@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include <stdexcept>
 #include "common.h"
 #include "IShapeFactory.h"
@@ -10,19 +11,19 @@
 class CShapeFactory : public IShapeFactory
 {
 public:
-	std::unique_ptr<CShape> CreateShape(std::string const& description) override
+	std::shared_ptr<IShape> CreateShape(std::string const& description) override
 	{
 		Params params = ParseParams(description);
-
 		if (params.size() < 2)
 		{
 			throw new std::exception("Empty shape description");
 		}
 		Color color = StrToColor(params[0]);
 		params.pop_front();
-		std::unique_ptr<CShape> shapePtr = std::make_unique<CShape>(CShape(color));
-
-		if (params[0] == "rectangle")
+		std::string shape = params[0];
+		params.pop_front();
+		std::shared_ptr<IShape> shapePtr = nullptr;
+		if (shape == "rectangle")
 		{
 			if (params.size() < 4)
 			{
@@ -30,10 +31,9 @@ public:
 			}
 			Point leftTop = { StringToDouble(params[0]), StringToDouble(params[1]) };
 			Point rightBottom = { StringToDouble(params[2]), StringToDouble(params[3]) };
-
-			shapePtr = std::make_unique<CShape>(CRectangle(color, leftTop, rightBottom));
+			shapePtr = std::make_shared<IShape>(CRectangle(color, leftTop, rightBottom));
 		}
-		else if (params[0] == "triangle")
+		else if (shape == "triangle")
 		{
 			if (params.size() < 6)
 			{
@@ -43,9 +43,9 @@ public:
 			Point vertex2 = { StringToDouble(params[2]), StringToDouble(params[3]) };
 			Point vertex3 = { StringToDouble(params[4]), StringToDouble(params[5]) };
 
-			shapePtr = std::make_unique<CShape>(CTriangle(color, vertex1, vertex2, vertex3));
+			shapePtr = std::make_shared<IShape>(CTriangle(color, vertex1, vertex2, vertex3));
 		}
-		else if (params[0] == "ellipse")
+		else if (shape == "ellipse")
 		{
 			if (params.size() < 4)
 			{
@@ -55,9 +55,9 @@ public:
 			double verticalRadius = StringToDouble(params[2]);
 			double horizontalRadius = StringToDouble(params[3]);
 			
-			shapePtr = std::make_unique<CShape>(CEllipse(color, center, verticalRadius, horizontalRadius));
+			shapePtr = std::make_shared<IShape>(CEllipse(color, center, verticalRadius, horizontalRadius));
 		}
-		else if (params[0] == "polygon")
+		else if (shape == "polygon")
 		{
 			if (params.size() < 4)
 			{
@@ -67,7 +67,7 @@ public:
 			size_t vertexCount = static_cast<size_t>(StringToDouble(params[2]));
 			double radius = StringToDouble(params[3]);
 
-			shapePtr = std::make_unique<CShape>(CRegularPolygon(color, center, vertexCount, radius));
+			shapePtr = std::make_shared<IShape>(CRegularPolygon(color, center, vertexCount, radius));
 		}
 
 		return shapePtr;

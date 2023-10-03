@@ -9,7 +9,7 @@ public:
 		: m_name(name)
 	{};
 
-	void Print() const override
+	void Print() const override // не рисовать в этом классе
 	{
 		std::cout << "Max " << m_name << " " << m_maxValue << std::endl;
 		std::cout << "Min " << m_name << " " << m_minValue << std::endl;

@@ -15,8 +15,12 @@ public:
 	{
 		CPictureDraft draft;
 		std::string input;
+		if (!std::getline(strm, input))
+		{
+			return draft;
+		}
 
-		while (std::getline(strm, input))
+		while (input != "exit")
 		{
 			try
 			{
@@ -26,6 +30,7 @@ public:
 			{
 				std::cout << e.what() << std::endl;
 			}
+			std::getline(strm, input);
 		}
 
 		return draft;
