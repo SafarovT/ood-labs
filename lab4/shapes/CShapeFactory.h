@@ -31,7 +31,7 @@ public:
 			}
 			Point leftTop = { StringToDouble(params[0]), StringToDouble(params[1]) };
 			Point rightBottom = { StringToDouble(params[2]), StringToDouble(params[3]) };
-			shapePtr = std::make_shared<IShape>(CRectangle(color, leftTop, rightBottom));
+			shapePtr = std::make_shared<CRectangle>(CRectangle(color, leftTop, rightBottom));
 		}
 		else if (shape == "triangle")
 		{
@@ -43,7 +43,7 @@ public:
 			Point vertex2 = { StringToDouble(params[2]), StringToDouble(params[3]) };
 			Point vertex3 = { StringToDouble(params[4]), StringToDouble(params[5]) };
 
-			shapePtr = std::make_shared<IShape>(CTriangle(color, vertex1, vertex2, vertex3));
+			shapePtr = std::make_shared<CTriangle>(CTriangle(color, vertex1, vertex2, vertex3));
 		}
 		else if (shape == "ellipse")
 		{
@@ -55,7 +55,7 @@ public:
 			double verticalRadius = StringToDouble(params[2]);
 			double horizontalRadius = StringToDouble(params[3]);
 			
-			shapePtr = std::make_shared<IShape>(CEllipse(color, center, verticalRadius, horizontalRadius));
+			shapePtr = std::make_shared<CEllipse>(CEllipse(color, center, verticalRadius, horizontalRadius));
 		}
 		else if (shape == "polygon")
 		{
@@ -67,7 +67,7 @@ public:
 			size_t vertexCount = static_cast<size_t>(StringToDouble(params[2]));
 			double radius = StringToDouble(params[3]);
 
-			shapePtr = std::make_shared<IShape>(CRegularPolygon(color, center, vertexCount, radius));
+			shapePtr = std::make_shared<CRegularPolygon>(CRegularPolygon(color, center, vertexCount, radius));
 		}
 
 		return shapePtr;

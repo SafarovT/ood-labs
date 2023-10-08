@@ -1,6 +1,7 @@
 #pragma once
 #include <fstream>
 #include <sstream>
+#include <string>
 #include "ICanvas.h"
 
 class CCanvas : public ICanvas
@@ -19,6 +20,7 @@ public:
 
 	void DrawLine(Point fromPoint, Point toPoint) override
 	{
+		std::cout << "drawing Line";
 		std::string line =
 			"<line x1=\"" + std::to_string(fromPoint.x) + "\" "
 			+ "y1=\"" + std::to_string(fromPoint.y) + "\" "
@@ -43,7 +45,7 @@ public:
 		m_svgCode << ellipse << std::endl;
 	}
 
-	void Save() const
+	void Save()
 	{
 		std::ofstream output(m_outputFilePath);
 

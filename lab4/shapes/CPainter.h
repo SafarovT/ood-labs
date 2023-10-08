@@ -5,12 +5,16 @@
 class CPainter
 {
 public:
-	void DrawPicture(CPictureDraft& draft, ICanvas& canvas) const
+	void DrawPicture(CPictureDraft const& draft, ICanvas& canvas) const
 	{
 		size_t shapesCount = draft.GetShapesCount();
 		for (size_t i = 0; i < shapesCount; i++)
 		{
-			draft.GetShape(shapesCount)->Draw(canvas);
+			auto shapePtr = draft.GetShape(i);
+			if (shapePtr != nullptr)
+			{
+				shapePtr->Draw(canvas);
+			}
 		}
 	}
 };

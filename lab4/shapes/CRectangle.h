@@ -12,6 +12,7 @@ public:
 
 	void Draw(ICanvas& canvas) const override
 	{
+		std::cout << "In draw";
 		canvas.SetColor(GetColor());
 		Point vertex1 = m_leftTop;
 		Point vertex2 = { m_leftTop.x, m_rightBottom.y };
