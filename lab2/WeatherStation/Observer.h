@@ -1,5 +1,6 @@
 ﻿#pragma once
-
+#include <optional>
+#include <map>
 #include <vector>
 #include <algorithm>
 #include <functional>
@@ -47,48 +48,25 @@ public:
 
 	void RegisterObserver(ObserverType & observer) override
 	{
-		m_observers.emplace_back(0, &observer);
+		//m_observers.emplace_back(0, &observer);
 	}
 
 	void RegisterObserver(ObserverType& observer, int priority) override
 	{
-		// читать внимательно задание
-		auto comparePairs = [](PriorityObserverPair const& pair1, PriorityObserverPair const& pair2)
-		{
-			return pair1.first > pair2.first;
-		};
-		m_observers.emplace_back(priority, &observer);
-		std::sort(m_observers.begin(), m_observers.end(), comparePairs);
-	}
-
-	std::vector<ObserverType*> GetObservers()
-	{
-		std::vector<ObserverType*> observersCopy;
-		for (auto& observer : m_observers)
-		{
-			observersCopy.push_back(observer.second);
-		}
-
-		return observersCopy;
+		//m_observers.insert(priority, &observer);
 	}
 
 	void NotifyObservers() override
 	{
-		auto observersCopy = GetObservers();
 		T data = GetChangedData();
-		for (auto & observer : observersCopy)
+		for (auto & observer : m_observers)
 		{
-			observer->Update(data, this);
+			//observer->Update(data, this);
 		}
 	}
 
 	void RemoveObserver(ObserverType & observer) override
 	{
-		auto compareObservers = [&observer](PriorityObserverPair& pair)
-		{
-			return pair.second == &observer;
-		};
-		std::erase_if(m_observers, compareObservers);
 	}
 
 protected:
@@ -97,6 +75,26 @@ protected:
 	virtual T GetChangedData() const = 0;
 	
 private:
-	using PriorityObserverPair = std::pair<int, ObserverType*>;
-	std::vector<PriorityObserverPair> m_observers;
+	using ObserversWithPriority = std::map<int, ObserverType*>;
+	ObserversWithPriority m_observers;
+
+	std::optional GetPriorityObserversPair(int priority)
+	{
+		if (auto foundPair = m_observers.find(priority); foundPair != m_observers.end())
+		{
+			return foundPair;
+		}
+
+		return std::nullopt;
+	}
+
+	std::optional<std::vector<ObserverType*>> GetObserversCopy(int priority) const
+	{
+		if (auto foundPair = GetPriorityObserversPair(priority); foundPair != std::nullopt)
+		{
+			return std::copy(foundPair->second.begin(), foundPair->second.end());
+		}
+
+		return std::nullopt;
+	}
 };

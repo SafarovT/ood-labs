@@ -121,6 +121,15 @@ private:
 class CStatsDisplay : public IObserver<SWeatherInfo>
 {
 private:
+	void PrintData(std::string const& dataName, double min, double max, double average)
+	{
+		std::cout << dataName << " statistic:" << std::endl
+			<< "Max " << max << std::endl
+			<< "Min " << min << std::endl
+			<< "Average " << average << std::endl
+			<< "----------------" << std::endl;
+	}
+
 	/* Метод Update сделан приватным, чтобы ограничить возможность его вызова напрямую
 	Классу CObservable он будет доступен все равно, т.к. в интерфейсе IObserver он
 	остается публичным
@@ -128,12 +137,16 @@ private:
 	void Update(SWeatherInfo const& data, IObservable<SWeatherInfo>* sender) override
 	{
 		m_temperatureStats.UpdateData(data.temperature);
+		m_pressureStatistic.UpdateData(data.pressure);
+		m_humStatistic.UpdateData(data.humidity);
 		m_windStatistic.UpdateData(VectorPolarCoord({ data.windAngle, data.windSpeed }));
 
-		m_temperatureStats.Print();
-		m_windStatistic.Print();
-	} // добавить остальные измерения
+		PrintData("Temperature", m_temperatureStats.GetMax(), m_temperatureStats.GetMin(), m_temperatureStats.GetAverage());
+		PrintData("Pressure", m_pressureStatistic.GetMax(), m_pressureStatistic.GetMin(), m_pressureStatistic.GetAverage());
+		PrintData("Humidity", m_humStatistic.GetMax(), m_humStatistic.GetMin(), m_humStatistic.GetAverage());
+		PrintData("Wind", m_windStatistic.GetMin().GetLength(), m_windStatistic.GetMin().GetLength(), m_windStatistic.GetAverage().GetAngle());
+	}
 
-	NumericStatistic m_temperatureStats{ "temperatrue" };
-	VectorStatistic m_windStatistic{ "wind angle", "wind speed" };
+	NumericStatistic m_temperatureStats, m_pressureStatistic, m_humStatistic;
+	VectorStatistic m_windStatistic;
 };

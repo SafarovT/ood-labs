@@ -7,7 +7,9 @@ class IStatistic
 public:
 	virtual ~IStatistic() {};
 
-	virtual void Print() const = 0;
+	virtual T GetMin() const = 0;
+	virtual T GetMax() const = 0;
+	virtual T GetAverage() const = 0;
 
 	virtual void UpdateData(T value) = 0;
 };

@@ -5,16 +5,19 @@
 class NumericStatistic : public IStatistic<double>
 {
 public:
-	NumericStatistic(std::string const& name)
-		: m_name(name)
-	{};
-
-	void Print() const override // не рисовать в этом классе
+	double GetMax() const override
 	{
-		std::cout << "Max " << m_name << " " << m_maxValue << std::endl;
-		std::cout << "Min " << m_name << " " << m_minValue << std::endl;
-		std::cout << "Average " << m_name << " " << (m_accValue / m_countAcc) << std::endl;
-		std::cout << "----------------" << std::endl;
+		return m_maxValue;
+	}
+
+	double GetMin() const override
+	{
+		return m_minValue;
+	}
+
+	double GetAverage() const override
+	{
+		return m_accValue;
 	}
 
 	void UpdateData(double value) override
@@ -36,6 +39,4 @@ private:
 	double m_maxValue = -std::numeric_limits<double>::infinity();
 	double m_accValue = 0;
 	unsigned m_countAcc = 0;
-
-	std::string m_name;
 };
