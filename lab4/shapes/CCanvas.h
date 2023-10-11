@@ -20,7 +20,6 @@ public:
 
 	void DrawLine(Point fromPoint, Point toPoint) override
 	{
-		std::cout << "drawing Line";
 		std::string line =
 			"<line x1=\"" + std::to_string(fromPoint.x) + "\" "
 			+ "y1=\"" + std::to_string(fromPoint.y) + "\" "

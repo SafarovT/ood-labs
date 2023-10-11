@@ -1,24 +1,16 @@
 #pragma once
-#include "IShape.h"
+#include "CShape.h"
 
-class CTriangle : public IShape
+class CTriangle : public CShape
 {
 public:
 	CTriangle(Color color, Point vertex1, Point vertex2, Point vertex3)
-		: m_color(color)
+		: CShape(color)
 		, m_vertex1(vertex1)
 		, m_vertex2(vertex2)
 		, m_vertex3(vertex3)
 	{}
 		
-	void Draw(ICanvas& canvas) const override
-	{
-		canvas.SetColor(GetColor());
-		canvas.DrawLine(m_vertex1, m_vertex2);
-		canvas.DrawLine(m_vertex2, m_vertex3);
-		canvas.DrawLine(m_vertex1, m_vertex3);
-	}
-
 	Point GetVertex1() const
 	{
 		return m_vertex1;
@@ -34,13 +26,13 @@ public:
 		return m_vertex3;
 	}
 
-	Color GetColor() const override
-	{
-		return m_color;
-	}
-
-
 private:
-	Color m_color;
 	Point m_vertex1, m_vertex2, m_vertex3;
+
+	void DrawLayout(ICanvas& canvas) const override
+	{
+		canvas.DrawLine(m_vertex1, m_vertex2);
+		canvas.DrawLine(m_vertex2, m_vertex3);
+		canvas.DrawLine(m_vertex1, m_vertex3);
+	}
 };

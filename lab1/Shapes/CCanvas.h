@@ -5,8 +5,8 @@
 class CCanvas : public gfx::ICanvas
 {
 public:
-	CCanvas(std::string&& outputFilePath)
-		: m_outputFilePath(std::move(outputFilePath))
+	CCanvas(std::string outputFilePath)
+		: m_outputFilePath(std::move(outputFilePath)) // можно не хранить путь
 		, m_position({ 0, 0 })
 	{
 		m_svgCode = std::stringstream("");

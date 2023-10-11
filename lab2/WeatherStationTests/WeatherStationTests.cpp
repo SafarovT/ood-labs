@@ -4,35 +4,47 @@
 
 SCENARIO_METHOD(CoutBufferFixture, "Tests")
 {
-
 	CWeatherData wd;
 
 	GIVEN("Three observers with self-remove")
 	{
-		CDisplayMock display, display2;
+		CDisplayPrinter display("Test 1"), display2("Test 2");
 		CDisplaySelfRemove selfRemove;
 		wd.RegisterObserver(display);
 		wd.RegisterObserver(selfRemove);
 		wd.RegisterObserver(display2);
 		ClearBuffer();
 
+
 		WHEN("Changing data")
 		{
-			wd.SetMeasurements(1, 2, 3, 4, 5);
+			wd.SetMeasurements({ 1, 2, 3, 4, 5 });
 
 			THEN("All three displayes displayed")
 			{
-				CHECK(GetBufferValue() == "Test\nSelf delete\nTest\n");
+				CHECK(GetBufferValue() == "Test 1\nSelf delete\nTest 2\n");
 			}
 
-			AND_THEN("Changing data again")
+			AND_WHEN("Changing data again")
 			{
 				ClearBuffer();
-				wd.SetMeasurements(3, 2, 1, 1, 1);
+				wd.MeasurementsChanged();
 
 				THEN("No self delete output")
 				{
-					CHECK(GetBufferValue() == "Test\nTest\n");
+					CHECK(GetBufferValue() == "Test 1\nTest 2\n");
+				}
+			}
+
+			AND_WHEN("Adding first observer again")
+			{
+				ClearBuffer();
+				wd.RegisterObserver(display, 100);
+
+				THEN("Two observers remains in same order")
+				{
+					wd.MeasurementsChanged();
+					CHECK(GetBufferValue() == "Test 1\nTest 2\n");
 				}
 			}
 		}
@@ -48,7 +60,7 @@ SCENARIO_METHOD(CoutBufferFixture, "Tests")
 
 		WHEN("Changing data")
 		{
-			wd.SetMeasurements(100, 200, 300, 400, 500);
+			wd.SetMeasurements({ 100, 200, 300, 400, 500 });
 
 			THEN("Observers updated in correct order")
 			{
@@ -61,15 +73,13 @@ SCENARIO_METHOD(CoutBufferFixture, "Tests")
 	{
 		CWeatherData iwd, owd;
 		CDisplay d;
-		iwd.RegisterObserver(d);
-		owd.RegisterObserver(d);
 		d.SetInStationPtr(&iwd);
 		d.SetOutStationPtr(&owd);
 		ClearBuffer();
 
 		WHEN("Changing input data")
 		{
-			iwd.SetMeasurements(1, 2, 3, 4, 5);
+			iwd.SetMeasurements({ 1, 2, 3, 4, 5 });
 
 			THEN("Data changed inside")
 			{
@@ -79,7 +89,7 @@ SCENARIO_METHOD(CoutBufferFixture, "Tests")
 
 		WHEN("Changing output data")
 		{
-			owd.SetMeasurements(1, 2, 3, 4, 5);
+			owd.SetMeasurements({ 1, 2, 3, 4, 5 });
 			
 			THEN("Data changed outside")
 			{

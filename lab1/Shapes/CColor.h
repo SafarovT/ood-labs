@@ -5,6 +5,7 @@
 
 namespace gfx
 {
+	// валидировать цвет или хранить в другом формате
 	class CColor
 	{
 	public:

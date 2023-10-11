@@ -1,34 +1,17 @@
 #pragma once
 #define _USE_MATH_DEFINES
 #include <math.h>
-#include "IShape.h"
+#include "CShape.h"
 
-class CRegularPolygon : public IShape
+class CRegularPolygon : public CShape
 {
 public:
 	CRegularPolygon(Color color, Point center, size_t vertexCount, double radius)
-		: m_color(color)
+		: CShape(color)
 		, m_center(center)
 		, m_vertexCount(vertexCount)
 		, m_radius(radius)
 	{}
-
-	void Draw(ICanvas& canvas) const override
-	{
-		canvas.SetColor(GetColor());
-
-		Point start = { m_center.x + m_radius, m_center.y };
-		Point end;
-
-		for (size_t i = 1; i <= m_vertexCount; i++)
-		{
-			end.x = m_center.x + (m_radius * cos(2 * M_PI * i / m_vertexCount));
-			end.y = m_center.y + (m_radius * sin(2 * M_PI * i / m_vertexCount));
-
-			canvas.DrawLine(start, end);
-			start = end;
-		}
-	}
 
 	size_t GetVertexCount() const
 	{
@@ -45,14 +28,23 @@ public:
 		return m_center;
 	}
 
-	Color GetColor() const override
-	{
-		return m_color;
-	}
-
 private:
-	Color m_color;
 	Point m_center;
 	size_t m_vertexCount = 0;
 	double m_radius = 0;
+
+	void DrawLayout(ICanvas& canvas) const override
+	{
+		Point start = { m_center.x + m_radius, m_center.y };
+		Point end;
+
+		for (size_t i = 1; i <= m_vertexCount; i++)
+		{
+			end.x = m_center.x + (m_radius * cos(2 * M_PI * i / m_vertexCount));
+			end.y = m_center.y + (m_radius * sin(2 * M_PI * i / m_vertexCount));
+
+			canvas.DrawLine(start, end);
+			start = end;
+		}
+	}
 };

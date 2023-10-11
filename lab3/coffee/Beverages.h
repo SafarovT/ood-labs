@@ -37,22 +37,22 @@ class CCappuccino : public CCoffee
 {
 public:
 	CCappuccino() 
-		:CCoffee("Cappuccino") 
+		: CCoffee("Cappuccino") 
 	{}
+
+	CCappuccino(bool isDouble)
+		: CCappuccino()
+	{
+		m_isDouble = isDouble;
+	}
 
 	double GetCost() const override 
 	{
-		return 80; 
+		return 80 + (m_isDouble? 40: 0); 
 	}
-};
 
-// Двойное капуччино
-class CDoubleCappuccino : public CCappuccino
-{
-	double GetCost() const override
-	{
-		return CCappuccino::GetCost() + 40;
-	}
+private:
+	bool m_isDouble = false;
 };
 
 // Латте
@@ -63,19 +63,19 @@ public:
 		:CCoffee("Latte") 
 	{}
 
+	CLatte(bool isDouble)
+		: CLatte()
+	{
+		m_isDouble = isDouble;
+	}
+
 	double GetCost() const override 
 	{
-		return 90; 
+		return 90 + (m_isDouble? 40: 0); 
 	}
-};
 
-// Двойное латте
-class CDoubleLatte : public CLatte
-{
-	double GetCost() const override
-	{
-		return CLatte::GetCost() + 40;
-	}
+private:
+	bool m_isDouble = false;
 };
 
 enum class TeaSort

@@ -49,6 +49,12 @@ public:
 
 	void RegisterObserver(ObserverType& observer, int priority) override
 	{
+		auto foundObserver = m_priorities.find(&observer);
+		if (foundObserver != m_priorities.end())
+		{
+			return;
+		}
+
 		m_priorities.emplace(&observer, priority);
 		auto observersWithGivenPriority = m_observers.find(priority);
 		if (observersWithGivenPriority != m_observers.end())

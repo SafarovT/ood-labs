@@ -13,7 +13,14 @@ int main()
 	CPainter painter;
 
 	painter.DrawPicture(draft, canvas);
-	canvas.Save();
+	try
+	{
+		canvas.Save();
+	}
+	catch (std::exception& e)
+	{
+		std::cout << e.what() << std::endl;
+	}
 
 	return EXIT_SUCCESS;
 }

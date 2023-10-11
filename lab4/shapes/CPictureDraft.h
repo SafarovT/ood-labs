@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <memory>
-#include "IShape.h"
+#include "CShape.h"
 
 class CPictureDraft
 {
@@ -10,12 +10,12 @@ public:
 		: m_shapes({})
 	{}
 
-	void AddShape(std::shared_ptr<IShape> shape)
+	void AddShape(std::shared_ptr<CShape> shape)
 	{
 		m_shapes.push_back(shape);
 	}
 
-	std::shared_ptr<IShape> GetShape(size_t index) const
+	std::shared_ptr<CShape> GetShape(size_t index) const
 	{
 		if (index >= GetShapesCount())
 		{
@@ -31,5 +31,5 @@ public:
 	}
 
 private:
-	std::vector<std::shared_ptr<IShape>> m_shapes;
+	std::vector<std::shared_ptr<CShape>> m_shapes;
 };

@@ -4,7 +4,7 @@
 class IShapeStrategy
 {
 public:
-	virtual ~IShapeStrategy() {};
+	virtual ~IShapeStrategy() = default;
 
 	virtual void Draw(gfx::ICanvas& canvas, gfx::CColor const& color) = 0; // const
 	virtual void Move(double dx, double dy) = 0;

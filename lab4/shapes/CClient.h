@@ -1,13 +1,28 @@
 #pragma once
+#include "CPictureDraft.h"
+#include "ICanvas.h"
 #include <string>
 
 class CClient
 {
 public:
-	std::string GetMemberName() const
+	CClient(ICanvas& canvas)
+		: m_canvas(&canvas)
+	{}
+
+	CClient() = default;
+
+	void SetDraft(CPictureDraft const& draft)
 	{
-		return m_memberName;
+		m_draft = draft;
 	}
+
+	std::string DrawPicture() const
+	{
+		
+	}
+
 private:
-	std::string m_memberName;
+	ICanvas* m_canvas = nullptr;
+	CPictureDraft m_draft;
 };

@@ -24,27 +24,27 @@ public:
 	// Температура в градусах Цельсия
 	double GetTemperature() const
 	{
-		return m_temperature;
+		return m_weatherInfo.temperature;
 	}
 	// Относительная влажность (0...100)
 	double GetHumidity() const
 	{
-		return m_humidity;
+		return m_weatherInfo.humidity;
 	}
 	// Атмосферное давление (в мм.рт.ст)
 	double GetPressure() const
 	{
-		return m_pressure;
+		return m_weatherInfo.pressure;
 	}
 
 	double GetWindSpeed() const
 	{
-		return m_windSpeed;
+		return m_weatherInfo.windSpeed;
 	}
 
 	double GetWindAngle() const
 	{
-		return m_windAngle;
+		return m_weatherInfo.windAngle;
 	}
 
 	void MeasurementsChanged()
@@ -52,50 +52,44 @@ public:
 		NotifyObservers();
 	}
 
-	void SetMeasurements(double temp, double humidity, double pressure, double windSpeed, double windAngle)
+	void SetMeasurements(SWeatherInfo measurements)
 	{
-		m_humidity = humidity;
-		m_temperature = temp;
-		m_pressure = pressure;
-		m_windSpeed = windSpeed;
-		m_windAngle = windAngle;
+		m_weatherInfo = measurements;
 
 		MeasurementsChanged();
 	}
 protected:
 	SWeatherInfo GetChangedData() const override
 	{
-		SWeatherInfo info;
-		info.temperature = GetTemperature();
-		info.humidity = GetHumidity();
-		info.pressure = GetPressure();
-		info.windAngle = GetWindAngle();
-		info.windSpeed = GetWindSpeed();
-		return info;
+		return m_weatherInfo;
 	}
 private:
-	double m_temperature = 0.0;
-	double m_humidity = 0.0;
-	double m_pressure = 760.0;
-	double m_windSpeed = 0;
-	double m_windAngle = 0;
+	SWeatherInfo m_weatherInfo = {
+		0,
+		0,
+		760.0,
+		0,
+		0,
+	};
 };
 
 class CDisplay : public IObserver<SWeatherInfo>
 {
 public:
-	void SetInStationPtr(CWeatherData* inStation)
+	void SetInStationPtr(IObservable<SWeatherInfo>* inStation)
 	{
 		m_inStation = inStation;
+		inStation->RegisterObserver(*this);
 	}
 
-	void SetOutStationPtr(CWeatherData* outStation)
+	void SetOutStationPtr(IObservable<SWeatherInfo>* outStation)
 	{
 		m_outStation = outStation;
+		outStation->RegisterObserver(*this);
 	}
 private:
-	CWeatherData* m_inStation = nullptr;
-	CWeatherData* m_outStation = nullptr;
+	IObservable<SWeatherInfo>* m_inStation = nullptr;
+	IObservable<SWeatherInfo>* m_outStation = nullptr;
 
 	/* Метод Update сделан приватным, чтобы ограничить возможность его вызова напрямую
 		Классу CObservable он будет доступен все равно, т.к. в интерфейсе IObserver он
