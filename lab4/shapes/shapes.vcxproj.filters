@@ -60,9 +60,6 @@
     <ClInclude Include="CRegularPolygon.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="CPaintStore.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="CClient.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>

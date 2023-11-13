@@ -1,6 +1,7 @@
 #pragma once
 #include "CPictureDraft.h"
 #include "ICanvas.h"
+#include "CPainter.h"
 #include <string>
 
 class CClient
@@ -17,9 +18,12 @@ public:
 		m_draft = draft;
 	}
 
-	std::string DrawPicture() const
+	std::string DrawPicture(CPainter const& painter) const
 	{
-		
+		if (m_canvas != nullptr)
+		{
+			painter.DrawPicture(m_draft, *m_canvas);
+		}
 	}
 
 private:

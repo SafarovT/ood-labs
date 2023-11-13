@@ -50,7 +50,7 @@ double StringToDouble(std::string numberString)
 	}
 	catch (std::exception const& ex)
 	{
-		throw new std::invalid_argument("Parameter cant be converted to number");
+		throw std::invalid_argument("Parameter cant be converted to number");
 	}
 }
 

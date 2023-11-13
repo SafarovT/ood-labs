@@ -18,34 +18,11 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="CClient.h" />
-    <ClInclude Include="CDesigner.h" />
-    <ClInclude Include="CEllipse.h" />
-    <ClInclude Include="Color.h" />
-    <ClInclude Include="common.h" />
-    <ClInclude Include="CPainter.h" />
-    <ClInclude Include="CPictureDraft.h" />
-    <ClInclude Include="CRectangle.h" />
-    <ClInclude Include="CRegularPolygon.h" />
-    <ClInclude Include="CShape.h" />
-    <ClInclude Include="CShapeFactory.h" />
-    <ClInclude Include="CCanvas.h" />
-    <ClInclude Include="CTriangle.h" />
-    <ClInclude Include="ICanvas.h" />
-    <ClInclude Include="IDesigner.h" />
-    <ClInclude Include="IShapeFactory.h" />
-    <ClInclude Include="Point.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="common.cpp" />
-    <ClCompile Include="main.cpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{a785c0dc-ae3f-43dd-9836-76b99474ec99}</ProjectGuid>
-    <RootNamespace>shapes</RootNamespace>
+    <ProjectGuid>{6aea3630-488a-4eba-864b-fac41af9a061}</ProjectGuid>
+    <RootNamespace>task3tests</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -128,7 +105,6 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -151,6 +127,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="tests.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

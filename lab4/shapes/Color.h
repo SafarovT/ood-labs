@@ -39,7 +39,7 @@ Color StrToColor(std::string const& str)
 		return Color::Black;
 	}
 
-	throw new std::exception("Unknown color name");
+	throw std::invalid_argument("Unknown color name");
 }
 
 std::string ColorToStr(Color color)

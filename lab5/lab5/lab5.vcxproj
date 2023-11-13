@@ -130,7 +130,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CAbstractCommand.cpp" />
+    <ClCompile Include="CConstDocumentItem.cpp" />
+    <ClCompile Include="CDocument.cpp" />
+    <ClCompile Include="CDocumentItem.cpp" />
+    <ClCompile Include="CFunctionalCommand.cpp" />
+    <ClCompile Include="CHistory.cpp" />
+    <ClCompile Include="CImage.cpp" />
+    <ClCompile Include="CParagraph.cpp" />
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CAbstractCommand.h" />
+    <ClInclude Include="CConstDocumentItem.h" />
+    <ClInclude Include="CDocument.h" />
+    <ClInclude Include="CDocumentItem.h" />
+    <ClInclude Include="CFunctionalCommand.h" />
+    <ClInclude Include="CHistory.h" />
+    <ClInclude Include="CImage.h" />
+    <ClInclude Include="CParagraph.h" />
+    <ClInclude Include="ICommand.h" />
+    <ClInclude Include="ICommandExecuter.h" />
+    <ClInclude Include="IDocument.h" />
+    <ClInclude Include="IImage.h" />
+    <ClInclude Include="IParagraph.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
