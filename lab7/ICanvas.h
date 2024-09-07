@@ -6,6 +6,8 @@
 class ICanvas
 {
 public:
+	virtual ~ICanvas() = default;
+
 	virtual void DrawLine(Point start, Point end) = 0;
 	virtual void DrawEllipse(Point center, double xRadius, double yRadius) = 0;
 	virtual void FillEllipse(Point center, double xRadius, double yRadius) = 0;
