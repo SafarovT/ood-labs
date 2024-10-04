@@ -1,6 +1,9 @@
 #include "../../external/catch2/catch.hpp"
 #include "CoutBufferFixture.h"
 #include "TestsDisplays.h"
+#include "../WeatherStation/VectorStatistic.h"
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 SCENARIO_METHOD(CoutBufferFixture, "Tests")
 {
@@ -95,6 +98,37 @@ SCENARIO_METHOD(CoutBufferFixture, "Tests")
 			THEN("Data changed outside")
 			{
 				CHECK(GetBufferValue() == "Data from outside-placed station:\nCurrent Wind Speed: 4\nCurrent Wind Angle: 5\nCurrent Temp 1\nCurrent Hum 2\nCurrent Pressure 3\n----------------\n");
+			}
+		}
+	}
+}
+
+SCENARIO("Testing VecrtorStatistic calculations")
+{
+	VectorStatistic stat;
+
+	GIVEN("North vector with length of 1")
+	{
+		stat.UpdateData(VectorPolarCoord({ 0, 1.0 }));
+		CHECK(stat.GetAverage() == 0);
+
+		WHEN("Adding oposite vector with same length")
+		{
+			stat.UpdateData(VectorPolarCoord({ M_PI, 1.0 }));
+
+			THEN("Result is a point")
+			{
+				CHECK(stat.GetAverage() == 0);
+			}
+		}
+
+		WHEN("Adding +90deg vector with same length")
+		{
+			stat.UpdateData(VectorPolarCoord({ M_PI / 2, 1.0 }));
+
+			THEN("Result is a 45deg")
+			{
+				CHECK(stat.GetAverage() == M_PI / 4);
 			}
 		}
 	}

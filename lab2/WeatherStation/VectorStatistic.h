@@ -2,6 +2,8 @@
 #include "IStatistic.h"
 #include "Vectors.h"
 
+#include <iostream>
+
 class VectorStatistic : public IStatistic<double>
 {
 public:
@@ -31,17 +33,12 @@ public:
 			m_minLengthVector = value;
 		}
 
-		VectorCartesianCoord oldVector(m_sumVector.ToCartesian());
-		VectorCartesianCoord newVector(value.ToCartesian());
-		VectorCartesianCoord resultVector = oldVector + newVector;
-		m_accCount++;
-		m_sumVector = VectorPolarCoord(resultVector.ToPolar()) / m_accCount;
+		m_sumVector += value;
 	}
 
 private:
 	VectorPolarCoord m_maxLengthVector = VectorPolarCoord({ 0, -std::numeric_limits<double>::infinity() });
 	VectorPolarCoord m_minLengthVector = VectorPolarCoord({ 0, std::numeric_limits<double>::infinity() });
 	VectorPolarCoord m_sumVector = VectorPolarCoord({ 0, 0 });
-	double m_accCount = 0;
 };
 

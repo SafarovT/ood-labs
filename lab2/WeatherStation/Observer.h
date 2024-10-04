@@ -2,7 +2,7 @@
 #include <optional>
 #include <map>
 #include <unordered_map>
-#include <vector>
+#include <list>
 #include <algorithm>
 #include <functional>
 
@@ -53,16 +53,11 @@ public:
 			return;
 		}
 
-		m_priorities.emplace(&observer, priority);
-		auto observersWithGivenPriority = m_observers.find(priority);
-		if (observersWithGivenPriority != m_observers.end())
-		{
-			observersWithGivenPriority->second.push_back(&observer);
-		}
-		else
-		{
-			m_observers.emplace(priority, std::vector<ObserverType*>({ &observer }));
-		}
+		auto& observerList = m_observers[priority];
+		observerList.emplace_back(&observer);
+		auto it = std::prev(observerList.end());
+
+		m_priorities.emplace(&observer, std::make_pair(priority, it));
 	}
 
 	void RegisterObserver(ObserverType& observer) override
@@ -73,10 +68,9 @@ public:
 	void NotifyObservers() override
 	{
 		T data = GetChangedData();
-		for (auto i = m_observers.rbegin(); i != m_observers.rend(); i++)
+		for (auto it = m_observers.rbegin(); it != m_observers.rend(); it++)
 		{
-			std::vector<ObserverType*> observerCopy;
-			std::copy(i->second.begin(), i->second.end(), std::back_inserter(observerCopy));
+			ObserverList observerCopy = it->second;
 			for (auto& observer : observerCopy)
 			{
 				observer->Update(data, this);
@@ -86,18 +80,19 @@ public:
 
 	void RemoveObserver(ObserverType & observer) override
 	{
-		if (auto observerPriorityPair = m_priorities.find(&observer); observerPriorityPair != m_priorities.end())
+		auto observerIt = m_priorities.find(&observer);
+		if (observerIt != m_priorities.end())
 		{
-			auto foundObserversWithGivenPriority = m_observers.find(observerPriorityPair->second);
-			if (foundObserversWithGivenPriority != m_observers.end())
+			int priority = observerIt->second.first;
+			auto listIt = observerIt->second.second;
+
+			m_observers.at(priority).erase(listIt);
+
+			if (m_observers.at(priority).empty())
 			{
-				auto comparePtrs = [&observer](ObserverType* observerPtr)
-				{
-					return &observer == observerPtr;
-				};
-				std::erase_if(foundObserversWithGivenPriority->second, comparePtrs);
+				m_observers.erase(priority);
 			}
-			m_priorities.erase(observerPriorityPair);
+			m_priorities.erase(observerIt);
 		}
 	}
 
@@ -107,9 +102,10 @@ protected:
 	virtual T GetChangedData() const = 0;
 	
 private:
-	using PriorityOfObservers = std::unordered_map<ObserverType*, int>;
-	// использовать пример с доски для нелинейного времени
-	using ObserversWithPriority = std::map<int, std::vector<ObserverType*>>;
+	using ObserverList = std::list<ObserverType*>;
+	using ObserversWithPriority = std::map<int, ObserverList>;
+	using PriorityIteratorPair = std::pair<int, typename ObserverList::iterator>;
+	using PriorityOfObservers = std::unordered_map<ObserverType*, PriorityIteratorPair>;
 	ObserversWithPriority m_observers;
 	PriorityOfObservers m_priorities;
 };

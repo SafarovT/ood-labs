@@ -1,77 +1,65 @@
 #pragma once
-#define _USE_MATH_DEFINES
-#include <string>
-#include <math.h>
-
+#include <cmath>
+#include <limits>
 
 struct PolarCoord
 {
-	double angle = 0;
-	double length = 0;
-};
-
-struct CartesianCoord
-{
-	double x = 0;
-	double y = 0;
-};
-
-class VectorCartesianCoord
-{
-public:
-	VectorCartesianCoord(CartesianCoord coord)
-		: m_data(coord)
-	{}
-
-	VectorCartesianCoord operator +(VectorCartesianCoord const& vector) const
-	{
-		return VectorCartesianCoord({ m_data.x + vector.m_data.x, m_data.y + vector.m_data.y });
-	}
-
-	PolarCoord ToPolar() const
-	{
-		double length = sqrt(m_data.x * m_data.x + m_data.y * m_data.y);
-		double angleRad = asin(m_data.x / length);
-		double angleDeg = angleRad * 180 / M_PI;
-
-		return { angleDeg, length };
-	}
-
-private:
-	CartesianCoord m_data;
+    double angle = 0.0; // rad
+    double length = 0.0;
 };
 
 class VectorPolarCoord
 {
 public:
-	VectorPolarCoord(PolarCoord coord)
-		: m_data(coord)
-	{}
+    VectorPolarCoord() = default;
 
-	VectorPolarCoord operator /(double number)
-	{
-		return VectorPolarCoord({ m_data.angle, m_data.length / number });
-	}
+    VectorPolarCoord(const PolarCoord& coord)
+        : m_coord(coord)
+    {
+    }
 
-	double GetLength() const
-	{
-		return m_data.length;
-	}
+    VectorPolarCoord(double angle, double length)
+        : m_coord{ angle, length }
+    {
+    }
 
-	double GetAngle() const
-	{
-		return m_data.angle;
-	}
+    double GetAngle() const
+    {
+        return m_coord.angle;
+    }
 
-	CartesianCoord ToCartesian() const
-	{
-		double angleRad = m_data.angle * M_PI / 180;
-		double x = m_data.length * cos(angleRad);
-		double y = m_data.length * sin(angleRad);
+    double GetLength() const
+    {
+        return m_coord.length;
+    }
 
-		return { x, y };
-	}
+    VectorPolarCoord& operator+=(const VectorPolarCoord& other)
+    {
+        double x1 = m_coord.length * std::cos(m_coord.angle);
+        double y1 = m_coord.length * std::sin(m_coord.angle);
+
+        double x2 = other.m_coord.length * std::cos(other.m_coord.angle);
+        double y2 = other.m_coord.length * std::sin(other.m_coord.angle);
+
+        double x = x1 + x2;
+        double y = y1 + y2;
+
+        m_coord.length = std::sqrt(x * x + y * y);
+
+        if (m_coord.length > std::numeric_limits<double>::epsilon())
+        {
+            m_coord.angle = std::atan2(y, x);
+        }
+        else
+        {
+            m_coord.angle = 0.0;
+        }
+
+        return *this;
+    }
+
+    VectorPolarCoord& operator=(const VectorPolarCoord& other) = default;
 
 private:
-	PolarCoord m_data;
+    PolarCoord m_coord;
 };
