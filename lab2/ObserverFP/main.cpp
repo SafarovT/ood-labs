@@ -9,7 +9,6 @@ namespace ph = std::placeholders;
 class ICurrencyRate
 {
 public:
-	// Наблюдатель - функция, получающая сигнал об изменении курса валюты
 	using RateObserver = function<void(double rate)>;
 
 	using Token = uint64_t;

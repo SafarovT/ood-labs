@@ -20,7 +20,7 @@ public:
 		return m_accValue;
 	}
 
-	void UpdateData(double value) override
+	void UpdateData(double value)
 	{
 		if (m_minValue > value)
 		{

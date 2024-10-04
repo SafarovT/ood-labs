@@ -2,25 +2,25 @@
 #include "IStatistic.h"
 #include "Vectors.h"
 
-class VectorStatistic : public IStatistic<VectorPolarCoord>
+class VectorStatistic : public IStatistic<double>
 {
 public:
-	VectorPolarCoord GetMax() const override
+	double GetMax() const override
 	{
-		return m_maxLengthVector;
+		return m_maxLengthVector.GetLength();
 	}
 
-	VectorPolarCoord GetMin() const override
+	double GetMin() const override
 	{
-		return m_minLengthVector;
+		return m_minLengthVector.GetLength();
 	}
 
-	VectorPolarCoord GetAverage() const override
+	double GetAverage() const override
 	{
-		return m_sumVector;
+		return m_sumVector.GetAngle();
 	}
 	
-	void UpdateData(VectorPolarCoord value) override
+	void UpdateData(VectorPolarCoord value)
 	{
 		if (value.GetLength() > m_maxLengthVector.GetLength())
 		{

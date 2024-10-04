@@ -9,44 +9,51 @@
 #include "NumericStatistic.h"
 #include "VectorStatistic.h"
 
-struct SWeatherInfo
+struct SWeatherInfoIndoor
 {
 	double temperature = 0;
 	double humidity = 0;
-	double pressure = 0;
+	double pressure = 760;
+};
+
+struct SWeatherInfo : public SWeatherInfoIndoor
+{
 	double windSpeed = 0;
 	double windAngle = 0;
+};
+
+class CWeatherIndoorData : public CObservable<SWeatherInfo>
+{
+public:
+	void MeasurementsChanged()
+	{
+		NotifyObservers();
+	}
+
+	void SetMeasurements(SWeatherInfoIndoor measurements)
+	{
+		m_weatherInfo = measurements;
+
+		MeasurementsChanged();
+	}
+
+protected:
+	SWeatherInfo GetChangedData() const override
+	{
+		return
+		{
+			m_weatherInfo.temperature,
+			m_weatherInfo.humidity,
+			m_weatherInfo.pressure,
+		};
+	}
+private:
+	SWeatherInfoIndoor m_weatherInfo;
 };
 
 class CWeatherData : public CObservable<SWeatherInfo>
 {
 public:
-	// Температура в градусах Цельсия
-	double GetTemperature() const
-	{
-		return m_weatherInfo.temperature;
-	}
-	// Относительная влажность (0...100)
-	double GetHumidity() const
-	{
-		return m_weatherInfo.humidity;
-	}
-	// Атмосферное давление (в мм.рт.ст)
-	double GetPressure() const
-	{
-		return m_weatherInfo.pressure;
-	}
-
-	double GetWindSpeed() const
-	{
-		return m_weatherInfo.windSpeed;
-	}
-
-	double GetWindAngle() const
-	{
-		return m_weatherInfo.windAngle;
-	}
-
 	void MeasurementsChanged()
 	{
 		NotifyObservers();
@@ -55,22 +62,17 @@ public:
 	void SetMeasurements(SWeatherInfo measurements)
 	{
 		m_weatherInfo = measurements;
-
 		MeasurementsChanged();
 	}
+
 protected:
-	SWeatherInfo GetChangedData() const override
+	SWeatherInfo GetChangedData() const
 	{
 		return m_weatherInfo;
 	}
+
 private:
-	SWeatherInfo m_weatherInfo = {
-		0,
-		0,
-		760.0,
-		0,
-		0,
-	};
+	SWeatherInfo m_weatherInfo;
 };
 
 class CDisplay : public IObserver<SWeatherInfo>
@@ -91,7 +93,8 @@ private:
 	IObservable<SWeatherInfo>* m_inStation = nullptr;
 	IObservable<SWeatherInfo>* m_outStation = nullptr;
 
-	/* Метод Update сделан приватным, чтобы ограничить возможность его вызова напрямую
+	/*
+		Метод Update сделан приватным, чтобы ограничить возможность его вызова напрямую
 		Классу CObservable он будет доступен все равно, т.к. в интерфейсе IObserver он
 		остается публичным
 	*/
@@ -103,12 +106,14 @@ private:
 		}
 		else if (sender == m_outStation)
 		{
-			std::cout << "Data from outside-placed station:" << std::endl;
+			std::cout << "Data from outside-placed station:" << std::endl
+				<< "Current Wind Speed: " << data.windSpeed << std::endl
+				<< "Current Wind Angle: " << data.windAngle << std::endl;
 		}
-		std::cout << "Current Temp " << data.temperature << std::endl;
-		std::cout << "Current Hum " << data.humidity << std::endl;
-		std::cout << "Current Pressure " << data.pressure << std::endl;
-		std::cout << "----------------" << std::endl;
+		std::cout << "Current Temp " << data.temperature << std::endl
+				<< "Current Hum " << data.humidity << std::endl
+				<< "Current Pressure " << data.pressure << std::endl
+				<< "----------------" << std::endl;
 	}
 };
 
@@ -124,9 +129,15 @@ private:
 			<< "----------------" << std::endl;
 	}
 
-	/* Метод Update сделан приватным, чтобы ограничить возможность его вызова напрямую
-	Классу CObservable он будет доступен все равно, т.к. в интерфейсе IObserver он
-	остается публичным
+	void PrintData(std::string const& dataName, IStatistic<double>& statistic)
+	{
+		PrintData(dataName, statistic.GetMax(), statistic.GetMin(), statistic.GetAverage());
+	}
+
+	/*
+		Метод Update сделан приватным, чтобы ограничить возможность его вызова напрямую
+		Классу CObservable он будет доступен все равно, т.к. в интерфейсе IObserver он
+		остается публичным
 	*/
 	void Update(SWeatherInfo const& data, IObservable<SWeatherInfo>* sender) override
 	{
@@ -135,10 +146,10 @@ private:
 		m_humStatistic.UpdateData(data.humidity);
 		m_windStatistic.UpdateData(VectorPolarCoord({ data.windAngle, data.windSpeed }));
 
-		PrintData("Temperature", m_temperatureStats.GetMax(), m_temperatureStats.GetMin(), m_temperatureStats.GetAverage());
-		PrintData("Pressure", m_pressureStatistic.GetMax(), m_pressureStatistic.GetMin(), m_pressureStatistic.GetAverage());
-		PrintData("Humidity", m_humStatistic.GetMax(), m_humStatistic.GetMin(), m_humStatistic.GetAverage());
-		PrintData("Wind", m_windStatistic.GetMin().GetLength(), m_windStatistic.GetMin().GetLength(), m_windStatistic.GetAverage().GetAngle());
+		PrintData("Temperature", m_temperatureStats);
+		PrintData("Pressure", m_pressureStatistic);
+		PrintData("Humidity", m_humStatistic);
+		PrintData("Wind", m_windStatistic);
 	}
 
 	NumericStatistic m_temperatureStats, m_pressureStatistic, m_humStatistic;

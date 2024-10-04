@@ -4,9 +4,9 @@
 
 SCENARIO_METHOD(CoutBufferFixture, "Tests")
 {
-	CWeatherData wd;
+	CWeatherIndoorData wd;
 
-	GIVEN("Three observers with self-remove")
+	GIVEN("Three observers with one self-remove")
 	{
 		CDisplayPrinter display("Test 1"), display2("Test 2");
 		CDisplaySelfRemove selfRemove;
@@ -18,7 +18,7 @@ SCENARIO_METHOD(CoutBufferFixture, "Tests")
 
 		WHEN("Changing data")
 		{
-			wd.SetMeasurements({ 1, 2, 3, 4, 5 });
+			wd.SetMeasurements({ 1, 2, 3 });
 
 			THEN("All three displayes displayed")
 			{
@@ -60,7 +60,7 @@ SCENARIO_METHOD(CoutBufferFixture, "Tests")
 
 		WHEN("Changing data")
 		{
-			wd.SetMeasurements({ 100, 200, 300, 400, 500 });
+			wd.SetMeasurements({ 100, 200, 300 });
 
 			THEN("Observers updated in correct order")
 			{
@@ -71,7 +71,8 @@ SCENARIO_METHOD(CoutBufferFixture, "Tests")
 
 	GIVEN("One display and two wd")
 	{
-		CWeatherData iwd, owd;
+		CWeatherIndoorData iwd;
+		CWeatherData owd;
 		CDisplay d;
 		d.SetInStationPtr(&iwd);
 		d.SetOutStationPtr(&owd);
@@ -79,7 +80,7 @@ SCENARIO_METHOD(CoutBufferFixture, "Tests")
 
 		WHEN("Changing input data")
 		{
-			iwd.SetMeasurements({ 1, 2, 3, 4, 5 });
+			iwd.SetMeasurements({ 1, 2, 3 });
 
 			THEN("Data changed inside")
 			{
@@ -93,7 +94,7 @@ SCENARIO_METHOD(CoutBufferFixture, "Tests")
 			
 			THEN("Data changed outside")
 			{
-				CHECK(GetBufferValue() == "Data from outside-placed station:\nCurrent Temp 1\nCurrent Hum 2\nCurrent Pressure 3\n----------------\n");
+				CHECK(GetBufferValue() == "Data from outside-placed station:\nCurrent Wind Speed: 4\nCurrent Wind Angle: 5\nCurrent Temp 1\nCurrent Hum 2\nCurrent Pressure 3\n----------------\n");
 			}
 		}
 	}

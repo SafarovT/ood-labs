@@ -9,13 +9,11 @@
 template <typename T>
 class IObservable;
 
-// нарисовать схему
-
 /*
-Шаблонный интерфейс IObserver. Его должен реализовывать класс, 
-желающий получать уведомления от соответствующего IObservable
-Параметром шаблона является тип аргумента,
-передаваемого Наблюдателю в метод Update
+	Шаблонный интерфейс IObserver. Его должен реализовывать класс, 
+	желающий получать уведомления от соответствующего IObservable
+	Параметром шаблона является тип аргумента,
+	передаваемого Наблюдателю в метод Update
 */
 template <typename T>
 class IObserver
@@ -26,8 +24,8 @@ public:
 };
 
 /*
-Шаблонный интерфейс IObservable. Позволяет подписаться и отписаться на оповещения, а также
-инициировать рассылку уведомлений зарегистрированным наблюдателям.
+	Шаблонный интерфейс IObservable. Позволяет подписаться и отписаться на оповещения, а также
+	инициировать рассылку уведомлений зарегистрированным наблюдателям.
 */
 template <typename T>
 class IObservable
@@ -93,23 +91,24 @@ public:
 			auto foundObserversWithGivenPriority = m_observers.find(observerPriorityPair->second);
 			if (foundObserversWithGivenPriority != m_observers.end())
 			{
-				auto comaprePtrs = [&observer](ObserverType* observerPtr)
+				auto comparePtrs = [&observer](ObserverType* observerPtr)
 				{
 					return &observer == observerPtr;
 				};
-				std::erase_if(foundObserversWithGivenPriority->second, comaprePtrs);
+				std::erase_if(foundObserversWithGivenPriority->second, comparePtrs);
 			}
 			m_priorities.erase(observerPriorityPair);
 		}
 	}
 
 protected:
-	// Классы-наследники должны перегрузить данный метод, 
-	// в котором возвращать информацию об изменениях в объекте
+		// Классы-наследники должны перегрузить данный метод, 
+		// в котором возвращать информацию об изменениях в объекте
 	virtual T GetChangedData() const = 0;
 	
 private:
 	using PriorityOfObservers = std::unordered_map<ObserverType*, int>;
+	// использовать пример с доски для нелинейного времени
 	using ObserversWithPriority = std::map<int, std::vector<ObserverType*>>;
 	ObserversWithPriority m_observers;
 	PriorityOfObservers m_priorities;
