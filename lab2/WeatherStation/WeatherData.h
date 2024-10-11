@@ -21,7 +21,7 @@ struct SWeatherInfo : public SWeatherInfoIndoor
 	double windSpeed = 0;
 	double windAngle = 0;
 };
-
+// доработать чтоыбы бли разные сигнал
 class CWeatherIndoorData : public CObservable<SWeatherInfo>
 {
 public:

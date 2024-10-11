@@ -53,6 +53,8 @@ public:
 			return;
 		}
 
+		// исправить и сделат метод безопасным для искл
+
 		auto& observerList = m_observers[priority];
 		observerList.emplace_back(&observer);
 		auto it = std::prev(observerList.end());
@@ -88,6 +90,7 @@ public:
 
 			m_observers.at(priority).erase(listIt);
 
+			// не использовать лишний раз ат
 			if (m_observers.at(priority).empty())
 			{
 				m_observers.erase(priority);
