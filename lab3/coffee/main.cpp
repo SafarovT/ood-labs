@@ -122,7 +122,7 @@ void DialogWithUser()
 	}
 	else if (beverageChoice == 2)
 	{
-		cout << "Type: 1 - for Ahmad | 2 - for Akbar | 3 - for Anchan | 4 - for Assam";
+		cout << "Type: 1 - for Ahmad | 2 - for Akbar | 3 - for Anchan | 4 - for Assam" << endl;
 		int teaChoice;
 		cin >> teaChoice;
 		if (teaChoice == 1)
@@ -148,7 +148,7 @@ void DialogWithUser()
 	}
 	else if (beverageChoice == 3)
 	{
-		cout << "Type: 1 - for small size | 2 - for Medium size | 3 - for LARGE size";
+		cout << "Type: 1 - for small size | 2 - for Medium size | 3 - for LARGE size" << endl;
 		int sizeChoice;
 		cin >> sizeChoice;
 		if (sizeChoice == 1)

@@ -7,12 +7,6 @@
 class CCanvas : public ICanvas
 {
 public:
-	CCanvas(std::string&& outputFilePath)
-		: m_outputFilePath(std::move(outputFilePath))
-	{
-		m_svgCode = std::stringstream("");
-	}
-
 	void SetColor(Color color) override
 	{
 		m_color = color;
@@ -44,9 +38,9 @@ public:
 		m_svgCode << ellipse << std::endl;
 	}
 
-	void Save()
+	void Save(std::string const& outputFilePath = "image.svg") // сделат так чтобы в save можно было передать имя файла
 	{
-		std::ofstream output(m_outputFilePath);
+		std::ofstream output(outputFilePath);
 
 		if (!output.good())
 		{
@@ -61,6 +55,5 @@ public:
 
 private:
 	Color m_color;
-	std::string m_outputFilePath;
-	std::stringstream m_svgCode;
+	std::stringstream m_svgCode = std::stringstream("");
 };

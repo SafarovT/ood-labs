@@ -1,29 +1,25 @@
 #pragma once
-#include "ICommandExecuter.h"
+#include <filesystem>
 #include "IImage.h"
 
 class CImage : public IImage
 {
 public:
-	CImage(std::string const& path, int width, int height, ICommandExecuter& commandExecuter)
-		: m_path(path)
-		, m_width(width)
-		, m_height(height)
-		, m_commandExecuter(commandExecuter)
-	{}
+	CImage(std::filesystem::path const& path, int width, int height);
+	~CImage();
 
-	std::string GetPath() const override;
+	std::filesystem::path GetPath() const override;
 
 	int GetWidth() const override;
 	int GetHeight() const override;
 
 	void Resize(int width, int height) override;
 
+	std::string ToString() const override;
+
 private:
-	std::string m_path;
-
+	std::filesystem::path m_tempPath;
+	std::filesystem::path m_originPath;
 	int m_width, m_height;
-
-	ICommandExecuter& m_commandExecuter;
 };
 

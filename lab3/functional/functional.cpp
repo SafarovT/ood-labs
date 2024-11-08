@@ -107,8 +107,6 @@ int main()
 	PrintTransformedStrings(strings, UpperCaseWithSquareBrackets);
 	PrintTransformedStrings(strings, SquareBracketsWithinCurlyBrackets);
 	PrintTransformedStrings(strings, CurlyBracketsWithinSquareBrackets);
-	// ???? OMG !!!!
-
 
 	PrintTransformedStrings(strings, Decorate(ToUpperCase, AddSquareBrackets));
 	PrintTransformedStrings(strings, Decor | ToUpperCase | AddSquareBrackets | AddCurlyBrackets);

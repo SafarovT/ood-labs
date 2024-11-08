@@ -64,7 +64,7 @@ protected:
 	}
 	std::string GetCondimentDescription() const override
 	{
-		return "Lemon x " + std::to_string(m_quantity);
+		return "Lemon x" + std::to_string(m_quantity);
 	}
 private:
 	unsigned m_quantity;
@@ -145,7 +145,7 @@ public:
 
 	double GetCondimentCost() const override
 	{
-		return 2.0 * m_mass;
+		return PRICE_PER_UNIT * m_mass;
 	}
 
 	std::string GetCondimentDescription() const override
@@ -153,6 +153,7 @@ public:
 		return "Chocolate crumbs " + std::to_string(m_mass) + "g";
 	}
 private:
+	const unsigned PRICE_PER_UNIT = 2;
 	unsigned m_mass;
 };
 

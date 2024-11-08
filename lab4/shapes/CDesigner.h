@@ -11,11 +11,11 @@ public:
 		: m_factory(factory)
 	{}
 
-	CPictureDraft CreateDraft(std::istream& strm) const override
+	CPictureDraft CreateDraft(std::istream& stream) const override
 	{
 		CPictureDraft draft;
 		std::string input;
-		if (!std::getline(strm, input))
+		if (!std::getline(stream, input))
 		{
 			return draft;
 		}
@@ -30,7 +30,7 @@ public:
 			{
 				std::cout << e.what() << std::endl;
 			}
-			std::getline(strm, input);
+			std::getline(stream, input);
 		}
 
 		return draft;

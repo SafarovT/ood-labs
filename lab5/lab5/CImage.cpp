@@ -1,11 +1,33 @@
 #include "CImage.h"
-#include "CFunctionalCommand.h"
 
 using namespace std;
 
-string CImage::GetPath() const
+CImage::CImage(filesystem::path const& path, int width, int height)
+	: m_originPath(path)
+	, m_width(width)
+	, m_height(height)
 {
-	return m_path;
+	filesystem::path currentPath = filesystem::current_path();
+
+	filesystem::path imagesFolder = currentPath / "images";
+
+	if (!filesystem::exists(imagesFolder))
+	{
+		filesystem::create_directory(imagesFolder);
+	}
+
+	m_tempPath = imagesFolder / path.filename();
+	filesystem::copy(path, m_tempPath, filesystem::copy_options::overwrite_existing);
+}
+
+CImage::~CImage()
+{
+	filesystem::remove(m_tempPath);
+}
+
+filesystem::path CImage::GetPath() const
+{
+	return m_originPath;
 }
 
 int CImage::GetWidth() const
@@ -20,17 +42,14 @@ int CImage::GetHeight() const
 
 void CImage::Resize(int width, int height)
 {
-	int savedWidth = m_width;
-	int savedHeight = m_height;
+	m_width = width;
+	m_height = height;
+}
 
-	m_commandExecuter.AddAndExecuteCommand(make_unique<CFunctionalCommand>(
-		[this, width, height]() {
-			this->m_width = width;
-			this->m_height = height;
-		},
-		[this, savedWidth, savedHeight]() {
-			this->m_width = savedWidth;
-			this->m_height = savedHeight;
-		}
-	));
+string CImage::ToString() const
+{
+	string widthStr = to_string(GetWidth());
+	string heightStr = to_string(GetHeight());
+	string pathStr = GetPath().generic_string();
+	return "Image" + widthStr + " " + heightStr + " " + pathStr;
 }

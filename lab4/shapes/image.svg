@@ -1,7 +1,43 @@
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-<line x1="10.000000" y1="10.000000" x2="10.000000" y2="100.000000" style="stroke:Red;stroke-width:3" />
-<line x1="10.000000" y1="100.000000" x2="100.000000" y2="100.000000" style="stroke:Red;stroke-width:3" />
-<line x1="100.000000" y1="100.000000" x2="100.000000" y2="10.000000" style="stroke:Red;stroke-width:3" />
-<line x1="100.000000" y1="10.000000" x2="10.000000" y2="10.000000" style="stroke:Red;stroke-width:3" />
+<line x1="10.000000" y1="10.000000" x2="10.000000" y2="110.000000" style="stroke:Green;stroke-width:3" />
+<line x1="10.000000" y1="110.000000" x2="210.000000" y2="110.000000" style="stroke:Green;stroke-width:3" />
+<line x1="210.000000" y1="110.000000" x2="210.000000" y2="10.000000" style="stroke:Green;stroke-width:3" />
+<line x1="210.000000" y1="10.000000" x2="10.000000" y2="10.000000" style="stroke:Green;stroke-width:3" />
+<line x1="210.000000" y1="110.000000" x2="310.000000" y2="110.000000" style="stroke:Red;stroke-width:3" />
+<line x1="310.000000" y1="110.000000" x2="260.000000" y2="210.000000" style="stroke:Red;stroke-width:3" />
+<line x1="210.000000" y1="110.000000" x2="260.000000" y2="210.000000" style="stroke:Red;stroke-width:3" />
+<ellipse cx="400.000000" cy="400.000000" rx="100.000000" ry="50.000000" style="stroke:Blue;stroke-width:3; fill:none;" />
+<line x1="200.000000" y1="500.000000" x2="100.000000" y2="600.000000" style="stroke:Yellow;stroke-width:3" />
+<line x1="100.000000" y1="600.000000" x2="0.000000" y2="500.000000" style="stroke:Yellow;stroke-width:3" />
+<line x1="0.000000" y1="500.000000" x2="100.000000" y2="400.000000" style="stroke:Yellow;stroke-width:3" />
+<line x1="100.000000" y1="400.000000" x2="200.000000" y2="500.000000" style="stroke:Yellow;stroke-width:3" />
+<line x1="200.000000" y1="600.000000" x2="170.710678" y2="670.710678" style="stroke:Pink;stroke-width:3" />
+<line x1="170.710678" y1="670.710678" x2="100.000000" y2="700.000000" style="stroke:Pink;stroke-width:3" />
+<line x1="100.000000" y1="700.000000" x2="29.289322" y2="670.710678" style="stroke:Pink;stroke-width:3" />
+<line x1="29.289322" y1="670.710678" x2="0.000000" y2="600.000000" style="stroke:Pink;stroke-width:3" />
+<line x1="0.000000" y1="600.000000" x2="29.289322" y2="529.289322" style="stroke:Pink;stroke-width:3" />
+<line x1="29.289322" y1="529.289322" x2="100.000000" y2="500.000000" style="stroke:Pink;stroke-width:3" />
+<line x1="100.000000" y1="500.000000" x2="170.710678" y2="529.289322" style="stroke:Pink;stroke-width:3" />
+<line x1="170.710678" y1="529.289322" x2="200.000000" y2="600.000000" style="stroke:Pink;stroke-width:3" />
+<line x1="200.000000" y1="700.000000" x2="195.105652" y2="730.901699" style="stroke:Black;stroke-width:3" />
+<line x1="195.105652" y1="730.901699" x2="180.901699" y2="758.778525" style="stroke:Black;stroke-width:3" />
+<line x1="180.901699" y1="758.778525" x2="158.778525" y2="780.901699" style="stroke:Black;stroke-width:3" />
+<line x1="158.778525" y1="780.901699" x2="130.901699" y2="795.105652" style="stroke:Black;stroke-width:3" />
+<line x1="130.901699" y1="795.105652" x2="100.000000" y2="800.000000" style="stroke:Black;stroke-width:3" />
+<line x1="100.000000" y1="800.000000" x2="69.098301" y2="795.105652" style="stroke:Black;stroke-width:3" />
+<line x1="69.098301" y1="795.105652" x2="41.221475" y2="780.901699" style="stroke:Black;stroke-width:3" />
+<line x1="41.221475" y1="780.901699" x2="19.098301" y2="758.778525" style="stroke:Black;stroke-width:3" />
+<line x1="19.098301" y1="758.778525" x2="4.894348" y2="730.901699" style="stroke:Black;stroke-width:3" />
+<line x1="4.894348" y1="730.901699" x2="0.000000" y2="700.000000" style="stroke:Black;stroke-width:3" />
+<line x1="0.000000" y1="700.000000" x2="4.894348" y2="669.098301" style="stroke:Black;stroke-width:3" />
+<line x1="4.894348" y1="669.098301" x2="19.098301" y2="641.221475" style="stroke:Black;stroke-width:3" />
+<line x1="19.098301" y1="641.221475" x2="41.221475" y2="619.098301" style="stroke:Black;stroke-width:3" />
+<line x1="41.221475" y1="619.098301" x2="69.098301" y2="604.894348" style="stroke:Black;stroke-width:3" />
+<line x1="69.098301" y1="604.894348" x2="100.000000" y2="600.000000" style="stroke:Black;stroke-width:3" />
+<line x1="100.000000" y1="600.000000" x2="130.901699" y2="604.894348" style="stroke:Black;stroke-width:3" />
+<line x1="130.901699" y1="604.894348" x2="158.778525" y2="619.098301" style="stroke:Black;stroke-width:3" />
+<line x1="158.778525" y1="619.098301" x2="180.901699" y2="641.221475" style="stroke:Black;stroke-width:3" />
+<line x1="180.901699" y1="641.221475" x2="195.105652" y2="669.098301" style="stroke:Black;stroke-width:3" />
+<line x1="195.105652" y1="669.098301" x2="200.000000" y2="700.000000" style="stroke:Black;stroke-width:3" />
 
 </svg>
