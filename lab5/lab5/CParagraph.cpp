@@ -1,4 +1,5 @@
 #include "CParagraph.h"
+#include "Edits.h"
 
 using namespace std;
 
@@ -7,12 +8,14 @@ string CParagraph::GetText() const
 	return m_text;
 }
 
-void CParagraph::SetText(std::string const& text)
+void CParagraph::SetText(string const& text)
 {
-	m_text = text;
+	auto command = make_shared<CReplaceTextEdit>(this, text, [&](const string newText) { m_text = newText; });
+	command->RedoImpl();
+	m_addCommand(command);
 }
 
-std::string CParagraph::ToString() const
+string CParagraph::ToString() const
 {
 	return "Paragraph: " + GetText();
 }

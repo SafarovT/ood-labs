@@ -19,13 +19,3 @@ shared_ptr<IParagraph> CDocumentItem::GetParagraph()
 {
 	return m_paragraph;
 }
-
-void CDocumentItem::SetDeleted(bool value)
-{
-	m_isDeleted = value;
-}
-
-bool CDocumentItem::IsDeleted() const
-{
-	return m_isDeleted;
-}

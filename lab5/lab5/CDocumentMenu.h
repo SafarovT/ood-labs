@@ -7,7 +7,7 @@
 class CDocumentMenu
 {
 public:
-    CDocumentMenu(std::shared_ptr<CDocument> document)
+    CDocumentMenu(std::shared_ptr<IDocument> document)
         : m_document(document)
     {}
 
@@ -33,7 +33,7 @@ public:
     }
 
 private:
-    std::shared_ptr<CDocument> m_document;
+    std::shared_ptr<IDocument> m_document;
 
     enum class CommandType
     {
@@ -51,6 +51,15 @@ private:
         Exit,
         Unknown
     };
+
+    static void LeftTrim(std::string& s)
+    {
+        s.erase
+        (
+            s.begin(),
+            std::find_if(s.begin(), s.end(), [](unsigned char ch) {return !std::isspace(ch); }
+        ));
+    }
 
     bool ProcessCommand(const std::string& input)
     {
@@ -144,6 +153,7 @@ private:
         stream >> position;
         auto posNumber = StringToSizeT(position);
         std::getline(stream, text);
+        LeftTrim(text);
 
         m_document->InsertParagraph(text, posNumber);
     }
@@ -162,7 +172,7 @@ private:
     {
         std::string title;
         std::getline(stream, title);
-
+        LeftTrim(title);
 
         m_document->SetTitle(title);
     }
@@ -178,14 +188,45 @@ private:
         std::string text;
         stream >> position;
         std::getline(stream, text);
-        m_document->ReplaceText(text, position);
+        LeftTrim(text);
+        try
+        {
+            auto paragraph = m_document->GetItem(position).GetParagraph();
+            if (paragraph != nullptr)
+            {
+                paragraph->SetText(text);
+            }
+            else
+            {
+                std::cout << "Item is not paragraph" << std::endl;
+            }
+        }
+        catch (std::exception& e)
+        {
+            std::cout << e.what() << std::endl;
+        }
     }
 
     void HandleResizeImage(std::istringstream& stream)
     {
         int position, width, height;
         stream >> position >> width >> height;
-        m_document->ResizeImage(width, height, position);
+        try
+        {
+            auto image = m_document->GetItem(position).GetImage();
+            if (image != nullptr)
+            {
+                image->Resize(width, height);
+            }
+            else
+            {
+                std::cout << "Item is not image" << std::endl;
+            }
+        }
+        catch (std::exception& e)
+        {
+            std::cout << e.what() << std::endl;
+        }
     }
 
     void HandleDeleteItem(std::istringstream& stream)
@@ -216,18 +257,18 @@ private:
 
     void HandleHelp()
     {
-        std::cout << "ƒоступные команды:" << std::endl;
-        std::cout << "- InsertParagraph <позици€>|end <текст параграфа>" << std::endl;
-        std::cout << "- InsertImage <позици€>|end <ширина> <высота> <путь к файлу изображени€>" << std::endl;
-        std::cout << "- SetTitle <заголовок документа>" << std::endl;
+        std::cout << "Available commands:" << std::endl;
+        std::cout << "- InsertParagraph <position>|end <text>" << std::endl;
+        std::cout << "- InsertImage <position>|end <width> <height> <path/to/image>" << std::endl;
+        std::cout << "- SetTitle <title>" << std::endl;
         std::cout << "- List" << std::endl;
-        std::cout << "- ReplaceText <позици€> <текст параграфа>" << std::endl;
-        std::cout << "- ResizeImage <позици€> <ширина> <высота>" << std::endl;
-        std::cout << "- DeleteItem <позици€>" << std::endl;
+        std::cout << "- ReplaceText <position> <text>" << std::endl;
+        std::cout << "- ResizeImage <position> <width> <height>" << std::endl;
+        std::cout << "- DeleteItem <position>" << std::endl;
         std::cout << "- Help" << std::endl;
         std::cout << "- Undo" << std::endl;
         std::cout << "- Redo" << std::endl;
-        std::cout << "- Save <путь>" << std::endl;
+        std::cout << "- Save <path>" << std::endl;
         std::cout << "- Exit" << std::endl;
     }
 };

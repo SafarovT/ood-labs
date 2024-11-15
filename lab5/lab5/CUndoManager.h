@@ -1,9 +1,11 @@
 #pragma once
+#include <functional>
 #include "CCompoundEdit.h"
 
 class CUndoManager : public CCompoundEdit
 {
 public:
+
 	bool CanUndo() const final;
 	bool CanRedo() const final;
 
@@ -25,7 +27,8 @@ private:
 	void RedoTo(const IUndoableEditPtr& edit);
 	void TrimEdits(size_t from, size_t to);
 
-private:
 	const size_t MAX_EDITS = 10;
 	size_t m_indexOfNextAdd = 0;
 };
+
+using AddCommandFunction = std::function<void(const IUndoableEditPtr&)>;

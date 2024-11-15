@@ -1,11 +1,13 @@
 #pragma once
 #include "IParagraph.h"
+#include "CUndoManager.h"
 
 class CParagraph : public IParagraph
 {
 public:
-	CParagraph(std::string const& text)
+	CParagraph(std::string const& text, AddCommandFunction addCommand)
 		: m_text(text)
+		, m_addCommand(std::move(addCommand))
 	{}
 
 	std::string GetText() const override;
@@ -13,4 +15,5 @@ public:
 	std::string ToString() const override;
 private:
 	std::string m_text;
+	AddCommandFunction m_addCommand;
 };

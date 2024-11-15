@@ -23,7 +23,6 @@ protected:
 	virtual void EndImpl();
 	void SetName(const std::string& name) override;
 
-protected:
 	std::vector<IUndoableEditPtr> m_edits;
 	bool m_inProgress = true;
 

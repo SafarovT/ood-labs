@@ -12,6 +12,15 @@ size_t CDocument::GetItemsCount()const
 	return m_items.size();
 }
 
+vector<CDocumentItem>::iterator CDocument::GetIterAtIndex(size_t index)
+{
+	if (index >= GetItemsCount())
+	{
+		throw out_of_range("Error position of element.");
+	}
+	return next(m_items.begin(), index);
+}
+
 void CDocument::CheckElementAtIndex(size_t index) const
 {
 	if (index > GetItemsCount())
@@ -31,56 +40,34 @@ void CDocument::CheckOverflowBeforeInsert() const
 void CDocument::DeleteItem(size_t index)
 {
 	CheckElementAtIndex(index);
-	auto iter = m_items.begin();
-	advance(iter, index);
-	m_history.AddEdit(make_shared<CDeleteItemEdit>(iter, make_shared<list<CDocumentItem>>(m_items)));
+	auto iter = GetIterAtIndex(index);
+	auto command = make_shared<CDeleteItemEdit>(iter, m_items);
+	command->RedoImpl();
+	m_history.AddEdit(command);
 }
 
-void CDocument::InsertParagraph(const string& text, optional<size_t> position = nullopt)
+void CDocument::InsertParagraph(const string& text, optional<size_t> position)
 {
 	CheckOverflowBeforeInsert();
-	auto iter = m_items.begin();
-	if (position != nullopt)
-	{
-		advance(iter, *position);
-	}
-	else
-	{
-		iter = m_items.end();
-	}
-	auto paragraph = CParagraph(text);
-	m_history.AddEdit(make_shared<CInsertItemEdit>(paragraph, iter, make_shared<list<CDocumentItem>>(m_items)));
+	auto iter = position != nullopt
+		? GetIterAtIndex(*position)
+		: m_items.end();
+	auto item = CDocumentItem(make_shared<CParagraph>(text, [&](const IUndoableEditPtr& edit) {m_history.AddEdit(edit); }));
+	auto command = make_shared<CInsertItemEdit>(item, iter, m_items);
+	command->RedoImpl();
+	m_history.AddEdit(command);
 }
 
-void CDocument::InsertImage(const string& path, int width, int height, optional<size_t> position = nullopt)
+void CDocument::InsertImage(const string& path, int width, int height, optional<size_t> position)
 {
-	auto iter = m_items.begin();
-	if (position != nullopt)
-	{
-		advance(iter, *position);
-	}
-	else
-	{
-		iter = m_items.end();
-	}
-	auto paragraph = CImage(path, width, height);
-	m_history.AddEdit(make_shared<CInsertItemEdit>(paragraph, iter, make_shared<list<CDocumentItem>>(m_items)));
-}
-
-void CDocument::ResizeImage(int width, int height, size_t index) // TODO: переделать
-{
-	CheckElementAtIndex(index);
-	auto iter = m_items.begin();
-	advance(iter, index);
-	m_history.AddEdit(make_shared<CResizeImageEdit>(iter->GetImage(), width, height));
-}
-
-void CDocument::ReplaceText(const std::string& text, size_t index) // TODO: переделать
-{
-	CheckElementAtIndex(index);
-	auto iter = m_items.begin();
-	advance(iter, index);
-	m_history.AddEdit(make_shared<CReplaceTextEdit>(iter->GetParagraph(), text));
+	CheckOverflowBeforeInsert();
+	auto iter = position != nullopt
+		? GetIterAtIndex(*position)
+		: m_items.end();
+	auto item = CDocumentItem(make_shared<CImage>(path, width, height, [&](const IUndoableEditPtr& edit) {m_history.AddEdit(edit); }));
+	auto command = make_shared<CInsertItemEdit>(item, iter, m_items);
+	command->RedoImpl();
+	m_history.AddEdit(command);
 }
 
 CConstDocumentItem CDocument::GetItem(size_t index) const
@@ -106,11 +93,13 @@ string CDocument::GetTitle() const
 
 void CDocument::SetTitle(const string& title)
 {
-	m_history.AddEdit(make_shared<CChangeTitleEdit>(
-		make_shared<CDocument>(this),
+	auto command = make_shared<CChangeTitleEdit>(
+		this,
 		title,
 		[&](const string& newTitle) { m_title = newTitle; }
-	));
+	);
+	command->RedoImpl();
+	m_history.AddEdit(command);
 }
 
 bool CDocument::CanUndo()const

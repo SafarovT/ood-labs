@@ -27,7 +27,7 @@ public:
 
 	bool ReplaceEditImpl(const IUndoableEditPtr& edit) override
 	{
-		if (const auto prev = dynamic_cast<CChangeTitleEdit*>(edit.get()); m_document == prev->m_document)
+		if (const auto prev = dynamic_cast<CChangeTitleEdit*>(edit.get()); prev != nullptr && m_document == prev->m_document)
 		{
 			m_prevTitle = prev->m_prevTitle;
 			return true;
@@ -45,7 +45,7 @@ private:
 class CInsertItemEdit : public CAbstractUndoableEdit
 {
 public:
-	CInsertItemEdit(CDocumentItem item, std::vector<CDocumentItem>::iterator iter, std::shared_ptr<std::vector<CDocumentItem>> vector)
+	CInsertItemEdit(CDocumentItem item, std::vector<CDocumentItem>::iterator iter, std::vector<CDocumentItem>& vector)
 		: m_item(item)
 		, m_iter(iter)
 		, m_vector(vector)
@@ -53,24 +53,24 @@ public:
 
 	void RedoImpl() override
 	{
-		m_iter = m_vector->insert(m_iter, m_item);
+		m_iter = m_vector.insert(m_iter, m_item);
 	}
 
 	void UndoImpl() override
 	{
-		m_iter = m_vector->erase(m_iter);
+		m_iter = m_vector.erase(m_iter);
 	}
 
 private:
 	CDocumentItem m_item;
 	std::vector<CDocumentItem>::iterator m_iter;
-	std::shared_ptr<std::vector<CDocumentItem>>& m_vector;
+	std::vector<CDocumentItem>& m_vector;
 };
 
 class CReplaceTextEdit : public CAbstractUndoableEdit
 {
 public:
-	CReplaceTextEdit(IParagraph* paragraph, std::string newText, std::function<void(const std::string&)> replaceText)
+	CReplaceTextEdit(IParagraph* paragraph, const std::string& newText, std::function<void(const std::string&)> replaceText)
 		: m_paragraph(paragraph)
 		, m_prevText(paragraph->GetText())
 		, m_newText(newText)
@@ -85,12 +85,12 @@ public:
 
 	void UndoImpl() override
 	{
-		m_replaceText(m_newText);
+		m_replaceText(m_prevText);
 	}
 
 	bool ReplaceEditImpl(const IUndoableEditPtr& edit) override
 	{
-		if (const auto prev = dynamic_cast<CReplaceTextEdit*>(edit.get()); prev->m_paragraph == m_paragraph)
+		if (const auto prev = dynamic_cast<CReplaceTextEdit*>(edit.get()); prev != nullptr && prev->m_paragraph == m_paragraph)
 		{
 			m_prevText = prev->m_prevText;
 			return true;
@@ -129,7 +129,7 @@ public:
 
 	bool ReplaceEditImpl(const IUndoableEditPtr& edit) override
 	{
-		if (const auto prev = dynamic_cast<CResizeImageEdit*>(edit.get()); prev->m_image == m_image)
+		if (const auto prev = dynamic_cast<CResizeImageEdit*>(edit.get()); prev != nullptr && prev->m_image == m_image)
 		{
 			m_prevWidth = prev->m_prevWidth;
 			m_prevHeight = prev->m_prevHeight;
@@ -149,7 +149,7 @@ private:
 class CDeleteItemEdit : public CAbstractUndoableEdit
 {
 public:
-	CDeleteItemEdit(std::vector<CDocumentItem>::iterator iter, std::shared_ptr<std::vector<CDocumentItem>> vector)
+	CDeleteItemEdit(std::vector<CDocumentItem>::iterator iter, std::vector<CDocumentItem>& vector)
 		: m_item(*iter)
 		, m_iter(iter)
 		, m_vector(vector)
@@ -157,16 +157,16 @@ public:
 
 	void RedoImpl() override
 	{
-		m_iter = m_vector->erase(m_iter);
+		m_iter = m_vector.erase(m_iter);
 	}
 
 	void UndoImpl() override
 	{
-		m_iter = m_vector->insert(m_iter, m_item);
+		m_iter = m_vector.insert(m_iter, m_item);
 	}
 
 private:
 	CDocumentItem m_item;
 	std::vector<CDocumentItem>::iterator m_iter;
-	std::shared_ptr<std::vector<CDocumentItem>> m_vector;
+	std::vector<CDocumentItem>& m_vector;
 };

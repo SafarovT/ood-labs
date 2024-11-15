@@ -36,9 +36,6 @@
     <ClCompile Include="CDocument.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CFunctionalCommand.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="CCompoundEdit.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -66,9 +63,6 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="IUndoableEdit.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="ICommandExecuter.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="CImage.h">

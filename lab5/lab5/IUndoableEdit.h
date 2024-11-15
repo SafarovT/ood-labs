@@ -2,6 +2,10 @@
 #include <memory>
 #include <string>
 
+class IUndoableEdit;
+
+using IUndoableEditPtr = std::shared_ptr<IUndoableEdit>;
+
 class IUndoableEdit
 {
 public:
@@ -19,5 +23,3 @@ public:
 
 	virtual std::string GetName() const = 0;
 };
-
-using IUndoableEditPtr = std::shared_ptr<IUndoableEdit>;

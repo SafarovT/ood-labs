@@ -8,10 +8,8 @@ bool CUndoManager::CanUndo() const
 		const auto& edit = GetEditToBeUndone();
 		return edit && edit->CanUndo();
 	}
-	else
-	{
-		return CCompoundEdit::CanUndo();
-	}
+
+	return CCompoundEdit::CanUndo();
 }
 
 bool CUndoManager::CanRedo() const
@@ -21,10 +19,8 @@ bool CUndoManager::CanRedo() const
 		const auto& edit = GetEditToBeRedone();
 		return edit && edit->CanRedo();
 	}
-	else
-	{
-		return CCompoundEdit::CanRedo();
-	}
+	
+	return CCompoundEdit::CanRedo();
 }
 
 size_t CUndoManager::GetCurrentEditIndex() const
@@ -113,20 +109,7 @@ bool CUndoManager::AddEditImpl(const IUndoableEditPtr& edit)
 		m_edits.resize(m_indexOfNextAdd);
 	}
 
-	if (!m_inProgress)
-	{
-		return false;
-	}
-
 	auto addResult = CCompoundEdit::AddEditImpl(edit);
-
-	if (!addResult)
-	{
-		Clear();
-		// m_inProgress = false;
-		return false;
-	}
-	assert(addResult);
 
 	m_indexOfNextAdd = m_edits.size();
 
@@ -144,7 +127,8 @@ void CUndoManager::UndoImpl()
 	{
 		auto edit = GetEditToBeUndone();
 
-		if (edit != nullptr) {
+		if (edit != nullptr)
+		{
 			UndoTo(edit);
 		}
 	}
@@ -159,7 +143,8 @@ void CUndoManager::RedoImpl()
 	if (m_inProgress)
 	{
 		auto edit = GetEditToBeRedone();
-		if (edit != nullptr) {
+		if (edit != nullptr)
+		{
 			RedoTo(edit);
 		}
 	}

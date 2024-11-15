@@ -17,7 +17,7 @@ public:
 protected:
 	virtual void UndoImpl();
 	virtual void RedoImpl();
-	virtual void DestroyImpl();
+	virtual void DestroyImpl() noexcept;
 	virtual bool AddEditImpl(const IUndoableEditPtr& edit);
 	virtual bool ReplaceEditImpl(const IUndoableEditPtr& edit);
 	virtual bool IsExecuted() const;

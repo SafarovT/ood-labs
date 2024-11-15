@@ -4,8 +4,7 @@
 using namespace std;
 
 CImage::CImage(filesystem::path const& path, int width, int height, AddCommandFunction addCommand)
-	: m_originPath(path)
-	, m_width(width)
+	: m_width(width)
 	, m_height(height)
 	, m_addCommand(std::move(addCommand))
 {
@@ -18,9 +17,9 @@ CImage::CImage(filesystem::path const& path, int width, int height, AddCommandFu
 		filesystem::create_directory(imagesFolder);
 	}
 
-	m_savedPath = imagesFolder / m_originPath.filename();
+	m_savedPath = imagesFolder / path.filename();
 
-	filesystem::copy(m_originPath, m_savedPath, filesystem::copy_options::overwrite_existing);
+	filesystem::copy(path, m_savedPath, filesystem::copy_options::overwrite_existing);
 }
 
 filesystem::path CImage::GetPath() const
@@ -40,15 +39,14 @@ int CImage::GetHeight() const
 
 void CImage::Resize(int width, int height)
 {
-	m_width = width;
-	m_height = height;
-
-	m_addCommand(make_shared<CResizeImageEdit>(
+	auto command = make_shared<CResizeImageEdit>(
 		this,
 		width,
 		height,
 		[&](int newWidth, int newHeight) { m_width = newWidth; m_height = newHeight; }
-	));
+	);
+	command->RedoImpl();
+	m_addCommand(command);
 }
 
 string CImage::ToString() const
@@ -56,5 +54,5 @@ string CImage::ToString() const
 	string widthStr = to_string(GetWidth());
 	string heightStr = to_string(GetHeight());
 	string pathStr = GetPath().generic_string();
-	return "Image" + widthStr + " " + heightStr + " " + pathStr;
+	return "Image " + widthStr + " " + heightStr + " " + pathStr;
 }

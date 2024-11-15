@@ -1,8 +1,10 @@
-﻿#include <iostream>
+﻿#include "CDocumentMenu.h"
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    CDocument document;
+    CDocumentMenu menu(std::make_shared<CDocument>(document));
+    menu.ListenUserInput();
 
     return EXIT_SUCCESS;
 }

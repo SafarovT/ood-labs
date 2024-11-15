@@ -135,7 +135,6 @@
     <ClCompile Include="CConstDocumentItem.cpp" />
     <ClCompile Include="CDocument.cpp" />
     <ClCompile Include="CDocumentItem.cpp" />
-    <ClCompile Include="CFunctionalCommand.cpp" />
     <ClCompile Include="CImage.cpp" />
     <ClCompile Include="CParagraph.cpp" />
     <ClCompile Include="CUndoManager.cpp" />
@@ -153,7 +152,6 @@
     <ClInclude Include="CParagraph.h" />
     <ClInclude Include="CUndoManager.h" />
     <ClInclude Include="IUndoableEdit.h" />
-    <ClInclude Include="ICommandExecuter.h" />
     <ClInclude Include="IDocument.h" />
     <ClInclude Include="IImage.h" />
     <ClInclude Include="IParagraph.h" />
