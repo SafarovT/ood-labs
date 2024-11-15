@@ -67,7 +67,7 @@ void CDocument::InsertImage(const string& path, int width, int height, optional<
 	m_history.AddEdit(make_shared<CInsertItemEdit>(paragraph, iter, make_shared<list<CDocumentItem>>(m_items)));
 }
 
-void CDocument::ResizeImage(int width, int height, size_t index)
+void CDocument::ResizeImage(int width, int height, size_t index) // TODO: переделать
 {
 	CheckElementAtIndex(index);
 	auto iter = m_items.begin();
@@ -75,7 +75,7 @@ void CDocument::ResizeImage(int width, int height, size_t index)
 	m_history.AddEdit(make_shared<CResizeImageEdit>(iter->GetImage(), width, height));
 }
 
-void CDocument::ReplaceText(const std::string& text, size_t index)
+void CDocument::ReplaceText(const std::string& text, size_t index) // TODO: переделать
 {
 	CheckElementAtIndex(index);
 	auto iter = m_items.begin();

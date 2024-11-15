@@ -8,7 +8,7 @@
 class CChangeTitleEdit : public CAbstractUndoableEdit
 {
 public:
-	CChangeTitleEdit(std::shared_ptr<IDocument> document, const std::string& newTitle, std::function<void(const std::string&)> changeTitle)
+	CChangeTitleEdit(IDocument* document, const std::string& newTitle, std::function<void(const std::string&)> changeTitle)
 		: m_document(document)
 		, m_prevTitle(document->GetTitle())
 		, m_newTitle(newTitle)
@@ -37,7 +37,7 @@ public:
 	}
 
 private:
-	std::shared_ptr<IDocument> m_document;
+	IDocument* m_document;
 	std::string m_prevTitle, m_newTitle;
 	std::function<void(const std::string&)> m_changeTitle;
 };
@@ -70,21 +70,22 @@ private:
 class CReplaceTextEdit : public CAbstractUndoableEdit
 {
 public:
-	CReplaceTextEdit(std::shared_ptr<IParagraph> paragraph, std::string newText)
+	CReplaceTextEdit(IParagraph* paragraph, std::string newText, std::function<void(const std::string&)> replaceText)
 		: m_paragraph(paragraph)
 		, m_prevText(paragraph->GetText())
 		, m_newText(newText)
+		, m_replaceText(replaceText)
 	{
 	}
 
 	void RedoImpl() override
 	{
-		m_paragraph->SetText(m_newText);
+		m_replaceText(m_newText);
 	}
 
 	void UndoImpl() override
 	{
-		m_paragraph->SetText(m_prevText);
+		m_replaceText(m_newText);
 	}
 
 	bool ReplaceEditImpl(const IUndoableEditPtr& edit) override
@@ -99,29 +100,31 @@ public:
 	}
 
 private:
-	std::shared_ptr<IParagraph> m_paragraph;
+	IParagraph* m_paragraph;
 	std::string m_prevText, m_newText;
+	std::function<void(const std::string&)> m_replaceText;
 };
 
 class CResizeImageEdit : public CAbstractUndoableEdit
 {
 public:
-	CResizeImageEdit(std::shared_ptr<IImage> image, int newWidth, int newHeight)
+	CResizeImageEdit(IImage* image, int newWidth, int newHeight, std::function<void(int, int)> resizeImage)
 		: m_image(image)
 		, m_newWidth(newWidth)
 		, m_newHeight(newHeight)
 		, m_prevWidth(image->GetWidth())
 		, m_prevHeight(image->GetHeight())
+		, m_resizeImage(resizeImage)
 	{}
 
 	void RedoImpl() override
 	{
-		m_image->Resize(m_newWidth, m_newHeight);
+		m_resizeImage(m_newWidth, m_newHeight);
 	}
 
 	void UndoImpl() override
 	{
-		m_image->Resize(m_prevWidth, m_prevHeight);
+		m_resizeImage(m_prevWidth, m_prevHeight);
 	}
 
 	bool ReplaceEditImpl(const IUndoableEditPtr& edit) override
@@ -139,7 +142,8 @@ public:
 
 private:
 	int m_newWidth, m_newHeight, m_prevWidth, m_prevHeight;
-	std::shared_ptr<IImage> m_image;
+	IImage* m_image;
+	std::function<void(int, int)> m_resizeImage;
 };
 
 class CDeleteItemEdit : public CAbstractUndoableEdit

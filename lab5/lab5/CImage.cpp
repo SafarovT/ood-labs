@@ -1,11 +1,13 @@
 #include "CImage.h"
+#include "Edits.h"
 
 using namespace std;
 
-CImage::CImage(filesystem::path const& path, int width, int height)
+CImage::CImage(filesystem::path const& path, int width, int height, AddCommandFunction addCommand)
 	: m_originPath(path)
 	, m_width(width)
 	, m_height(height)
+	, m_addCommand(std::move(addCommand))
 {
 	filesystem::path currentPath = filesystem::current_path();
 
@@ -16,18 +18,14 @@ CImage::CImage(filesystem::path const& path, int width, int height)
 		filesystem::create_directory(imagesFolder);
 	}
 
-	m_tempPath = imagesFolder / path.filename();
-	filesystem::copy(path, m_tempPath, filesystem::copy_options::overwrite_existing);
-}
+	m_savedPath = imagesFolder / m_originPath.filename();
 
-CImage::~CImage()
-{
-	filesystem::remove(m_tempPath);
+	filesystem::copy(m_originPath, m_savedPath, filesystem::copy_options::overwrite_existing);
 }
 
 filesystem::path CImage::GetPath() const
 {
-	return m_originPath;
+	return m_savedPath;
 }
 
 int CImage::GetWidth() const
@@ -44,6 +42,13 @@ void CImage::Resize(int width, int height)
 {
 	m_width = width;
 	m_height = height;
+
+	m_addCommand(make_shared<CResizeImageEdit>(
+		this,
+		width,
+		height,
+		[&](int newWidth, int newHeight) { m_width = newWidth; m_height = newHeight; }
+	));
 }
 
 string CImage::ToString() const

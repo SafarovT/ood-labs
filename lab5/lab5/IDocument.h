@@ -38,7 +38,6 @@ public:
     virtual void Redo() = 0;
     virtual void List() const = 0;
     // Сохраняет документ в формате html. Изображения сохраняются в подкаталог images.
-    // Пути к изображениям указываются относительно пути к сохраняемому HTML файлу
     virtual void Save(const std::string& path)const = 0;
     virtual ~IDocument() = default;
 };
