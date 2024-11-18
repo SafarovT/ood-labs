@@ -13,6 +13,7 @@ public:
 	virtual int GetHeight() const = 0;
 	// Изменяет размер изображения
 	virtual void Resize(int width, int height) = 0;
+	virtual void Delete() = 0;
 	virtual std::string ToString() const = 0;
 	virtual ~IImage() = default;
 };

@@ -7,6 +7,7 @@
 class CDocument : public IDocument
 {
 public:
+    CDocument() {};
     void InsertParagraph(const std::string& text, std::optional<size_t> position = std::nullopt) override;
     void InsertImage(const std::string& path, int width, int height, std::optional<size_t> position = std::nullopt) override;
     size_t GetItemsCount()const override;
@@ -23,6 +24,9 @@ public:
     void Save(const std::string& path) const override;
 
 private:
+    CDocument(const CDocument&) {};
+    CDocument& operator=(const CDocument&) {};
+
     void CheckElementAtIndex(size_t index) const;
     void CheckOverflowBeforeInsert() const;
     std::vector<CDocumentItem>::iterator GetIterAtIndex(size_t index);

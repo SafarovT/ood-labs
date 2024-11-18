@@ -24,7 +24,20 @@ CImage::CImage(filesystem::path const& path, int width, int height, AddCommandFu
 
 filesystem::path CImage::GetPath() const
 {
+	if (m_isDeleted)
+	{
+		throw logic_error("File is deleted and there is no path for it");
+	}
 	return m_savedPath;
+}
+
+void CImage::Delete() noexcept
+{
+	m_isDeleted = true;
+	if (filesystem::exists(m_savedPath))
+	{
+		filesystem::remove(m_savedPath);
+	}
 }
 
 int CImage::GetWidth() const

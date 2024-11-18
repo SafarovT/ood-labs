@@ -19,3 +19,11 @@ shared_ptr<IParagraph> CDocumentItem::GetParagraph()
 {
 	return m_paragraph;
 }
+
+void CDocumentItem::Delete() noexcept
+{
+	if (m_image != nullptr)
+	{
+		m_image->Delete();
+	}
+}

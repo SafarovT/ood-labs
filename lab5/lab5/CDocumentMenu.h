@@ -7,10 +7,6 @@
 class CDocumentMenu
 {
 public:
-    CDocumentMenu(std::shared_ptr<IDocument> document)
-        : m_document(document)
-    {}
-
     void ListenUserInput()
     {
         HandleHelp();
@@ -33,7 +29,7 @@ public:
     }
 
 private:
-    std::shared_ptr<IDocument> m_document;
+    CDocument m_document;
 
     enum class CommandType
     {
@@ -155,7 +151,7 @@ private:
         std::getline(stream, text);
         LeftTrim(text);
 
-        m_document->InsertParagraph(text, posNumber);
+        m_document.InsertParagraph(text, posNumber);
     }
 
     void HandleInsertImage(std::istringstream& stream)
@@ -165,7 +161,7 @@ private:
         stream >> position >> width >> height >> path;
         auto posNumber = StringToSizeT(position);
 
-        m_document->InsertImage(path, width, height, posNumber);
+        m_document.InsertImage(path, width, height, posNumber);
     }
 
     void HandleSetTitle(std::istringstream& stream)
@@ -174,12 +170,12 @@ private:
         std::getline(stream, title);
         LeftTrim(title);
 
-        m_document->SetTitle(title);
+        m_document.SetTitle(title);
     }
 
     void HandleList()
     {
-        m_document->List();
+        m_document.List();
     }
 
     void HandleReplaceText(std::istringstream& stream)
@@ -191,7 +187,7 @@ private:
         LeftTrim(text);
         try
         {
-            auto paragraph = m_document->GetItem(position).GetParagraph();
+            auto paragraph = m_document.GetItem(position).GetParagraph();
             if (paragraph != nullptr)
             {
                 paragraph->SetText(text);
@@ -213,7 +209,7 @@ private:
         stream >> position >> width >> height;
         try
         {
-            auto image = m_document->GetItem(position).GetImage();
+            auto image = m_document.GetItem(position).GetImage();
             if (image != nullptr)
             {
                 image->Resize(width, height);
@@ -234,17 +230,17 @@ private:
         size_t position;
         stream >> position;
 
-        m_document->DeleteItem(position);
+        m_document.DeleteItem(position);
     }
 
     void HandleUndo()
     {
-        m_document->Undo();
+        m_document.Undo();
     }
 
     void HandleRedo()
     {
-        m_document->Redo();
+        m_document.Redo();
     }
 
     void HandleSave(std::istringstream& stream)
@@ -252,7 +248,7 @@ private:
         std::string path;
         stream >> path;
         
-        m_document->Save(path);
+        m_document.Save(path);
     }
 
     void HandleHelp()

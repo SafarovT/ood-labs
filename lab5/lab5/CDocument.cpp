@@ -23,7 +23,7 @@ vector<CDocumentItem>::iterator CDocument::GetIterAtIndex(size_t index)
 
 void CDocument::CheckElementAtIndex(size_t index) const
 {
-	if (index > GetItemsCount())
+	if (index >= GetItemsCount())
 	{
 		throw invalid_argument("No elemnt with given index");
 	}
@@ -124,7 +124,7 @@ void CDocument::Redo()
 
 void CDocument::List() const
 {
-	size_t index = 1;
+	size_t index = 0;
 	cout << "Title: " << GetTitle() << endl;
 	for (const auto& item : m_items)
 	{

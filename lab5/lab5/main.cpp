@@ -2,8 +2,7 @@
 
 int main()
 {
-    CDocument document;
-    CDocumentMenu menu(std::make_shared<CDocument>(document));
+    CDocumentMenu menu;
     menu.ListenUserInput();
 
     return EXIT_SUCCESS;
