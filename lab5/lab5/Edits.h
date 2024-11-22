@@ -5,6 +5,8 @@
 #include "IImage.h"
 #include "IParagraph.h"
 
+#include <iostream>
+
 class CChangeTitleEdit : public CAbstractUndoableEdit
 {
 public:
@@ -59,6 +61,14 @@ public:
 	void UndoImpl() override
 	{
 		m_iter = m_vector.erase(m_iter);
+	}
+
+	void DestroyImpl() noexcept override
+	{
+		if (!IsExecuted())
+		{
+			m_item.Delete();
+		}
 	}
 
 private:
@@ -163,6 +173,14 @@ public:
 	void UndoImpl() override
 	{
 		m_iter = m_vector.insert(m_iter, m_item);
+	}
+
+	void DestroyImpl() noexcept override
+	{
+		if (IsExecuted())
+		{
+			m_item.Delete();
+		}
 	}
 
 private:
