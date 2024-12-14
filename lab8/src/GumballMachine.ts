@@ -8,11 +8,12 @@ interface IState {
 
 interface IGumballMachine {
     ReleaseBall(): void
-    GetBallCount(): number
     AddQuarter(): void
     RemoveOneQuarter(): void
     RemoveAllQuarters(): void
+    GetBallCount(): number
     GetQuarterCount(): number
+    GetState(): IState
 
     SetSoldOutState(): void
     SetNoQuarterState(): void
@@ -160,7 +161,7 @@ class NoQuarterState implements IState {
     }
 }
 
-class GumballMachine implements IGumballMachine {
+class GumballMachineCore implements IGumballMachine {
     private soldState: SoldState
     private soldOutState: SoldOutState
     private noQuarterState: NoQuarterState
@@ -170,30 +171,17 @@ class GumballMachine implements IGumballMachine {
     private count: number
     private quarters: number
 
-    constructor(numBalls: number) {
+    constructor(ballsCount: number) {
         this.soldState = new SoldState(this)
         this.soldOutState = new SoldOutState(this)
         this.noQuarterState = new NoQuarterState(this)
         this.hasQuarterState = new HasQuarterState(this)
 
         this.quarters = 0
-        this.count = numBalls
+        this.count = ballsCount
         this.state = this.count > 0
             ? this.noQuarterState
             : this.soldOutState
-    }
-
-    InsertQuarter(): void {
-        this.state.InsertQuarter()
-    }
-
-    EjectQuarter(): void {
-        this.state.EjectQuarter()
-    }
-
-    TurnCrank(): void {
-        this.state.TurnCrank()
-        this.state.Dispense()
     }
 
     AddQuarter(): void {
@@ -207,17 +195,7 @@ class GumballMachine implements IGumballMachine {
     RemoveAllQuarters(): void {
         this.quarters = 0
     }
-
-    ToString(): string {
-        return `
-Mighty Gumball, Inc.
-TypeScript-enabled Standing Gumball Model
-Inventory: ${this.count} gumball${this.count !== 1 ? 's' : ''}'
-Quarters: ${this.quarters}
-Machine is ${this.state.ToString()}
-        `
-    }
-
+    
     ReleaseBall(): void {
         if (this.count !== 0) {
             console.log("A gumball comes rolling out the slot...")
@@ -248,9 +226,51 @@ Machine is ${this.state.ToString()}
     SetHasQuarterState(): void {
         this.state = this.hasQuarterState
     }
+
+    GetState(): IState {
+        return this.state
+    }
+}
+
+class GumballMachine {
+    private core: GumballMachineCore
+    
+
+    constructor(ballsCount: number) {
+        this.core = new GumballMachineCore(ballsCount)
+    }
+
+    InsertQuarter(): void {
+        this.core.GetState().InsertQuarter()
+    }
+
+    EjectQuarter(): void {
+        this.core.GetState().EjectQuarter()
+    }
+
+    TurnCrank(): void {
+        this.core.GetState().TurnCrank()
+        this.core.GetState().Dispense()
+    }
+
+
+    ToString(): string {
+        const ballsCount = this.core.GetBallCount()
+        return `
+Mighty Gumball, Inc.
+TypeScript-enabled Standing Gumball Model
+Inventory: ${ballsCount} gumball${ballsCount !== 1 ? 's' : ''}'
+Quarters: ${this.core.GetQuarterCount()}
+Machine is ${this.core.GetState().ToString()}
+        `
+    }
 }
 
 export {
     IGumballMachine,
     GumballMachine,
+    SoldOutState,
+    SoldState,
+    HasQuarterState,
+    NoQuarterState,
 }
