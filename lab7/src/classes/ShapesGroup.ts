@@ -56,7 +56,7 @@ class ShapesGroup implements IShape {
 
     getLineStyle(): LineStyle | null {
         const styles = this.shapes.map((shape) => shape.getLineStyle())
-        if (styles.every((style) => JSON.stringify(style) === JSON.stringify(styles[0]))) {
+        if (styles.every((style) => style === styles[0])) {
             return styles[0]
         }
         return null
@@ -68,13 +68,13 @@ class ShapesGroup implements IShape {
 
     getFillStyle(): FillStyle | null {
         const styles = this.shapes.map((shape) => shape.getFillStyle())
-        if (styles.every((style) => JSON.stringify(style) === JSON.stringify(styles[0]))) {
+        if (styles.every((style) => style === styles[0])) {
             return styles[0]
         }
         return null
     }
 
-    setFillStyle(style: FillStyle): void {
+    setFillStyle(style: FillStyle): void { // сделать так чтобы стили разных фигур не зависили друг от друга
         this.shapes.forEach((shape) => shape.setFillStyle(style))
     }
 
