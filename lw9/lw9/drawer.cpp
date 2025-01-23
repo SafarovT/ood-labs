@@ -10,9 +10,9 @@ namespace
 	}
 
 	/**
-	 * Ðèñóåò êðóòîé îòðåçîê (äëÿ êîòîðîãî |to.y - from.x| >= |to.x - from.x|).
+	 * Рисует крутую прямую (для которой |to.y - from.x| >= |to.x - from.x|).
 	 */
-	void DrawSteepLine(Image& image, Point from, Point to, char color)
+	void DrawSteepLine(Image& image, Point from, Point to, const uint32_t color)
 	{
 		const int deltaX = std::abs(to.x - from.x);
 		const int deltaY = std::abs(to.y - from.y);
@@ -20,15 +20,15 @@ namespace
 		assert(deltaY >= deltaX);
 
 		if (from.y > to.y)
-		{ // Êðóòûå îòðåçêè ðèñóåì ñâåðõó âíèç.
+		{ // Крутые прямые рисуются сверху вниз
 			std::swap(from, to);
 		}
 
-		const int stepX = Sign(to.x - from.x); // Øàã ïî îñè X (-1, 0 èëè 1).
-		const int errorThreshold = deltaY + 1; // Ïîðîã îøèáêè âû÷èñëåíèÿ êîîðäèíàòû X.
-		const int deltaErr = deltaX + 1; // Øàã íàêîïëåíèÿ îøèáêè.
+		const int stepX = Sign(to.x - from.x); // Шаг по оси X (-1, 0 или 1).
+		const int errorThreshold = deltaY + 1; // Порог увеличения ошибки по оси X.
+		const int deltaErr = deltaX + 1;  // Шаг для изменения ошибки.
 
-		// Êîãäà íà÷àëüííîå çíà÷åíèå îøèáêè íà÷èíàåòñÿ íå ñ 0, à ñ deltaErr/2, îòðåçîê ïîëó÷àåòñÿ êðàñèâåå.
+		// Когда начальное значение ошибки не равно 0, а равно deltaErr/2, прямое движение будет коррелировать с красным.
 		int error = deltaErr / 2;
 
 		for (Point p = from; p.y <= to.y; ++p.y)
@@ -36,20 +36,20 @@ namespace
 			image.SetPixel({ p.x, p.y }, color);
 			assert((p.y != to.y) || (p.x == to.x));
 
-			error += deltaErr; // Íàêàïëèâàåì îøèáêó âû÷èñëåíèÿ êîîðäèíàòû X.
+			error += deltaErr; // Увеличиваем ошибку по оси X.
 
 			if (error >= errorThreshold)
-			{ // Åñëè âûøëè çà ïðåäåëû òåêóùåé êîîðäèíàòû X
-				p.x += stepX; // Ñìåùàåìñÿ ê ñëåäóþùåé êîîðäèíàòå X
-				error -= errorThreshold; // Ñáðàñûâàåì îøèáêó
+			{ // Если ошибка превысила порог для перехода к следующему целочисленному шагу по оси X
+				p.x += stepX; // Смещаемся к следующему целочисленному шагу по оси X
+				error -= errorThreshold; // Корректируем ошибку
 			}
 		}
 	}
 
 	/**
-	 * Ðèñóåò ïîëîãèé îòðåçîê (äëÿ êîòîðîãî |to.y - from.x| >= |to.y - from.y|).
+	 * Рисует пологую прямую (для которой |to.y - from.x| < |to.y - from.y|).
 	 */
-	void DrawSlopeLine(Image& image, Point from, Point to, char color)
+	void DrawSlopeLine(Image& image, Point from, Point to, const uint32_t color)
 	{
 		const int deltaX = std::abs(to.x - from.x);
 		const int deltaY = std::abs(to.y - from.y);
@@ -57,11 +57,11 @@ namespace
 		assert(deltaX >= deltaY);
 
 		if (from.x > to.x)
-		{ // Ïîëîãèå îòðåçêè ðèñóåì ñëåâà íàïðàâî.
+		{ // Пологие прямые рисуются из правой в левую.
 			std::swap(from, to);
 		}
 
-		// Ïîëîãèå îòðåçêè ðèñóþòñÿ ïî àíàëîãèè ñ êðóòûìè.
+		// Пологие прямые рисуются по аналогии с крутыми.
 
 		const int stepY = Sign(to.y - from.y);
 		const int errorThreshold = deltaX + 1;
@@ -87,22 +87,22 @@ namespace
 } // namespace
 
 /**
- * Ðèñóåò îòðåçîê ïðÿìîé ëèíèè ìåæäó òî÷êàìè from è to öâåòîì color íà èçîáðàæåíèè Image.
+ * Рисует прямую между точками from и to с цветом color на изображении.
  *
- * Äëÿ ðèñîâàíèÿ èñïîëüçóåòñÿ àëãîðèòì Áðåçåíõýìà.
- * (https://ru.wikipedia.org/wiki/Àëãîðèòì_Áðåçåíõýìà)
+ * Для рисования используется алгоритм Брезенхема.
+ * (https://ru.wikipedia.org/wiki/Алгоритм_Брезенхема)
  */
-void DrawLine(Image& image, Point from, Point to, char color)
+void DrawLine(Image& image, const Point from, const Point to, const uint32_t color)
 {
 	const int deltaX = std::abs(to.x - from.x);
 	const int deltaY = std::abs(to.y - from.y);
 
 	if (deltaY > deltaX)
-	{ // Îòðåçîê êðóòîé.
+	{ // Прямая крутая.
 		DrawSteepLine(image, from, to, color);
 	}
 	else
-	{ // Îòðåçîê ïîëîãèé.
+	{ // Прямая пологая.
 		DrawSlopeLine(image, from, to, color);
 	}
 }
